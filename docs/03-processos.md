@@ -12,7 +12,7 @@ Registra a criação e o acompanhamento do pedido customizado, mantendo respons�
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-pedidos-customizados.mmd) / [SVG](assets/diagrams/fluxo-pedidos-customizados.svg) / [JPEG](assets/diagrams/fluxo-pedidos-customizados.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Consumidor inicia pedido"] --> B["Operação registra dados do pedido"]
   B --> C["Define produto ou serviço customizado"]
@@ -29,7 +29,7 @@ Mostra como a demanda sai do pedido aprovado, passa por aceite ou rejeição do 
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-producao-execucao.mmd) / [SVG](assets/diagrams/fluxo-producao-execucao.svg) / [JPEG](assets/diagrams/fluxo-producao-execucao.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Pedido aprovado"] --> B["Demanda enviada ao produtor ou equipe"]
   B --> C{"Responsável aceita?"}
@@ -46,7 +46,7 @@ Controla checkpoints sensíveis, exigindo evidência e aprovação antes de libe
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-garantia-qualidade.mmd) / [SVG](assets/diagrams/fluxo-garantia-qualidade.svg) / [JPEG](assets/diagrams/fluxo-garantia-qualidade.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Etapa exige qualidade"] --> B["Registrar checkpoint"]
   B --> C{"Evidência obrigatória presente?"}
@@ -63,7 +63,7 @@ Organiza coleta e entrega com aceite do entregador, check-in, localização, map
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-retirada-entrega-mapas.mmd) / [SVG](assets/diagrams/fluxo-retirada-entrega-mapas.svg) / [JPEG](assets/diagrams/fluxo-retirada-entrega-mapas.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Pedido pronto para logística"] --> B["Criar demanda de coleta ou entrega"]
   B --> C{"Entregador aceita?"}
@@ -81,7 +81,7 @@ Descreve captura, validação, armazenamento de bytes, metadados e disponibiliza
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-anexos-evidencias.mmd) / [SVG](assets/diagrams/fluxo-anexos-evidencias.svg) / [JPEG](assets/diagrams/fluxo-anexos-evidencias.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Checkpoint solicita evidência"] --> B["Capturar foto, assinatura ou documento"]
   B --> C["Validar tipo, tamanho e permissão"]
@@ -98,7 +98,7 @@ Conduz intenção, consulta e conciliação de pagamento, preservando o pedido m
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-pagamentos.mmd) / [SVG](assets/diagrams/fluxo-pagamentos.svg) / [JPEG](assets/diagrams/fluxo-pagamentos.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Pedido exige pagamento"] --> B["Criar intenção de pagamento"]
   B --> C["Enviar ao adapter de pagamento"]
@@ -115,7 +115,7 @@ Permite listar, filtrar, favoritar e acionar atores operacionais, registrando ac
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-marketplace-operacional.mmd) / [SVG](assets/diagrams/fluxo-marketplace-operacional.svg) / [JPEG](assets/diagrams/fluxo-marketplace-operacional.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Operação abre marketplace"] --> B["Listar atores permitidos pelo tenant"]
   B --> C["Filtrar por tipo, proximidade ou disponibilidade"]
@@ -133,7 +133,7 @@ Define marca, logo, cores, textos e fluxos ativos para publicar a experiência d
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-white-label-tenant.mmd) / [SVG](assets/diagrams/fluxo-white-label-tenant.svg) / [JPEG](assets/diagrams/fluxo-white-label-tenant.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Administrador configura tenant"] --> B["Definir nome, marca, logo e cores"]
   B --> C["Selecionar textos e fluxos ativos"]
@@ -148,7 +148,7 @@ Reclassifica evidências úteis do MVP Lia como demo, seed ou massa de teste, se
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-carga-demo-testes.mmd) / [SVG](assets/diagrams/fluxo-carga-demo-testes.svg) / [JPEG](assets/diagrams/fluxo-carga-demo-testes.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Selecionar evidência útil do MVP Lia"] --> B["Reclassificar como demo, seed ou massa de teste"]
   B --> C["Remover acoplamento à vertical odontológica"]
@@ -163,7 +163,7 @@ Gerencia usuários, identidades, tenants, perfis, permissões, status de acesso 
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-administracao.mmd) / [SVG](assets/diagrams/fluxo-administracao.svg) / [JPEG](assets/diagrams/fluxo-administracao.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Administrador acessa gestão"] --> B["Gerir usuários e identidades"]
   B --> C["Associar tenant, perfil e permissões"]
@@ -179,7 +179,7 @@ Mostra o modo opcional de e-mail: operar sem Gmail quando desligado ou acionar o
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-integracao-gmail.mmd) / [SVG](assets/diagrams/fluxo-integracao-gmail.svg) / [JPEG](assets/diagrams/fluxo-integracao-gmail.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Fluxo precisa de e-mail"] --> B{"Gmail habilitado para tenant?"}
   B -->|"Não"| C["Operar sem Gmail"]
@@ -197,7 +197,7 @@ Mostra o vínculo externo opcional de identidade, preservando autenticação, se
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-integracao-google-sso.mmd) / [SVG](assets/diagrams/fluxo-integracao-google-sso.svg) / [JPEG](assets/diagrams/fluxo-integracao-google-sso.jpg)
 
-```mmd
+```mermaid
 flowchart TD
   A["Usuário solicita acesso"] --> B{"Google SSO habilitado para tenant?"}
   B -->|"Não"| C["Autenticar pelo modelo próprio Aneety"]
