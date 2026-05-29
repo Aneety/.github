@@ -70,7 +70,7 @@ Toda issue deve conter:
 - **Owner:** pessoa responsável por conduzir a issue até fechamento.
 - **Critério de aceite:** condição objetiva de conclusão.
 - **Evidência esperada:** teste, smoke, build, log, screenshot, PR, diff, URL pública ou documento atualizado.
-- **Repo afetado:** repositório onde o trabalho será implementado ou documentado.
+- **Repo destino:** repositório onde o trabalho será implementado ou documentado.
 - **Riscos:** segredo, custo, lock-in, dado real, permissão, arquitetura ou dependência externa.
 - **Links:** PRs, documentos, issues relacionadas, runs de CI, evidências e decisões.
 
@@ -86,7 +86,7 @@ Toda issue deve conter:
 
 - Ciclo:
 - Responsabilidade:
-- Repo afetado:
+- Repo destino:
 - Owner:
 
 ## Critério de aceite
@@ -224,7 +224,7 @@ Uma issue só pode ser concluída quando todos os itens aplicáveis forem verdad
 - Arquitetura e processo sincronizados.
 - Ciclo correto preservado.
 - Owner declarado.
-- Repo afetado correto.
+- Repo destino correto.
 - Critério de aceite cumprido.
 - Evidência objetiva anexada ou linkada.
 - Testes, smoke ou validação manual aplicável registrados.

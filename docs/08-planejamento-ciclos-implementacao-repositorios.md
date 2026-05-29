@@ -66,7 +66,7 @@ Toda issue derivada deste documento deve usar o corpo mínimo abaixo, preenchido
 
 - Ciclo:
 - Responsabilidade:
-- Repo afetado:
+- Repo destino:
 - Owner:
 
 ## Critério de aceite
@@ -114,9 +114,31 @@ Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual
 | `privacidade-consentimento` | `consent_records` | `privacidade-consentimento` | `aneety-platform/apps/privacidade-consentimento/db-privacidade-consentimento`, `worker-privacidade-consentimento`, `mfe-privacidade-consentimento` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Consentimentos concedidos/revogados por identidade, tenant, tipo e origem. Evidência: registro de revogação, bloqueio de uso indevido e consulta por permissão. |
 | `demo-seeds` | `demo_seed_cases` | `demo-seeds` | `aneety-platform/apps/demo-seeds/db-demo-seeds`, `job-demo-seeds`, `worker-demo-seeds` | `repositorio`, `deploy`, `publicacao`, `banco`, `jobs`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | Seeds e massas de teste sem transformar a vertical odontológica em limite de produto. Evidência: payloads sanitizados, job idempotente e testes de carga controlada. |
 
+## Responsabilidades transversais sem modelagem própria
+
+Algumas responsabilidades do MVP não nascem de uma tabela própria em `04-modelagem-banco.md`, mas continuam mandatórias por contrato arquitetural e de runtime. Elas devem entrar no backlog com a mesma disciplina de owner, custo zero, aceite, deploy, publicação, teste e governança.
+
+| Responsabilidade | Origem normativa | Repo esperado | Caminho no orquestrador | Ciclos obrigatórios | Aceite e evidência base |
+| --- | --- | --- | --- | --- | --- |
+| `gateway-borda` | `01-arquitetura.md` (`## Runtime alvo do MVP`, `## Fluxo de dados`), `05-estrutura-repositorios.md` (`## Regras de runtime e evolução`, `## Responsabilidades funcionais v1 candidatas`) | `gateway-borda` | `aneety-platform/apps/gateway-borda/worker-gateway`, `pkg-contratos-publicos` | `repositorio`, `deploy`, `publicacao`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | `worker-gateway` valida borda, CORS, versão de contrato, sessão pública Aneety e roteamento/service bindings para BFFs `worker-*`, sem segredo no frontend e sem runtime fora de Workers. Evidência: contrato HTTP, smoke de borda, teste de roteamento e docs atualizadas. |
+
 ## Issues por responsabilidade
 
 Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve usar o template de corpo obrigatório deste documento e labels coerentes com `07-governanca-github.md`.
+
+### `gateway-borda`
+
+| Ciclo | Título | Aceite | Evidência esperada | Riscos |
+| --- | --- | --- | --- | --- |
+| `repositorio` | `[repositorio][gateway-borda] preparar contrato, owner, repo e submódulo` | Responsabilidade transversal do `worker-gateway` registrada com owner, custo zero, contrato de borda e caminho `aneety-platform/apps/gateway-borda/...`. | PR documental e issue aberta com links normativos. | Gateway obrigatório ficar sem backlog próprio e atrasar todos os BFFs. |
+| `deploy` | `[deploy][gateway-borda] preparar runtime de custo zero` | Deploy do `worker-gateway` documentado em runtime 100% Workers, sem segredo versionado. | Configuração de deploy, bindings e checklist sem valores. | Segredo em Git/log ou runtime fora de Workers. |
+| `publicacao` | `[publicacao][gateway-borda] publicar endpoint de borda permitido` | Endpoint público do gateway publicado sem depender de GitHub Pages como runtime transacional. | URL publicada, roteamento básico e evidência de ambiente. | Publicação sem contrato de borda. |
+| `backend` | `[backend][gateway-borda] publicar contrato do worker-gateway` | Gateway valida CORS, sessão pública Aneety, versão de contrato e roteamento/service bindings para `worker-*`. | Contrato HTTP, testes 401/403/CORS e diff do worker. | Bypass de autorização, roteamento público entre Workers ou vazamento de segredo. |
+| `teste-integracao-api` | `[teste-integracao-api][gateway-borda] validar gateway integrado aos BFFs do ciclo` | Integração valida borda real do ciclo, erros de contrato e encaminhamento para BFF Worker. | Run integrado com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
+| `smoke` | `[smoke][gateway-borda] validar fluxo crítico publicado da borda` | Smoke confirma endpoint ativo, rota crítica e headers obrigatórios sem vazar detalhe técnico ao usuário final. | Log, screenshot técnica ou artefato verificável. | Smoke só de 200 sem validar borda. |
+| `teste` | `[teste][gateway-borda] consolidar cobertura da borda` | Cobertura unitária, contrato, integração e regressão do gateway consolidada. | Saída de testes com falhas zero. | Regressão em CORS, sessão ou roteamento. |
+| `documentacao` | `[documentacao][gateway-borda] sincronizar docs e evidências` | Arquitetura, estrutura de repositórios, contratos de borda e evidências refletem `worker-gateway`. | PR documental com links de evidência. | Docs continuarem sem backlog do gateway. |
+| `governanca` | `[governanca][gateway-borda] fechar ciclo com aceite e Project` | Issue tem aceite final, evidências e status coerentes no Project. | Links de PR, testes, smoke e item do Project. | Fechamento sem prova de borda publicada. |
 
 ### `tenant-white-label`
 
@@ -388,7 +410,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 ### `repositorio`
 
-Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner, repo e submódulo` para todas as responsabilidades da matriz. Nenhum repo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
+Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner, repo e submódulo` para todas as responsabilidades da matriz e para as responsabilidades transversais mandatórias. Nenhum repo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `gateway-borda`, `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
 
 ### `deploy`
 
@@ -473,6 +495,7 @@ Antes de ativar `comunicacao-email` ou `identidade-federada` para qualquer tenan
 Este documento estará apto para uso quando:
 
 - todas as tabelas de `04-modelagem-banco.md` estiverem cobertas uma única vez na matriz;
+- responsabilidades transversais mandatórias do MVP, como `gateway-borda`, estiverem cobertas com ciclos e aceite;
 - cada responsabilidade tiver repo esperado, caminho de submódulo, ciclos, issues, aceite e evidência;
 - backlog por ciclo respeitar a ordem de `06-ciclos-cobertura.md`;
 - bloqueios normativos estiverem explícitos;
