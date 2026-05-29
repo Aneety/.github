@@ -1,0 +1,107 @@
+name: Backlog operacional
+description: Abrir issue alinhada aos documentos normativos da Aneety Platform.
+title: "[ciclo][responsabilidade] ação objetiva"
+labels:
+  - "status:triagem"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulário para abrir backlog rastreável à documentação canônica.
+
+        Antes de publicar, aplique pelo menos:
+        - 1 label `tipo:*`
+        - 1 label `ciclo:*`
+        - 1 label `status:*` (o formulário já inicia com `status:triagem`)
+  - type: input
+    id: documento
+    attributes:
+      label: Documento fonte
+      description: Arquivo canônico que origina a issue.
+      placeholder: docs/08-planejamento-ciclos-implementacao-repositorios.md
+    validations:
+      required: true
+  - type: input
+    id: secao
+    attributes:
+      label: Seção
+      description: Seção específica dentro do documento.
+      placeholder: "### `governanca`"
+    validations:
+      required: true
+  - type: dropdown
+    id: ciclo
+    attributes:
+      label: Ciclo
+      description: Selecione o ciclo principal da issue.
+      options:
+        - repositorio
+        - deploy
+        - publicacao
+        - banco
+        - jobs
+        - backend
+        - teste-integracao-api
+        - microfrontend
+        - smoke
+        - teste
+        - documentacao
+        - governanca
+    validations:
+      required: true
+  - type: input
+    id: responsabilidade
+    attributes:
+      label: Responsabilidade
+      description: Domínio/capacidade em `aneety-platform/apps/<responsabilidade>/...`.
+      placeholder: identidade-acesso
+    validations:
+      required: true
+  - type: input
+    id: repo
+    attributes:
+      label: Repo afetado
+      description: Repositório onde a mudança acontecerá.
+      placeholder: Aneety/.github
+    validations:
+      required: true
+  - type: input
+    id: owner
+    attributes:
+      label: Owner
+      description: Pessoa responsável por conduzir a issue até fechamento.
+      placeholder: Ricardo Malnati
+    validations:
+      required: true
+  - type: textarea
+    id: criterio
+    attributes:
+      label: Critério de aceite
+      description: Condição objetiva de conclusão.
+      placeholder: "- "
+    validations:
+      required: true
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidência esperada
+      description: Teste, smoke, build, log, screenshot, PR, diff, URL pública ou documento atualizado.
+      placeholder: "- "
+    validations:
+      required: true
+  - type: textarea
+    id: riscos
+    attributes:
+      label: Riscos e bloqueios
+      description: Segredo, custo, lock-in, dado real, permissão, arquitetura ou dependência externa.
+      placeholder: "- "
+    validations:
+      required: true
+  - type: textarea
+    id: links
+    attributes:
+      label: Links
+      description: PRs, documentos, issues relacionadas, runs de CI, evidências e decisões.
+      placeholder: "- "
+    validations:
+      required: false
