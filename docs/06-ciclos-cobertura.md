@@ -12,6 +12,13 @@ Descrição do ciclo novo:
 
 - **Testes de integração de API:** Valida API + banco/serviços reais, mas pode soar mais técnico que negócio.
 
+Normalização obrigatória para labels, automações e campos do Project:
+
+- `publicação` -> `ciclo:publicacao`
+- `Testes de integração de API` -> `ciclo:teste-integracao-api`
+- `documentação` -> `ciclo:documentacao`
+- `governança` -> `ciclo:governanca`
+
 Regras obrigatórias:
 
 - Cada ciclo trata apenas 1 responsabilidade da lista acima.
