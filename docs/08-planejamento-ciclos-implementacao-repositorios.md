@@ -18,6 +18,17 @@ A implementação deve obedecer à seguinte precedência documental:
 
 Regra de execução: issue, arquivo em `docs/project`, PR ou automação não muda contrato. Mudança de contrato começa por PR documental nos arquivos acima.
 
+## Proteção de checkouts locais
+
+Antes de comparar, editar ou usar qualquer repo local da org `Aneety` como evidência operacional:
+
+- registrar `git status --short`;
+- identificar branch atual, SHA atual e remoto `origin`;
+- executar `git fetch --all --prune`;
+- pular edição se houver mudança local humana não pertencente ao ciclo.
+
+Regra adicional para a fonte canônica: se `/Users/mal/GitHub/Aneety/.github` estiver sujo, divergente ou com falha de atualização de `origin/main`, esse checkout não pode decidir status do backlog. Nessa situação, a leitura normativa e o painel operacional devem ser confirmados por `origin/main` ou por clone/worktree limpo antes de qualquer atualização em `docs/project`.
+
 ## Gates antes de criar responsabilidade ou módulo
 
 Uma responsabilidade só pode virar módulo interno do monorepo quando registrar:
