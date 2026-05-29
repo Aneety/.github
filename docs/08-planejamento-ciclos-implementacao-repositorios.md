@@ -86,7 +86,7 @@ Toda issue derivada deste documento deve usar o corpo mínimo abaixo, preenchido
 -
 ```
 
-Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`.
+Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual, usar `ISSUE_TEMPLATE/backlog-operacional.yml` como base.
 
 ## Matriz por modelagem de banco
 
@@ -432,7 +432,7 @@ Criar issues `[documentacao][<responsabilidade>] sincronizar docs e evidências`
 
 ### `governanca`
 
-Criar issues `[governanca][<responsabilidade>] fechar ciclo com aceite e Project` para cada responsabilidade. Criar também issue específica `[governanca][ciclos] aplicar taxonomia canônica de labels e alinhar Project 1` com aceite: labels `tipo:*`, `ciclo:*` e `status:*` aplicados nos repositórios Aneety, `07-governanca-github.md` refletindo `ciclo:teste-integracao-api`, e Project aceitando o ciclo sem label transitória.
+Criar issues `[governanca][<responsabilidade>] fechar ciclo com aceite e Project` para cada responsabilidade. Criar também issue específica `[governanca][ciclos] garantir campos e acesso operacional do Project 1` quando o painel não refletir `Status`, `Ciclo`, `Responsabilidade`, `Repo destino`, `Owner`, `Prioridade`, `Gate`, `Evidência` e `Bloqueio`.
 
 ## Sequência CRUD obrigatória por responsabilidade com dados
 
@@ -464,7 +464,7 @@ Antes de ativar `comunicacao-email` ou `identidade-federada` para qualquer tenan
 
 | Bloqueio | Impacto | Próxima ação | Issue sugerida |
 | --- | --- | --- | --- |
-| Taxonomia canônica de labels ainda não foi aplicada nos repositórios Aneety nem validada no Project 1. | Backlog, filtros e auditoria perdem consistência entre issues, labels e colunas do Project. | Aplicar labels `tipo:*`, `ciclo:*` e `status:*` nos repositórios da org e validar campos/views do Project. | `[governanca][ciclos] aplicar taxonomia canônica de labels e alinhar Project 1` |
+| Operador sem acesso suficiente ao org-level Project não consegue mover items, validar campos ou auditar backlog completo. | Backlog pode evoluir fora do status real e sem rastreabilidade central. | Garantir acesso operacional ao Project 1 antes de abrir ou mover backlog amplo. | `[governanca][ciclos] garantir campos e acesso operacional do Project 1` |
 | Owners das responsabilidades ainda são papéis de governança, não pessoas nomeadas em cada issue. | Issue executável não pode entrar em ciclo sem responsável real. | Nomear owner ao abrir cada issue. | Uma issue de `status:triagem` por responsabilidade até owner real ser informado. |
 
 ## Critério de conclusão deste planejamento
