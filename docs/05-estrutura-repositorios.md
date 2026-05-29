@@ -65,28 +65,29 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 
 ## Glossário de prefixos
 
-- `worker-<nome>`: Cloudflare/serverless/Hono.
+- `worker-<nome>`: Cloudflare Workers/Hono.
 - `mfe-<nome>`: microfrontend Single SPA.
-- `mc-<nome>`: microserviço NestJS.
+- `mc-<nome>`: categoria reservada para runtime próprio futuro, fora do MVP.
 - `fe-<nome>`: frontend React.
-- `gw-<nome>`: gateway Kong/API gateway.
-- `job-<nome>`: Bash/Python/SQL/RAG/agents/job batch.
-- `auto-<nome>`: Codex/Cursor/Cron/automação.
+- `gw-<nome>`: categoria reservada para gateway dedicado futuro, fora do MVP.
+- `job-<nome>`: rotina assíncrona compatível com Cloudflare Workers, como Queue consumer, Cron Trigger, Workflow ou Durable Object.
+- `auto-<nome>`: automação de repositório, CI ou operação interna; não runtime do produto.
 - `db-<nome>`: módulo/diretório de banco, migrations, RLS, seeds.
 - `pkg-<nome>`: pacote compartilhado.
 - `core-<nome>`: contrato/domínio central compartilhado.
 - `int-<nome>`: integração/adapters externos.
-- `wl-<nome>`: workload operacional não coberto por worker/mc/job.
+- `wl-<nome>`: categoria reservada para workload futuro fora do escopo do MVP.
 
 ## Regras de runtime e evolução
 
 - Todos os frontends operacionais devem ser `mfe-<nome>` Single SPA.
-- BFFs do MVP devem ser `worker-<nome>` em Cloudflare/serverless/Hono.
-- Gateway do MVP deve ser `worker-gateway` em Cloudflare/serverless/Hono.
-- Gateway futuro deve usar `gw-<nome>` com Kong/API gateway.
+- BFFs do MVP devem ser `worker-<nome>` em Cloudflare Workers/Hono.
+- Gateway do MVP deve ser `worker-gateway` em Cloudflare Workers/Hono.
+- Gateway dedicado futuro fica fora do escopo do MVP atual e exige PR documental aprovado.
 - Banco do MVP deve usar Supabase/Postgres com schema por BFF, versionado em `db-<nome>`.
 - Banco futuro deve usar Postgres com banco de dados por BFF.
-- `mc-<nome>` NestJS é categoria permitida para microserviço futuro, mas não substitui o BFF Worker do MVP.
+- MVP 100% Workers: `job-*` deve usar apenas mecanismos compatíveis com Workers; não entram Python, containers, VPS, servidor tradicional, cron externo ou runtime persistente fora de Workers.
+- `mc-<nome>` é categoria pós-MVP e não substitui o BFF Worker do MVP.
 - `fe-<nome>` React é permitido para frontend não operacional ou superfície sem integração Single SPA; frontends operacionais usam `mfe-<nome>`.
 - Mapas e rastreabilidade em tempo real devem ser módulos/contratos substituíveis, sem lock-in de fornecedor e sem gasto obrigatório.
 - Custo zero sempre é regra de aceite; dependência paga bloqueia ou exige redesenho.
