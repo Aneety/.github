@@ -292,12 +292,18 @@ flowchart TD
 7. Testar por camada: unitários em contratos/pacotes, integração nos BFFs e E2E público por fluxo crítico quando houver URL publicada.
 8. Fechar incremento somente com evidência objetiva de build, smoke, publicação e testes do escopo tocado.
 
+## Limite de execução do Codex
+
+Codex nesta máquina local pode gerar, editar, revisar e versionar código fonte, contratos, documentação e artefatos Markdown de controle. Para código fonte do MVP, compilar, executar, testar, validar smoke, publicar preview ou produzir evidência operacional deve acontecer exclusivamente no ecossistema Cloudflare Workers: Cloudflare Workers Builds, preview remoto, runtime remoto, `wrangler deploy --dry-run`, `wrangler dev --remote` ou mecanismo Cloudflare equivalente aprovado em documentação canônica.
+
+Execução local serve apenas para edição, análise estática ou preparação de comandos que acionem Cloudflare. Simulação local, servidor persistente, container, Python, VPS, banco externo obrigatório ou runtime fora de Cloudflare Workers não fecha aceite, não substitui smoke e não vira evidência de produção do MVP.
+
 ## Operação
 
 1. Preparar massa controlada e idempotente para smoke/E2E quando o incremento exigir.
 2. Verificar secrets antes de deploy real sem imprimir valores.
 3. Confirmar backup/export antes de usar dados reais relevantes.
-4. Rodar smoke público dos componentes afetados.
+4. Rodar smoke público dos componentes afetados somente em ambiente Cloudflare permitido para o ciclo.
 5. Verificar fila offline, conflito de sincronização, consentimento, retenção e auditoria quando houver ação de campo, evidência, localização ou exceção.
 6. Conferir monitoramento recorrente contra o contrato Aneety vigente.
 7. Registrar bloqueios com causa objetiva e próxima ação.
@@ -327,7 +333,7 @@ Executar o gate como checklist operacional, apontando a evidência para `01-arqu
 5. Mapas e rastreabilidade testados quando o fluxo exigir localização ou status em tempo real.
 6. Catálogo, estados, SLA, orçamento, comunicação, suporte, exceções, offline, privacidade e auditoria testados quando o incremento tocar essas regras.
 7. Microfrontend validado com estados de carregamento, vazio, erro e sucesso quando houver UI.
-8. Smoke ou E2E executado quando houver URL publicada.
+8. Build, execução, smoke, teste de integração de API ou E2E executado em Cloudflare Workers Builds, preview remoto, runtime remoto ou comando Wrangler que use Cloudflare como alvo de validação.
 9. Diff, logs e bundle revisados para ausência de segredos.
 
 ## Gate de serviços externos
