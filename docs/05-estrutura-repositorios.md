@@ -2,11 +2,11 @@
 
 ## Decisão
 
-O novo projeto deve nascer na org `https://github.com/Aneety`, com `Aneety/ai` como repositório orquestrador de implementação. Os repositórios Lia anteriores viram fontes históricas e referências de aprendizado, não base de implementação contínua.
+O novo projeto deve nascer na org `https://github.com/Aneety`, com `Aneety/ai` como monorepo único de implementação. Os repositórios Lia anteriores viram fontes históricas e referências de aprendizado, não base de implementação contínua.
 
-Todos os projetos/repositórios Aneety devem ser clonados em `/Users/mal/GitHub/Aneety/*`. A regra é sempre parear remoto oficial e clone local: `https://github.com/Aneety/<repo>` -> `/Users/mal/GitHub/Aneety/<repo>`.
+Os repositórios centrais do contrato atual devem ser clonados em `/Users/mal/GitHub/Aneety/*`. A regra é parear remoto oficial e clone local para `Aneety/ai`, `Aneety/.github` e `Aneety/assets`.
 
-Cada responsabilidade ou derivação com implementação própria deve ter repositório próprio na org `Aneety`, clone local em `/Users/mal/GitHub/Aneety/<repo>` e submódulo no repo `Aneety/ai` no caminho correspondente dentro de `aneety-platform/apps/<responsabilidade>/...`.
+Cada responsabilidade ou derivação com implementação própria deve viver dentro do monorepo `Aneety/ai` no caminho correspondente dentro de `aneety-platform/apps/<responsabilidade>/...`. Não faz parte do contrato atual abrir repositório próprio nem submódulo por responsabilidade.
 
 Toda documentação de arquitetura, catálogo de repositórios, guias, ADRs, especificações e contratos de projeto deve ser mantida no repositório `Aneety/.github` (`https://github.com/Aneety/.github.git`, clone local `/Users/mal/GitHub/Aneety/.github`). Repositórios de implementação devem manter apenas README mínimo com objetivo, status e link para a documentação canônica.
 
@@ -37,21 +37,21 @@ Aneety/ai -> /Users/mal/GitHub/Aneety/ai
     scripts/
 ```
 
-A lista acima define categorias possíveis. Não obriga toda responsabilidade a possuir todos os módulos. Cada diretório folha vira submódulo Git quando a implementação própria existir e deve apontar para um clone local em `/Users/mal/GitHub/Aneety/<repo>`.
+A lista acima define categorias possíveis. Não obriga toda responsabilidade a possuir todos os módulos. Cada diretório folha vira módulo interno, pacote, worker, frontend ou adapter do monorepo quando a implementação própria existir.
 
 ## Clone local obrigatório
 
 - Clone root local: `/Users/mal/GitHub/Aneety/*`.
-- Remoto oficial de qualquer repo: `https://github.com/Aneety/<repo>`.
-- Clone local correspondente: `/Users/mal/GitHub/Aneety/<repo>`.
-- Exemplos centrais: `/Users/mal/GitHub/Aneety/ai`, `/Users/mal/GitHub/Aneety/.github` e `/Users/mal/GitHub/Aneety/assets`.
-- Esta regra é documental neste estágio; não implica mover, clonar ou reescrever submódulos durante esta atualização.
+- Repositórios centrais do contrato: `Aneety/ai`, `Aneety/.github` e `Aneety/assets`.
+- Clones locais correspondentes: `/Users/mal/GitHub/Aneety/ai`, `/Users/mal/GitHub/Aneety/.github` e `/Users/mal/GitHub/Aneety/assets`.
+- Novos clones de implementação por responsabilidade não fazem parte do contrato atual.
+- Esta regra é documental neste estágio; não implica mover código para fora do monorepo durante esta atualização.
 
 ## Documentação central
 
 - `Aneety/.github` é a fonte canônica de documentação de todos os projetos/repositórios e deve estar clonada em `/Users/mal/GitHub/Aneety/.github`.
 - `Aneety/.github` deve manter arquitetura, catálogo de repositórios, guias de usuário, documentação de desenvolvedor, ADRs, especificações, contratos e matriz de responsabilidades.
-- Repositórios de implementação devem apontar para `Aneety/.github` e não duplicar documentação arquitetural.
+- O monorepo de implementação deve apontar para `Aneety/.github` e não duplicar documentação arquitetural.
 - GitHub Pages não é runtime operacional, não hospeda operação transacional e não substitui gateway, BFF ou banco.
 - Se GitHub Pages existir para documentação, deve publicar ou apontar conteúdo originado de `Aneety/.github`.
 
@@ -59,8 +59,8 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 
 - `Aneety/assets` é a fonte canônica de assets reutilizáveis do projeto e deve estar clonada em `/Users/mal/GitHub/Aneety/assets`.
 - Todo asset reutilizável deve ter versão SVG versionada nesse repositório.
-- Repositórios de implementação devem consumir, copiar em build ou apontar para o SVG canônico, sem manter forks visuais divergentes.
-- Assets específicos e descartáveis podem ficar no repo de implementação somente quando não forem reutilizáveis; ao virarem padrão, marca, ícone compartilhado, diagrama recorrente ou elemento visual comum, devem migrar para `Aneety/assets`.
+- O monorepo de implementação deve consumir, copiar em build ou apontar para o SVG canônico, sem manter forks visuais divergentes.
+- Assets específicos e descartáveis podem ficar no monorepo de implementação somente quando não forem reutilizáveis; ao virarem padrão, marca, ícone compartilhado, diagrama recorrente ou elemento visual comum, devem migrar para `Aneety/assets`.
 - Alterações visuais compartilhadas devem ser feitas primeiro no SVG canônico e depois propagadas aos apps/documentos.
 
 ## Glossário de prefixos
@@ -99,14 +99,13 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 - Uma responsabilidade pode conter microfrontend, BFF, estrutura de dados, pacote, contrato, integração, automação e job quando necessário.
 - Dependência entre responsabilidades deve passar por gateway, BFF ou contrato compartilhado versionado.
 - Nenhuma responsabilidade deve depender de tabela, segredo ou runtime interno de outra sem contrato explícito.
-- Cada responsabilidade implementada em repo próprio deve ser clonada em `/Users/mal/GitHub/Aneety/<repo>`.
-- Cada responsabilidade implementada em repo próprio deve ser linkada como submódulo do orquestrador `Aneety/ai`.
-- Cada responsabilidade implementada em repo próprio deve estar catalogada e documentada em `Aneety/.github`.
+- Cada responsabilidade implementada deve nascer em `Aneety/ai` sob caminho canônico da responsabilidade.
+- Cada responsabilidade implementada deve estar catalogada e documentada em `Aneety/.github`.
 - Cada responsabilidade que usa visual compartilhado deve referenciar os assets SVG canônicos em `Aneety/assets`.
 
 ## Responsabilidades funcionais v1 candidatas
 
-As lacunas de produto adicionadas aos requisitos devem ser tratadas como responsabilidades candidatas antes de virar implementação. Nenhum repo novo é obrigatório neste momento; cada uma só vira repo/submódulo quando tiver contrato, owner, dados, custo zero sempre, testes e aceite.
+As lacunas de produto adicionadas aos requisitos devem ser tratadas como responsabilidades candidatas antes de virar implementação. Nenhum repositório novo de implementação é obrigatório neste momento; cada uma só vira módulo interno do monorepo quando tiver contrato, owner, dados, custo zero sempre, testes e aceite.
 
 - `onboarding-acesso`: convites, primeiro acesso, recuperação, bloqueio e reativação por papel.
 - `gateway-borda`: borda HTTP do MVP com CORS, versionamento de contrato, sessão pública Aneety, roteamento e service bindings entre `worker-gateway` e BFFs `worker-*`.
@@ -148,7 +147,7 @@ Aneety/ai
         db-identidade
 ```
 
-Os repositórios dessas responsabilidades só devem existir quando houver contrato local, owner, dados tratados, segredos, custo zero sempre, testes de degradação e critérios de aceite. Quando existirem, seguem a regra geral: repo próprio na org `Aneety`, clone local em `/Users/mal/GitHub/Aneety/<repo>`, submódulo em `Aneety/ai` e documentação canônica em `Aneety/.github`.
+Os módulos dessas responsabilidades só devem existir quando houver contrato local, owner, dados tratados, segredos, custo zero sempre, testes de degradação e critérios de aceite. Quando existirem, seguem a regra geral: implementação dentro de `Aneety/ai`, documentação canônica em `Aneety/.github` e assets compartilhados em `Aneety/assets`.
 
 ## Regras de migração
 
@@ -156,6 +155,6 @@ Os repositórios dessas responsabilidades só devem existir quando houver contra
 - Fluxos odontológicos de pedidos, moldes, próteses, retirada, entrega e evidências entram como demo, seeds e massas de teste.
 - Código atual só deve ser copiado se passar por revisão de contrato, segurança, isolamento por tenant e UI copy.
 - Assets atuais só devem ser reutilizados se forem convertidos ou preservados com versão SVG canônica em `Aneety/assets`.
-- Não importar a estrutura multi-repo antiga como contrato final; recriar responsabilidades sob `Aneety/ai` com repos próprios e submódulos.
-- Documentos atuais continuam úteis como fonte, mas o contrato novo de documentação deve ser escrito em `Aneety/.github`; `Aneety/ai` fica como orquestrador de implementação.
+- Não importar a estrutura multi-repo antiga como contrato final; recriar responsabilidades sob `Aneety/ai` como módulos internos do monorepo.
+- Documentos atuais continuam úteis como fonte, mas o contrato novo de documentação deve ser escrito em `Aneety/.github`; `Aneety/ai` fica como monorepo de implementação.
 - Cada módulo novo deve ter teste e owner antes de virar dependência de outro módulo.

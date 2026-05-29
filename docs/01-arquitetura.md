@@ -4,11 +4,11 @@
 
 Aneety Platform será uma plataforma white-label para operar pedidos de produtos ou serviços customizados. O domínio genérico envolve consumidor, produtor, entrega, evidências, mapas, rastreabilidade em tempo real e garantia de qualidade do pedido e do item personalizado. Lia será o primeiro tenant/marca, e os fluxos odontológicos do MVP ficam como carga inicial de demonstração, seeds e massas de teste.
 
-A implementação nasce na org `https://github.com/Aneety`, com `Aneety/ai` como repositório orquestrador. Cada responsabilidade ou derivação deve ter repositório próprio e ser linkada como submódulo no orquestrador. Todo repositório remoto `https://github.com/Aneety/<repo>` deve ser clonado localmente em `/Users/mal/GitHub/Aneety/<repo>`. A documentação canônica de todos os projetos/repositórios deve viver em `Aneety/.github` (`https://github.com/Aneety/.github.git`, clone local `/Users/mal/GitHub/Aneety/.github`), incluindo arquitetura, catálogo de repositórios, guias, ADRs e especificações. Assets reutilizáveis devem viver em `Aneety/assets` (`https://github.com/Aneety/assets.git`, clone local `/Users/mal/GitHub/Aneety/assets`) com versão SVG canônica.
+A implementação nasce na org `https://github.com/Aneety`, com `Aneety/ai` como monorepo único de implementação do MVP e da evolução inicial. Cada responsabilidade ou derivação deve viver como diretório ou módulo interno sob `aneety-platform/apps/<responsabilidade>/...`, sem repositório próprio nem submódulo por responsabilidade no contrato atual. A documentação canônica de todos os projetos/repositórios deve viver em `Aneety/.github` (`https://github.com/Aneety/.github.git`, clone local `/Users/mal/GitHub/Aneety/.github`), incluindo arquitetura, catálogo de repositórios, guias, ADRs e especificações. Assets reutilizáveis devem viver em `Aneety/assets` (`https://github.com/Aneety/assets.git`, clone local `/Users/mal/GitHub/Aneety/assets`) com versão SVG canônica.
 
-## Regra de módulos e submódulos
+## Regra de módulos no monorepo
 
-Toda responsabilidade deve existir sob `aneety-platform/apps/<responsabilidade>/...` dentro do repo orquestrador `Aneety/ai`. Dentro de cada responsabilidade, o nome do diretório deve seguir o padrão `aneety-platform/apps/<responsabilidade>/<mfe|mc|gw|worker|fe|job|auto|db|pkg|core|int|wl>-<nome>`.
+Toda responsabilidade deve existir sob `aneety-platform/apps/<responsabilidade>/...` dentro do monorepo `Aneety/ai`. Dentro de cada responsabilidade, o nome do diretório deve seguir o padrão `aneety-platform/apps/<responsabilidade>/<mfe|mc|gw|worker|fe|job|auto|db|pkg|core|int|wl>-<nome>`.
 
 ```text
 Aneety/ai -> /Users/mal/GitHub/Aneety/ai
@@ -31,16 +31,16 @@ Aneety/ai -> /Users/mal/GitHub/Aneety/ai
     scripts/
 ```
 
-Cada diretório folha representa um submódulo Git quando existir implementação própria. A lista define categorias possíveis; não obriga toda responsabilidade a possuir todos os módulos. Cada responsabilidade será criada somente quando houver contrato, owner, dados, aceite, custo zero sempre e limite de escopo.
+Cada diretório folha representa um módulo, pacote, app ou adapter interno do monorepo quando existir implementação própria. A lista define categorias possíveis; não obriga toda responsabilidade a possuir todos os módulos. Cada responsabilidade será criada somente quando houver contrato, owner, dados, aceite, custo zero sempre e limite de escopo.
 
 Regra mandatória do MVP atual: execução 100% Cloudflare Workers. Enquanto o MVP estiver vigente, `worker-*` e `job-*` devem rodar apenas com mecanismos compatíveis com Workers, como rotas HTTP, Queues, Cron Triggers, Workflows ou Durable Objects. `mc-*`, `gw-*` e `wl-*` ficam reservados para cenário pós-MVP mediante PR documental aprovado. Não entram no MVP container, Python, VPS, servidor tradicional, cron externo ou runtime persistente fora de Workers.
 
 ## Contrato estrutural permanente
 
 - Toda responsabilidade começa com requisito, interface e critério de aceite antes da implementação.
-- Toda responsabilidade deve ser classificada em `aneety-platform/apps/<responsabilidade>/...` antes de criar módulo, repo ou submódulo.
-- Quando uma responsabilidade virar implementação própria, ela deve ter repo na org `https://github.com/Aneety`, clone em `/Users/mal/GitHub/Aneety/<repo>` e submódulo no orquestrador `Aneety/ai`.
-- Todo projeto/repositório Aneety deve respeitar o par remoto/local `https://github.com/Aneety/<repo>` -> `/Users/mal/GitHub/Aneety/<repo>`.
+- Toda responsabilidade deve ser classificada em `aneety-platform/apps/<responsabilidade>/...` antes de criar módulo, package, app ou adapter interno.
+- Quando uma responsabilidade virar implementação própria, ela deve nascer dentro do monorepo `Aneety/ai` no caminho canônico correspondente. Separação em repositório próprio só pode acontecer depois do MVP e com ADR/PR documental aprovado.
+- Os repositórios centrais do contrato atual respeitam o par remoto/local `https://github.com/Aneety/ai` -> `/Users/mal/GitHub/Aneety/ai`, `https://github.com/Aneety/.github` -> `/Users/mal/GitHub/Aneety/.github` e `https://github.com/Aneety/assets` -> `/Users/mal/GitHub/Aneety/assets`.
 - A documentação canônica de projeto/repositório vive em `Aneety/.github`, com objetivo, owner, status, runtime, dados, contratos, critérios de aceite e links operacionais.
 - Assets reutilizáveis vivem em `Aneety/assets`, com SVG canônico e histórico versionado antes de uso por microfrontends, documentação, apresentação, marketing ou operação.
 - Dependências entre responsabilidades passam por gateway, BFF ou contrato compartilhado versionado; microfrontend não chama banco nem serviço externo privilegiado diretamente.
@@ -58,7 +58,7 @@ Regra mandatória do MVP atual: execução 100% Cloudflare Workers. Enquanto o M
 - Pagamentos atuam como adapter; pedido e conciliação permanecem no domínio Aneety.
 - Mapas, localização, mensagens, IA, observabilidade e integrações futuras entram por interfaces substituíveis.
 - Documentação oficial fica em `Aneety/.github` (`/Users/mal/GitHub/Aneety/.github`): guias de usuário, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios.
-- Assets reutilizáveis ficam em `Aneety/assets` (`/Users/mal/GitHub/Aneety/assets`), versionados em SVG e referenciados pelos repos de implementação quando necessário.
+- Assets reutilizáveis ficam em `Aneety/assets` (`/Users/mal/GitHub/Aneety/assets`), versionados em SVG e referenciados pelo monorepo de implementação quando necessário.
 
 ## Fluxo de dados
 
@@ -108,7 +108,7 @@ Cloudflare, GitHub, provedores de persistência, storage, pagamento, e-mail, map
 - persistência transacional e histórico do domínio;
 - autenticação e autorização modeladas na camada de persistência da plataforma;
 - armazenamento de bytes com metadados e permissão na estrutura de dados do BFF responsável;
-- versionamento, PR, CI e submódulos Git;
+- versionamento, PR e CI do monorepo;
 - documentação centralizada em `Aneety/.github`;
 - acervo de assets reutilizáveis em SVG centralizado em `Aneety/assets`;
 - DNS/CDN;
@@ -136,7 +136,7 @@ Limites obrigatórios:
 - Termos técnicos ficam em docs internas, logs técnicos, runbooks e telas de operador técnico quando existirem.
 - Mapas, localização e rastreabilidade em tempo real exigem contrato, permissão e teste quando fizerem parte do fluxo.
 - Cada módulo deve ter contrato, testes e owner claro antes de expandir escopo.
-- Cada implementação com responsabilidade própria deve viver em repo próprio na org `Aneety`, ser clonada em `/Users/mal/GitHub/Aneety/<repo>` e entrar no orquestrador `Aneety/ai` como submódulo.
-- Todos os projetos/repositórios devem ser documentados em `Aneety/.github`; repos de implementação mantêm apenas README mínimo, badges e links para a documentação canônica.
-- Todos os projetos/repositórios devem respeitar o par remoto/local: `https://github.com/Aneety/<repo>` -> `/Users/mal/GitHub/Aneety/<repo>`.
-- Todos os assets reutilizáveis devem ser versionados em SVG no repo `Aneety/assets`; repos de implementação não devem criar variações locais sem registrar a fonte SVG canônica.
+- Cada implementação com responsabilidade própria deve viver em `Aneety/ai` no caminho canônico da responsabilidade. Novo repositório de implementação por responsabilidade fica fora do contrato atual.
+- Todos os projetos/repositórios devem ser documentados em `Aneety/.github`; o monorepo `Aneety/ai` mantém README e documentação técnica mínima alinhados à fonte canônica.
+- Os repositórios centrais do contrato atual respeitam o par remoto/local: `https://github.com/Aneety/ai` -> `/Users/mal/GitHub/Aneety/ai`, `https://github.com/Aneety/.github` -> `/Users/mal/GitHub/Aneety/.github` e `https://github.com/Aneety/assets` -> `/Users/mal/GitHub/Aneety/assets`.
+- Todos os assets reutilizáveis devem ser versionados em SVG no repositório `Aneety/assets`; o monorepo de implementação não deve criar variações locais sem registrar a fonte SVG canônica.
