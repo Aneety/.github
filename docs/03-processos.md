@@ -284,7 +284,7 @@ flowchart TD
 ## Desenvolvimento
 
 1. Registrar requisito, interface e critério de aceite em `02-requisitos.md` antes de implementar.
-2. Classificar responsabilidade, módulo, repo e submódulo conforme `01-arquitetura.md`.
+2. Classificar responsabilidade, módulo e caminho interno no monorepo conforme `01-arquitetura.md`.
 3. Registrar documentação e assets nos destinos canônicos definidos em `01-arquitetura.md` quando o incremento precisar deles.
 4. Para responsabilidades com dados e UI, executar na ordem: DB -> BFF/worker -> gateway/contrato público -> microfrontend.
 5. Antes de implementar pedidos em produção, fechar contratos mínimos de catálogo, máquina de estados, SLA, orçamento, comunicação, exceções, offline, privacidade, suporte e auditoria.
@@ -310,7 +310,7 @@ flowchart TD
 3. Reclassificar pedidos, moldes, próteses, retirada, entrega e evidências odontológicas como demo, seeds e massas de teste.
 4. Ignorar decisões temporárias que pertenciam ao protótipo.
 5. Definir responsabilidades genéricas antes de criar diretórios concretos.
-6. Criar repo, clone local, submódulo, documentação e assets somente quando os contratos de `01-arquitetura.md` e `02-requisitos.md` estiverem atendidos.
+6. Criar módulo interno em `Aneety/ai`, documentação e assets somente quando os contratos de `01-arquitetura.md` e `02-requisitos.md` estiverem atendidos.
 7. Implementar primeiro contratos compartilhados, DB e BFF da responsabilidade.
 8. Integrar microfrontend Single SPA somente depois de BFF e estrutura de dados verificável.
 9. Migrar evidências úteis: screenshots, E2E, nomes de status, permissões, fluxos, mapas, rastreabilidade e componentes shadcn.
@@ -321,7 +321,7 @@ flowchart TD
 Executar o gate como checklist operacional, apontando a evidência para `01-arquitetura.md` e `02-requisitos.md`:
 
 1. Requisito rastreado e critério de aceite definido.
-2. Responsabilidade, módulo, repo/submódulo, documentação e assets conferidos contra a arquitetura.
+2. Responsabilidade, módulo, caminho interno no monorepo, documentação e assets conferidos contra a arquitetura.
 3. Migration, controles de isolamento, permissões e isolamento por tenant verificados quando houver dados.
 4. BFF/worker com caso feliz e erros esperados verificados quando houver API.
 5. Mapas e rastreabilidade testados quando o fluxo exigir localização ou status em tempo real.

@@ -10,7 +10,7 @@ Encerrar o MVP Lia como linha ativa de implementação e preservar seu valor com
 - A divisão em vários repositórios surgiu antes de contratos, banco e processos estarem estáveis.
 - Partes da implementação e testes ainda carregam decisões temporárias de protótipo e autenticação transitória.
 - O contrato atual evoluiu mais rápido que a base de código, criando diferença entre intenção, documentação e apps publicados.
-- A nova linha deve nascer no orquestrador `Aneety/ai`, com responsabilidades próprias em repositórios separados e linkadas como submódulos.
+- A nova linha deve nascer no monorepo `Aneety/ai`, com responsabilidades próprias como módulos internos em `aneety-platform/apps/<responsabilidade>/...`.
 - Todos os projetos/repositórios Aneety devem ser clonados em `/Users/mal/GitHub/Aneety/*`, sempre alinhando `https://github.com/Aneety/<repo>` com `/Users/mal/GitHub/Aneety/<repo>`.
 
 ## O que preservar
@@ -56,9 +56,9 @@ Encerrar o MVP Lia como linha ativa de implementação e preservar seu valor com
 - Requisito rastreado para fonte original.
 - Decisão registrada nesta documentação canônica em `Aneety/.github/docs`.
 - Responsabilidade mapeada para `aneety-platform/apps/<responsabilidade>/...`.
-- Repositório próprio previsto na org `https://github.com/Aneety` quando a responsabilidade virar implementação.
-- Clone local previsto em `/Users/mal/GitHub/Aneety/<repo>` para cada `https://github.com/Aneety/<repo>`.
-- Submódulo previsto no repo orquestrador `Aneety/ai`, clonado em `/Users/mal/GitHub/Aneety/ai`.
+- Implementação própria prevista como módulo interno no monorepo `Aneety/ai`, em `aneety-platform/apps/<responsabilidade>/...`.
+- Clone local previsto para os repositórios centrais do contrato atual em `/Users/mal/GitHub/Aneety/ai`, `/Users/mal/GitHub/Aneety/.github` e `/Users/mal/GitHub/Aneety/assets`.
+- Documentação e governança previstas primeiro em `Aneety/.github`, antes de qualquer separação futura em repositório próprio pós-MVP.
 - Registro documental previsto em `Aneety/.github`, clonado em `/Users/mal/GitHub/Aneety/.github`.
 - Asset reutilizável previsto em `Aneety/assets`, clonado em `/Users/mal/GitHub/Aneety/assets`, com SVG canônico quando houver visual compartilhado.
 - Prefixo técnico escolhido conforme o contrato de nomes.

@@ -24,7 +24,7 @@ Regras obrigatórias:
 - Cada ciclo trata apenas 1 responsabilidade da lista acima.
 - Nenhum ciclo pode antecipar responsabilidade posterior enquanto a anterior estiver pendente, vermelha ou sem evidência.
 - A responsabilidade do ciclo deve estar mapeada em `aneety-platform/apps/<responsabilidade>/...` quando virar implementação própria.
-- Implementação própria exige repo na org `Aneety`, clone local em `/Users/mal/GitHub/Aneety/<repo>` e submódulo no orquestrador `Aneety/ai`.
+- Implementação própria exige módulo interno em `Aneety/ai`, no caminho `aneety-platform/apps/<responsabilidade>/...`, com documentação canônica correspondente em `Aneety/.github`.
 - Documentação canônica vive em `Aneety/.github/docs`; este diretório mantém o contrato vigente da transição.
 - Custo zero sempre: qualquer dependência paga bloqueia o ciclo até redesenho.
 
@@ -82,7 +82,7 @@ Para iniciar um ciclo:
 1. Confirmar a próxima responsabilidade pela ordem fixa.
 2. Confirmar que a responsabilidade anterior está verde com evidência.
 3. Registrar objetivo, owner, dados tratados, custo, segredo, contrato local, testes e plano de saída de fornecedores.
-4. Criar ou atualizar o repo/submódulo apenas se houver implementação própria.
+4. Criar ou atualizar o módulo interno no monorepo apenas se houver implementação própria.
 5. Implementar a sequência CRUD obrigatória sem pular etapas.
 6. Respeitar a ordem DB completo -> backend completo -> job completo -> Testes de integração de API -> microfrontend completo quando a responsabilidade envolver dado, regra e interface.
 7. Rodar smoke e testes do escopo tocado.
