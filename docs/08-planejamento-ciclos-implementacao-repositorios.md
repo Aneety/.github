@@ -33,6 +33,16 @@ Uma responsabilidade só pode virar módulo interno do monorepo quando registrar
 - caminho no monorepo `Aneety/ai` sob `aneety-platform/apps/<responsabilidade>/...`;
 - repo destino `Aneety/ai` e caminho canônico interno da responsabilidade.
 
+## Gate de proteção de checkout
+
+Antes de comparar backlog, documentação, issue histórica ou implementação em qualquer repositório Aneety, a automação deve:
+
+- executar `git status --short`, registrar branch atual, SHA atual e remotos;
+- executar `git fetch --all --prune` antes de usar o checkout como base de decisão;
+- preservar mudanças locais não criadas no ciclo atual; se o checkout estiver sujo, registrar bloqueio no arquivo correspondente de `docs/project` e pular edição naquele repositório;
+- quando `/Users/mal/GitHub/Aneety/.github` estiver sujo, ler a documentação canônica por `origin/main`, worktree limpo ou clone limpo equivalente; o checkout sujo não pode servir como fonte de verdade;
+- tratar checkout limpo e branch derivada de `main` atualizado como pré-condição para editar `Aneety/.github`.
+
 ## Limite operacional para Codex e validação
 
 `Aneety/ai` é o monorepo de geração, edição e versionamento de código fonte. Codex nesta máquina local pode preparar fonte, contratos, Markdown, PRs e comandos, mas não deve usar execução local como evidência de aceite do MVP.
