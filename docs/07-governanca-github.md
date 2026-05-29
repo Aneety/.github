@@ -127,11 +127,17 @@ Labels devem classificar tipo, ciclo e status. Evitar labels que dupliquem texto
 - `ciclo:banco`
 - `ciclo:jobs`
 - `ciclo:backend`
+- `ciclo:teste-integracao-api`
 - `ciclo:microfrontend`
 - `ciclo:smoke`
 - `ciclo:teste`
 - `ciclo:documentacao`
 - `ciclo:governanca`
+
+Normalização obrigatória:
+
+- Em labels, automações e filtros técnicos, usar slugs sem acento: `ciclo:publicacao`, `ciclo:documentacao`, `ciclo:teste-integracao-api`.
+- Em texto de negócio, roadmap e documentação narrativa, manter grafia legível: `publicação`, `documentação`, `Testes de integração de API`.
 
 ### Status
 
@@ -157,7 +163,7 @@ GitHub Projects deve funcionar como painel de execução e auditoria. O Project 
 
 - **Backlog tabela:** todos os itens abertos, agrupados por ciclo e responsabilidade.
 - **Board por status:** colunas por `status:*`, com foco em fluxo operacional.
-- **Roadmap por ciclo:** visão temporal ou sequencial para planejar a ordem `repositorio` -> `deploy` -> `publicação` -> `banco` -> `jobs` -> `backend` -> `microfrontend` -> `smoke` -> `teste` -> `documentação` -> `governança`.
+- **Roadmap por ciclo:** visão temporal ou sequencial para planejar a ordem `repositorio` -> `deploy` -> `publicação` (`publicacao`) -> `banco` -> `jobs` -> `backend` -> `teste-integracao-api` -> `microfrontend` -> `smoke` -> `teste` -> `documentação` (`documentacao`) -> `governança` (`governanca`).
 - **Validação por evidência:** itens em validação, agrupados por tipo de evidência e bloqueio.
 
 ### Campos obrigatórios
