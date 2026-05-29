@@ -6,7 +6,11 @@ Definir ciclos incrementais de implementação guiados por cobertura. Cada ciclo
 
 ## Ordem fixa de responsabilidades
 
-A ordem fixa dos ciclos é: `repositorio`, `deploy`, `publicação`, `banco`, `jobs`, `backend`, `microfrontend`, `smoke`, `teste`, `documentação`, `governança`.
+A ordem fixa dos ciclos é: `repositorio`, `deploy`, `publicação`, `banco`, `jobs`, `backend`, `Testes de integração de API`, `microfrontend`, `smoke`, `teste`, `documentação`, `governança`.
+
+Descrição do ciclo novo:
+
+- **Testes de integração de API:** Valida API + banco/serviços reais, mas pode soar mais técnico que negócio.
 
 Regras obrigatórias:
 
@@ -35,13 +39,14 @@ Uma etapa só pode ser considerada coberta quando houver contrato, implementaç�
 
 ## Ordem interna por responsabilidade funcional
 
-Para responsabilidades com dado, regra e interface, a ordem interna é: DB completo -> backend completo -> job completo -> microfrontend completo.
+Para responsabilidades com dado, regra e interface, a ordem interna é: DB completo -> backend completo -> job completo -> Testes de integração de API -> microfrontend completo.
 
 Critérios por camada:
 
 - **DB completo:** migrations, constraints, índices, RLS/policies quando aplicável, seeds/fixtures, rollback seguro, auditoria mínima e testes de leitura/escrita para todas as operações CRUD previstas.
 - **Backend completo:** contratos HTTP ou eventos, validação, autorização, erros de domínio, paginação, idempotência quando necessária, auditoria e testes de contrato para todas as operações CRUD já verdes no DB.
 - **Job completo:** execução idempotente, retries, logs operacionais, critérios de reprocessamento, isolamento por tenant/responsabilidade e testes com massa controlada.
+- **Testes de integração de API:** validação da API integrada ao banco e aos serviços reais previstos para o ciclo, sem substituir smoke, E2E ou critérios de negócio.
 - **Microfrontend completo:** fluxo visual com shadcn/ui e tokens semânticos, estados de carregamento/vazio/erro/sucesso, permissões, acessibilidade básica e integração somente via gateway/BFF, nunca por acesso direto ao banco.
 
 ## Gate de cobertura E2E
@@ -57,6 +62,7 @@ Nova cobertura E2E só pode ser adicionada quando todos os itens abaixo estivere
 - DB.
 - Job.
 - Backend.
+- Testes de integração de API.
 - Microfrontend.
 - E2E vigente.
 
@@ -71,7 +77,7 @@ Para iniciar um ciclo:
 3. Registrar objetivo, owner, dados tratados, custo, segredo, contrato local, testes e plano de saída de fornecedores.
 4. Criar ou atualizar o repo/submódulo apenas se houver implementação própria.
 5. Implementar a sequência CRUD obrigatória sem pular etapas.
-6. Respeitar a ordem DB completo -> backend completo -> job completo -> microfrontend completo quando a responsabilidade envolver dado, regra e interface.
+6. Respeitar a ordem DB completo -> backend completo -> job completo -> Testes de integração de API -> microfrontend completo quando a responsabilidade envolver dado, regra e interface.
 7. Rodar smoke e testes do escopo tocado.
 8. Avaliar se os gates permitem adicionar exatamente a próxima cobertura E2E.
 9. Atualizar documentação canônica e evidências antes de fechar o ciclo.
