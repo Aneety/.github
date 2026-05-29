@@ -312,7 +312,7 @@ flowchart TD
 5. Definir responsabilidades genéricas antes de criar diretórios concretos.
 6. Criar repo, clone local, submódulo, documentação e assets somente quando os contratos de `01-arquitetura.md` e `02-requisitos.md` estiverem atendidos.
 7. Implementar primeiro contratos compartilhados, DB e BFF da responsabilidade.
-8. Integrar microfrontend Single SPA somente depois de BFF e schema verificáveis.
+8. Integrar microfrontend Single SPA somente depois de BFF e estrutura de dados verificável.
 9. Migrar evidências úteis: screenshots, E2E, nomes de status, permissões, fluxos, mapas, rastreabilidade e componentes shadcn.
 10. Copiar código legado somente depois de revisar contrato, segurança, isolamento por tenant e copy de usuário final.
 
@@ -322,7 +322,7 @@ Executar o gate como checklist operacional, apontando a evidência para `01-arqu
 
 1. Requisito rastreado e critério de aceite definido.
 2. Responsabilidade, módulo, repo/submódulo, documentação e assets conferidos contra a arquitetura.
-3. Migration, RLS/policies, permissões e isolamento verificados quando houver dados.
+3. Migration, controles de isolamento, permissões e isolamento por tenant verificados quando houver dados.
 4. BFF/worker com caso feliz e erros esperados verificados quando houver API.
 5. Mapas e rastreabilidade testados quando o fluxo exigir localização ou status em tempo real.
 6. Catálogo, estados, SLA, orçamento, comunicação, suporte, exceções, offline, privacidade e auditoria testados quando o incremento tocar essas regras.

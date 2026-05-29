@@ -375,7 +375,7 @@ flowchart TD
 - O modo desligado deve ser aceito: a plataforma precisa autenticar usuários pelo modelo próprio Aneety sem Google SSO.
 - Token externo serve apenas para verificar vínculo de identidade externa autorizado pelo tenant.
 - Sessão final, expiração, revogação, tenant, perfil, permissões e auditoria devem permanecer no modelo próprio Aneety.
-- Google SSO não pode emitir sessão final da plataforma, substituir permissões internas, substituir RLS ou virar requisito de login.
+- Google SSO não pode emitir sessão final da plataforma, substituir permissões internas, substituir controles internos de isolamento ou virar requisito de login.
 - Falha, recusa ou indisponibilidade do Google SSO deve preservar login próprio, administração de usuários, pedidos, evidências e auditoria.
 
 ## Técnico
@@ -392,15 +392,15 @@ flowchart TD
 - Todos os frontends operacionais devem ser microfrontends Single SPA.
 - Cada responsabilidade deve viver em `aneety-platform/apps/<responsabilidade>/...`.
 - Cada microfrontend deve usar `mfe-<nome>` e chamar somente gateway/BFF, nunca banco direto.
-- Gateway do MVP deve ser `worker-gateway` em Cloudflare/serverless/Hono.
-- Cada BFF do MVP deve ser `worker-<nome>` em Cloudflare/serverless/Hono.
+- Gateway do MVP deve ser `worker-gateway` em Cloudflare Workers/Hono.
+- Cada BFF do MVP deve ser `worker-<nome>` em Cloudflare Workers/Hono.
 - Cada BFF deve possuir contrato HTTP, erros JSON padronizados, 401 para sessão ausente/inválida e 403 para permissão insuficiente.
-- Banco do MVP deve ser Supabase/Postgres com schema por BFF.
-- Banco futuro deve ser Postgres com banco de dados por BFF.
-- Autenticação própria em banco: identidades, credenciais, sessões, tokens, expiração, revogação e rotação.
-- Autorização por tenant, perfil e permissões, aplicada no gateway/BFF e reforçada por RLS.
+- Persistência do MVP deve usar bindings compatíveis com Cloudflare Workers, definidos por responsabilidade sem banco gerenciado externo obrigatório.
+- Quando a responsabilidade exigir modelo relacional no MVP, `D1` é o caminho preferencial; `KV`, `R2`, `Durable Objects`, `Queues` e `Workflows` entram conforme contrato local.
+- Autenticação própria na camada de dados: identidades, credenciais, sessões, tokens, expiração, revogação e rotação.
+- Autorização por tenant, perfil e permissões, aplicada no gateway/BFF e reforçada por controles internos de isolamento.
 - Isolamento cross-tenant obrigatório.
-- `comunicacao-email` e `identidade-federada` devem ser responsabilidades separadas, com contratos, schemas e adapters independentes quando ativadas.
+- `comunicacao-email` e `identidade-federada` devem ser responsabilidades separadas, com contratos, estruturas de dados e adapters independentes quando ativadas.
 - Segredos de Gmail e Google SSO não podem aparecer em frontend, Git, bundle, log, screenshot, fixture pública ou documentação de usuário final.
 - E2E de aceite deve cobrir modo desligado para Gmail e Google SSO.
 - Experiência offline-first deve manter fila local para pedidos, checkpoints, anexos, mapas, rastreabilidade, pagamentos pendentes, mensagens e suporte.
@@ -415,9 +415,9 @@ flowchart TD
 ### Requisitos não funcionais e aceite
 
 - Seed E2E deve ser controlado, idempotente e sem segredos versionados.
-- Backup/export Postgres deve estar documentado antes de dados reais relevantes.
+- Backup/export dos dados persistidos deve estar documentado antes de dados reais relevantes.
 - Smoke público deve cobrir, quando aplicável, microfrontend, gateway, BFF, banco, login, onboarding, catálogo, pedido, estado, SLA, orçamento, checkpoint, anexo, mapa, rastreabilidade, comunicação, suporte, exceção, auditoria e administração.
-- Bloqueios operacionais devem ser registrados com causa objetiva, como DNS, secret ausente, policy falha, migration pendente, E2E sem credencial, mapa indisponível ou evento de rastreabilidade atrasado.
+- Bloqueios operacionais devem ser registrados com causa objetiva, como DNS, secret ausente, regra de acesso falha, migration pendente, E2E sem credencial, mapa indisponível ou evento de rastreabilidade atrasado.
 - Gmail e Google SSO devem ter modo desligado validado antes de qualquer ativação por tenant.
 - Microfrontends com UI devem cobrir estados de carregando, vazio, erro e sucesso.
 

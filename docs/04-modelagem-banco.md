@@ -1,14 +1,13 @@
-# Modelagem de banco de dados — Aneety Platform
+# Modelagem de dados — Aneety Platform
 
 ## Princípios
 
-- Postgres é a fonte transacional.
-- No MVP, a operação usa Supabase/Postgres com schema por BFF.
-- No futuro, a operação deve poder migrar para Postgres com banco de dados por BFF.
-- Cada schema pertence ao `db-<nome>` da mesma responsabilidade do BFF `worker-<nome>`.
-- Cada schema deve ser independente dos demais schemas.
-- Quando for necessário relacionar um dado com outro dado de outro schema, a ligação lógica deve usar identificadores externos com sufixo `_eid` (`External ID`), não dependência física direta entre schemas.
-- As modelagens devem assumir migração futura para bases de dados completamente separadas, inclusive em servidores Postgres distintos.
+- A persistência transacional do MVP usa apenas bindings compatíveis com Cloudflare Workers.
+- Quando a responsabilidade exigir modelo relacional no MVP, `D1` é o caminho preferencial; `KV`, `R2`, `Durable Objects`, `Queues` e `Workflows` complementam conforme contrato local.
+- Cada estrutura de dados pertence ao `db-<nome>` da mesma responsabilidade do BFF `worker-<nome>`.
+- Cada estrutura de dados deve ser independente das demais responsabilidades.
+- Quando for necessário relacionar um dado com outro dado de outra responsabilidade, a ligação lógica deve usar identificadores externos com sufixo `_eid` (`External ID`), não dependência física direta entre stores.
+- As modelagens devem assumir migração futura por responsabilidade para outro motor de dados somente com PR documental aprovado e preservação de contratos.
 - Essas definições são obrigatórias para todas as modelagens de dados.
 - Toda entidade operacional tem `tenant_id`.
 - Chaves primárias usam UUID.
@@ -18,7 +17,7 @@
 - Exclusão lógica marca todos os registros da mesma série histórica com a mesma data-hora em `deleted_at`.
 - Todas as tabelas devem ter `created_at` e `deleted_at`.
 - Índices mínimos cobrem `tenant_id`, status, responsáveis e `updated_at`.
-- RLS é obrigatório em tabelas expostas ou sensíveis.
+- Controles de isolamento por tenant, perfil e permissão são obrigatórios em estruturas expostas ou sensíveis.
 - Credenciais são armazenadas apenas como hash forte e salgado, nunca em texto puro.
 - Tokens de convite, confirmação, recuperação, sessão e integração são armazenados somente como hash ou referência segura, nunca em texto puro.
 - Configurações de integrações opcionais guardam somente adapter, status e referência segura de credencial; segredo real permanece fora do banco operacional e fora do Git.
@@ -29,15 +28,15 @@
 
 ## Posse e isolamento
 
-- Cada BFF acessa somente o schema da sua responsabilidade, salvo contrato explícito em `core-<nome>` ou `pkg-<nome>`.
-- Dependência entre schemas deve passar por contrato versionado, não por leitura informal de tabela alheia.
-- Funções auxiliares ficam em schema privado e com `search_path` fixo quando aplicável.
-- RLS deve reforçar tenant, perfil e permissões mesmo quando o acesso partir de BFF privilegiado.
-- Migração futura para banco físico por BFF deve preservar nomes semânticos, contratos HTTP e políticas de autorização.
+- Cada BFF acessa somente bindings e estruturas da sua responsabilidade, salvo contrato explícito em `core-<nome>` ou `pkg-<nome>`.
+- Dependência entre responsabilidades deve passar por contrato versionado, não por leitura informal de estrutura alheia.
+- Funções auxiliares e namespaces privados devem permanecer isolados quando aplicável.
+- Controles de isolamento devem reforçar tenant, perfil e permissões mesmo quando o acesso partir de BFF privilegiado.
+- Migração futura para outro motor por responsabilidade deve preservar nomes semânticos, contratos HTTP e políticas de autorização.
 
 ## Tabelas conceituais iniciais
 
-As tabelas abaixo são modelo conceitual mínimo. A posse definitiva será definida quando cada responsabilidade receber seu `db-<nome>` e schema do BFF.
+As tabelas abaixo são modelo conceitual mínimo. A posse definitiva será definida quando cada responsabilidade receber seu `db-<nome>` e sua estrutura de dados principal.
 
 ### `tenants`
 
@@ -265,7 +264,7 @@ Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scena
 - Mensagens, notificações, suporte, exceções, consentimentos e conflitos offline por tenant, entidade e status.
 - Configurações e registros de e-mail por `(tenant_id, provider_adapter, status)`, entidade, tentativa, expiração e referência externa quando aplicável.
 
-## RLS e policies
+## Isolamento e regras de acesso
 
 - Nenhuma leitura cross-tenant.
 - Usuário comum lê apenas dados do tenant vinculado.
@@ -273,9 +272,9 @@ Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scena
 - Admin de tenant não atravessa tenant.
 - Admin de plataforma opera com trilha de auditoria.
 - Dados de mapa e localização respeitam escopo de visibilidade por tenant, pedido, perfil e etapa.
-- Policies devem funcionar no schema do BFF e continuar portáveis para banco físico futuro.
+- Regras de acesso devem funcionar na estrutura de dados do BFF e continuar portáveis para futura evolução aprovada.
 - Mensagens, suporte, exceções, consentimentos, evidências, localização e auditoria devem aplicar visibilidade por tenant, perfil, papel operacional e vínculo com o pedido ou demanda.
 - Convites, onboarding, recuperação e confirmação de contato só podem ser lidos ou alterados pelo próprio usuário, por ator autorizado do tenant ou por admin de plataforma com auditoria.
-- Integrações opcionais de e-mail e identidade federada devem funcionar com modo desligado por tenant e não podem substituir sessão própria, permissões internas, RLS, pedido, evidência, mapa, rastreabilidade ou auditoria.
+- Integrações opcionais de e-mail e identidade federada devem funcionar com modo desligado por tenant e não podem substituir sessão própria, permissões internas, controles internos de isolamento, pedido, evidência, mapa, rastreabilidade ou auditoria.
 - Tabelas de configuração opcional guardam somente status, adapter e referência segura; segredos de Gmail, Google SSO ou provedor equivalente não podem aparecer em banco operacional, frontend, Git, bundle, log, screenshot, fixture pública ou documentação de usuário final.
 - Registros de e-mail e tentativas de login federado devem respeitar visibilidade por tenant, perfil, entidade vinculada e resultado operacional, preservando degradação controlada quando o fornecedor externo estiver indisponível.

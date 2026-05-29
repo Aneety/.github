@@ -50,7 +50,7 @@ Para responsabilidades com dado, regra e interface, a ordem interna é: DB compl
 
 Critérios por camada:
 
-- **DB completo:** migrations, constraints, índices, RLS/policies quando aplicável, seeds/fixtures, rollback seguro, auditoria mínima e testes de leitura/escrita para todas as operações CRUD previstas.
+- **DB completo:** migrations, constraints, índices, controles de isolamento quando aplicável, seeds/fixtures, rollback seguro, auditoria mínima e testes de leitura/escrita para todas as operações CRUD previstas.
 - **Backend completo:** contratos HTTP ou eventos, validação, autorização, erros de domínio, paginação, idempotência quando necessária, auditoria e testes de contrato para todas as operações CRUD já verdes no DB.
 - **Job completo:** execução idempotente, retries, logs operacionais, critérios de reprocessamento, isolamento por tenant/responsabilidade e testes com massa controlada.
 - **Testes de integração de API:** validação da API integrada ao banco e aos serviços reais previstos para o ciclo, sem substituir smoke, E2E ou critérios de negócio.
