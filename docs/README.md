@@ -49,9 +49,9 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 - Documentação: guias de usuário, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios devem viver em `Aneety/.github`; repos de implementação mantêm apenas README mínimo com link para essa fonte canônica.
 - Assets: todo asset reutilizável do projeto deve ser versionado em SVG no repo `Aneety/assets`; repos de implementação devem consumir ou referenciar esse acervo, não manter cópias divergentes.
 - Frontends operacionais: microfrontends Single SPA em `mfe-<nome>`.
-- BFFs MVP: `worker-<nome>` em Cloudflare/serverless/Hono.
+- BFFs MVP: `worker-<nome>` em Cloudflare Workers/Hono.
 - Gateway MVP: `worker-gateway`.
-- Gateway futuro: `gw-<nome>` Kong/API gateway.
+- Gateway dedicado futuro: somente pós-MVP e com PR documental aprovado.
 - Banco MVP: Supabase/Postgres com schema por BFF.
 - Banco futuro: Postgres com banco de dados por BFF.
 - Autenticação: identidade, credenciais, sessões e permissões próprias no Postgres, via gateway/BFF, sem provedor externo obrigatório.

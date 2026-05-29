@@ -16,22 +16,24 @@ Aneety/ai -> /Users/mal/GitHub/Aneety/ai
     apps/
       <responsabilidade>/
         mfe-<nome>       Microfrontend Single SPA.
-        mc-<nome>        Microserviço quando a responsabilidade exigir runtime próprio futuro.
-        gw-<nome>        Gateway Kong/API gateway ou equivalente futuro.
-        worker-<nome>    BFF ou workload HTTP serverless em Cloudflare/serverless/Hono.
+        mc-<nome>        Categoria reservada para cenário pós-MVP com runtime próprio futuro.
+        gw-<nome>        Categoria reservada para gateway dedicado futuro, fora do MVP.
+        worker-<nome>    BFF ou workload HTTP/assíncrono em Cloudflare Workers/Hono.
         fe-<nome>        Frontend não operacional ou superfície fora do Single SPA.
-        job-<nome>       Job batch, RAG, agente ou rotina operacional.
-        auto-<nome>      Automação Codex/Cursor/Cron.
+        job-<nome>       Rotina assíncrona compatível com Cloudflare Workers.
+        auto-<nome>      Automação de repositório, CI ou operação interna.
         db-<nome>        Migrations, RLS, seeds e schema do BFF.
         pkg-<nome>       Pacote compartilhado local da responsabilidade.
         core-<nome>      Contrato/domínio central compartilhado.
         int-<nome>       Integração ou adapter externo.
-        wl-<nome>        Workload operacional não coberto por worker, microserviço ou job.
+        wl-<nome>        Categoria reservada para workload futuro fora do escopo do MVP.
     tests/
     scripts/
 ```
 
 Cada diretório folha representa um submódulo Git quando existir implementação própria. A lista define categorias possíveis; não obriga toda responsabilidade a possuir todos os módulos. Cada responsabilidade será criada somente quando houver contrato, owner, dados, aceite, custo zero sempre e limite de escopo.
+
+Regra mandatória do MVP atual: execução 100% Cloudflare Workers. Enquanto o MVP estiver vigente, `worker-*` e `job-*` devem rodar apenas com mecanismos compatíveis com Workers, como rotas HTTP, Queues, Cron Triggers, Workflows ou Durable Objects. `mc-*`, `gw-*` e `wl-*` ficam reservados para cenário pós-MVP mediante PR documental aprovado. Não entram no MVP container, Python, VPS, servidor tradicional, cron externo ou runtime persistente fora de Workers.
 
 ## Contrato estrutural permanente
 
@@ -47,9 +49,9 @@ Cada diretório folha representa um submódulo Git quando existir implementaçã
 ## Runtime alvo do MVP
 
 - Todos os frontends operacionais serão microfrontends Single SPA.
-- BFFs do MVP serão `worker-<nome>` em Cloudflare/serverless/Hono.
-- Gateway inicial será `worker-gateway`, também em Cloudflare/serverless/Hono.
-- Gateway futuro será `gw-<nome>` com Kong/API gateway ou equivalente.
+- BFFs do MVP serão `worker-<nome>` em Cloudflare Workers/Hono.
+- Gateway inicial será `worker-gateway`, também em Cloudflare Workers/Hono.
+- Gateway dedicado futuro fica fora do escopo do MVP atual e exige PR documental aprovado.
 - Banco do MVP será Supabase/Postgres com schema por BFF.
 - Banco futuro será Postgres com banco de dados por BFF, preservando contratos e migrations.
 - Storage atua como adapter para bytes; metadados, autorização e lifecycle pertencem ao schema do BFF responsável.
@@ -92,7 +94,7 @@ Gmail e Google SSO são responsabilidades opcionais separadas no MVP. Elas devem
 ## Evolução planejada
 
 - `worker-gateway` é escolha de MVP para custo zero sempre e simplicidade operacional.
-- Quando tráfego, governança ou roteamento exigirem, gateway migra para `gw-*` Kong/API gateway sem gasto obrigatório.
+- Quando tráfego, governança ou roteamento exigirem após o MVP, gateway pode migrar para categoria dedicada `gw-*`, sem gasto obrigatório e somente com PR documental aprovado.
 - Schemas Supabase/Postgres por BFF são escolha de MVP para isolamento lógico e velocidade.
 - Quando operação exigir isolamento físico, cada BFF migra para Postgres com banco de dados por BFF sem quebrar contratos.
 - A migração futura não pode alterar contratos de microfrontend, sessão, permissão, erro, auditoria, mapa ou rastreabilidade sem ADR explícita.
