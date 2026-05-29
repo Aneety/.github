@@ -66,7 +66,7 @@ Toda issue derivada deste documento deve usar o corpo mínimo abaixo, preenchido
 
 - Ciclo:
 - Responsabilidade:
-- Repo afetado:
+- Repo destino:
 - Owner:
 
 ## Critério de aceite
