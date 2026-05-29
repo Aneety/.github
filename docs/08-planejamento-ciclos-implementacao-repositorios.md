@@ -487,7 +487,6 @@ Antes de ativar `comunicacao-email` ou `identidade-federada` para qualquer tenan
 | Bloqueio | Impacto | Próxima ação | Issue sugerida |
 | --- | --- | --- | --- |
 | Operador sem acesso suficiente ao org-level Project não consegue mover items, validar campos ou auditar backlog completo. | Backlog pode evoluir fora do status real e sem rastreabilidade central. | Garantir acesso operacional ao Project 1 antes de abrir ou mover backlog amplo. | `[governanca][ciclos] garantir campos e acesso operacional do Project 1` |
-| `06-ciclos-cobertura.md` usa `publicação` com acento, enquanto labels usam `ciclo:publicacao`. | Project e relatórios podem divergir se usarem texto literal. | Registrar normalização: label sem acento, texto de negócio com acento. | `[governanca][ciclos] normalizar nomes de ciclos entre docs e labels` |
 | Responsabilidades fora do backlog inicial ainda podem nascer sem owner real se as issues forem abertas em lote. | Issue executável não pode entrar em ciclo sem responsável nominal. | Continuar abrindo issue somente com owner nomeado no corpo e no campo correspondente do Project. | Uma issue de `status:triagem` por responsabilidade sem owner nominal. |
 
 ## Critério de conclusão deste planejamento
