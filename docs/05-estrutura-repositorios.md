@@ -109,6 +109,7 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 As lacunas de produto adicionadas aos requisitos devem ser tratadas como responsabilidades candidatas antes de virar implementação. Nenhum repo novo é obrigatório neste momento; cada uma só vira repo/submódulo quando tiver contrato, owner, dados, custo zero sempre, testes e aceite.
 
 - `onboarding-acesso`: convites, primeiro acesso, recuperação, bloqueio e reativação por papel.
+- `gateway-borda`: borda HTTP do MVP com CORS, versionamento de contrato, sessão pública Aneety, roteamento e service bindings entre `worker-gateway` e BFFs `worker-*`.
 - `catalogo-operacional`: produtos, serviços, atributos de personalização, preço-base, prazo-base e etapas obrigatórias.
 - `workflow-estados`: estados oficiais, transições, permissões, motivos e bloqueios de avanço.
 - `sla-capacidade`: prazos, alertas, agenda, disponibilidade, capacidade e raio de atendimento.
