@@ -386,7 +386,7 @@ flowchart TD
 - Repo orquestrador de implementação: `Aneety/ai` (`https://github.com/Aneety/ai.git`, clone local `/Users/mal/GitHub/Aneety/ai`).
 - Repo canônico de documentação: `Aneety/.github` (`https://github.com/Aneety/.github.git`, clone local `/Users/mal/GitHub/Aneety/.github`).
 - Repo canônico de assets reutilizáveis: `Aneety/assets` (`https://github.com/Aneety/assets.git`, clone local `/Users/mal/GitHub/Aneety/assets`).
-- Cada responsabilidade/derivação deve ter repositório próprio, clone local em `/Users/mal/GitHub/Aneety/<repo>` e link como submódulo no orquestrador.
+- Cada responsabilidade/derivação com implementação própria deve nascer como módulo interno em `Aneety/ai`, dentro de `aneety-platform/apps/<responsabilidade>/...`, sem repositório próprio nem submódulo por responsabilidade no contrato atual do MVP.
 - Cada projeto/repositório deve estar documentado em `Aneety/.github`, incluindo objetivo, owner, status, runtime, dados, contratos, critérios de aceite e links operacionais.
 - Todo asset reutilizável do projeto deve estar versionado em SVG no repo `Aneety/assets`, incluindo logos, ícones, ilustrações, diagramas, marcas, pictogramas e elementos visuais compartilhados.
 - Todos os frontends operacionais devem ser microfrontends Single SPA.
@@ -409,7 +409,7 @@ flowchart TD
 - Guias de usuários, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios vivem em `Aneety/.github`; GitHub Pages, se existir, deve publicar ou apontar somente para essa documentação.
 - Assets reutilizáveis devem ser consumidos de `Aneety/assets` ou referenciar sua fonte SVG canônica nesse repositório.
 - Frontends não exigem variável pública de banco para login.
-- Migrations e seeds ficam versionados no submódulo `db-<nome>` da responsabilidade.
+- Migrations e seeds ficam versionados no módulo `db-<nome>` da responsabilidade, dentro do monorepo `Aneety/ai`.
 - Cada microfrontend usa shadcn/ui e tokens semânticos.
 
 ### Requisitos não funcionais e aceite
