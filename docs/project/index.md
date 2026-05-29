@@ -12,36 +12,37 @@
 
 | Responsabilidade | Owner | Prioridade | Ciclo ativo | Status | Arquivo | Evidência atual | Bloqueio |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `gateway-borda` | Ricardo Malnati | alta | `repositorio` | `pronto` | [gateway-borda](./gateway-borda.md) | [#46](https://github.com/Aneety/.github/issues/46) | — |
-| `tenant-white-label` | Ricardo Malnati | alta | `repositorio` | `pronto` | [tenant-white-label](./tenant-white-label.md) | [#4](https://github.com/Aneety/.github/issues/4) | — |
-| `identidade-acesso` | Ricardo Malnati | alta | `repositorio` | `pronto` | [identidade-acesso](./identidade-acesso.md) | [#5](https://github.com/Aneety/.github/issues/5) | — |
-| `onboarding-acesso` | Ricardo Malnati | alta | `repositorio` | `pronto` | [onboarding-acesso](./onboarding-acesso.md) | [#6](https://github.com/Aneety/.github/issues/6) | — |
-| `pedidos-customizados` | Ricardo Malnati | alta | `repositorio` | `pronto` | [pedidos-customizados](./pedidos-customizados.md) | [#7](https://github.com/Aneety/.github/issues/7) | — |
-| `workflow-estados` | Ricardo Malnati | alta | `repositorio` | `pronto` | [workflow-estados](./workflow-estados.md) | [#8](https://github.com/Aneety/.github/issues/8) | — |
-| `catalogo-operacional` | Ricardo Malnati | alta | `repositorio` | `pronto` | [catalogo-operacional](./catalogo-operacional.md) | [#9](https://github.com/Aneety/.github/issues/9) | — |
-| `identidade-federada` | Ricardo Malnati | media | `repositorio` | `pronto` | [identidade-federada](./identidade-federada.md) | [#11](https://github.com/Aneety/.github/issues/11) | — |
-| `qualidade-evidencias` | Ricardo Malnati | media | `repositorio` | `pronto` | [qualidade-evidencias](./qualidade-evidencias.md) | [#12](https://github.com/Aneety/.github/issues/12) | — |
-| `pagamentos` | Ricardo Malnati | media | `repositorio` | `pronto` | [pagamentos](./pagamentos.md) | [#13](https://github.com/Aneety/.github/issues/13) | — |
-| `offline-sync` | Ricardo Malnati | media | `repositorio` | `pronto` | [offline-sync](./offline-sync.md) | [#14](https://github.com/Aneety/.github/issues/14) | — |
-| `marketplace-operacional` | Ricardo Malnati | media | `repositorio` | `pronto` | [marketplace-operacional](./marketplace-operacional.md) | [#15](https://github.com/Aneety/.github/issues/15) | — |
-| `producao-execucao` | Ricardo Malnati | media | `repositorio` | `pronto` | [producao-execucao](./producao-execucao.md) | [#16](https://github.com/Aneety/.github/issues/16) | — |
-| `logistica-rastreabilidade` | Ricardo Malnati | media | `repositorio` | `pronto` | [logistica-rastreabilidade](./logistica-rastreabilidade.md) | [#18](https://github.com/Aneety/.github/issues/18) | — |
-| `auditoria-operacional` | Ricardo Malnati | media | `repositorio` | `pronto` | [auditoria-operacional](./auditoria-operacional.md) | [#19](https://github.com/Aneety/.github/issues/19) | — |
-| `sla-capacidade` | Ricardo Malnati | media | `repositorio` | `pronto` | [sla-capacidade](./sla-capacidade.md) | [#20](https://github.com/Aneety/.github/issues/20) | — |
-| `orcamentos-precificacao` | Ricardo Malnati | media | `repositorio` | `pronto` | [orcamentos-precificacao](./orcamentos-precificacao.md) | [#21](https://github.com/Aneety/.github/issues/21) | — |
-| `comunicacao-operacional` | Ricardo Malnati | media | `repositorio` | `pronto` | [comunicacao-operacional](./comunicacao-operacional.md) | [#22](https://github.com/Aneety/.github/issues/22) | — |
-| `comunicacao-email` | Ricardo Malnati | media | `repositorio` | `pronto` | [comunicacao-email](./comunicacao-email.md) | [#23](https://github.com/Aneety/.github/issues/23) | — |
-| `suporte-excecoes` | Ricardo Malnati | media | `repositorio` | `pronto` | [suporte-excecoes](./suporte-excecoes.md) | [#24](https://github.com/Aneety/.github/issues/24) | — |
-| `privacidade-consentimento` | Ricardo Malnati | media | `repositorio` | `pronto` | [privacidade-consentimento](./privacidade-consentimento.md) | [#25](https://github.com/Aneety/.github/issues/25) | — |
-| `demo-seeds` | Ricardo Malnati | media | `repositorio` | `pronto` | [demo-seeds](./demo-seeds.md) | [#26](https://github.com/Aneety/.github/issues/26) | — |
+| `gateway-borda` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [gateway-borda](./gateway-borda.md) | [#46](https://github.com/Aneety/.github/issues/46) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `tenant-white-label` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [tenant-white-label](./tenant-white-label.md) | [#4](https://github.com/Aneety/.github/issues/4) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `identidade-acesso` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [identidade-acesso](./identidade-acesso.md) | [#5](https://github.com/Aneety/.github/issues/5) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `onboarding-acesso` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [onboarding-acesso](./onboarding-acesso.md) | [#6](https://github.com/Aneety/.github/issues/6) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `pedidos-customizados` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [pedidos-customizados](./pedidos-customizados.md) | [#7](https://github.com/Aneety/.github/issues/7) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `workflow-estados` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [workflow-estados](./workflow-estados.md) | [#8](https://github.com/Aneety/.github/issues/8) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `catalogo-operacional` | Ricardo Malnati | alta | `repositorio` | `bloqueado` | [catalogo-operacional](./catalogo-operacional.md) | [#9](https://github.com/Aneety/.github/issues/9) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `identidade-federada` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [identidade-federada](./identidade-federada.md) | [#11](https://github.com/Aneety/.github/issues/11) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `qualidade-evidencias` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [qualidade-evidencias](./qualidade-evidencias.md) | [#12](https://github.com/Aneety/.github/issues/12) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `pagamentos` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [pagamentos](./pagamentos.md) | [#13](https://github.com/Aneety/.github/issues/13) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `offline-sync` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [offline-sync](./offline-sync.md) | [#14](https://github.com/Aneety/.github/issues/14) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `marketplace-operacional` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [marketplace-operacional](./marketplace-operacional.md) | [#15](https://github.com/Aneety/.github/issues/15) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `producao-execucao` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [producao-execucao](./producao-execucao.md) | [#16](https://github.com/Aneety/.github/issues/16) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `logistica-rastreabilidade` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [logistica-rastreabilidade](./logistica-rastreabilidade.md) | [#18](https://github.com/Aneety/.github/issues/18) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `auditoria-operacional` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [auditoria-operacional](./auditoria-operacional.md) | [#19](https://github.com/Aneety/.github/issues/19) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `sla-capacidade` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [sla-capacidade](./sla-capacidade.md) | [#20](https://github.com/Aneety/.github/issues/20) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `orcamentos-precificacao` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [orcamentos-precificacao](./orcamentos-precificacao.md) | [#21](https://github.com/Aneety/.github/issues/21) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `comunicacao-operacional` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [comunicacao-operacional](./comunicacao-operacional.md) | [#22](https://github.com/Aneety/.github/issues/22) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `comunicacao-email` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [comunicacao-email](./comunicacao-email.md) | [#23](https://github.com/Aneety/.github/issues/23) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `suporte-excecoes` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [suporte-excecoes](./suporte-excecoes.md) | [#24](https://github.com/Aneety/.github/issues/24) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `privacidade-consentimento` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [privacidade-consentimento](./privacidade-consentimento.md) | [#25](https://github.com/Aneety/.github/issues/25) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
+| `demo-seeds` | Ricardo Malnati | media | `repositorio` | `bloqueado` | [demo-seeds](./demo-seeds.md) | [#26](https://github.com/Aneety/.github/issues/26) + inspeção local 2026-05-29 | Sem raiz em `Aneety/ai`; checkout local sujo com `.playwright-mcp/`. |
 
 ## Bloqueios globais
 
-- Nenhum bloqueio global ativo neste painel Markdown.
-- O impedimento anterior ligado ao painel externo foi removido com a migração para `docs/project`.
+- `Aneety/ai` local em `/Users/mal/GitHub/Aneety/ai` está sujo (`?? .playwright-mcp/`), então a automação não pode criar ou revisar raízes de responsabilidade ali com segurança.
+- `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
 
 ## Últimas atualizações
 
+- 2026-05-29 — inspeção local rebaixou todos os ciclos `repositorio` para `bloqueado` até existir raiz real por responsabilidade em `Aneety/ai` e checkout limpo.
 - 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) remove documento paralelo de produto.
 - 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinha caminho canônico dos issue templates.
 - 2026-05-29 — PR [#55](https://github.com/Aneety/.github/pull/55) consolida contrato monorepo em `Aneety/ai`.
