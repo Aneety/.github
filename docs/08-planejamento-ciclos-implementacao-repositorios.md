@@ -412,6 +412,8 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner e estrutura monorepo` para todas as responsabilidades da matriz e para as responsabilidades transversais mandatórias. Nenhum módulo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `gateway-borda`, `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
 
+O ciclo `repositorio` só fica verde com evidência dupla: PR/documento canônico e presença física da raiz `aneety-platform/apps/<responsabilidade>/...` no repo destino `Aneety/ai`. Se o checkout local do repo destino estiver sujo ou se `aneety-platform/apps/` contiver apenas `.gitkeep`, `docs/project/<responsabilidade>.md` deve registrar `bloqueado` e não pode avançar para `deploy`.
+
 ### `deploy`
 
 Criar issues de deploy somente após o ciclo `repositorio` ficar verde para a responsabilidade. Aceite mínimo: runtime de custo zero, sem segredo em repositório, caminho de ambiente documentado e plano de rollback. Para MVP, BFFs usam `worker-<nome>` e microfrontends operacionais usam `mfe-<nome>`.

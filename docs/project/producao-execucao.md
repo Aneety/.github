@@ -13,7 +13,7 @@
 
 | Ciclo | Status | Prioridade | Gate | Evidência | Bloqueio | Próxima ação |
 | --- | --- | --- | --- | --- | --- | --- |
-| `repositorio` | `pronto` | media | `arquitetura` | [Issue histórica #16](https://github.com/Aneety/.github/issues/16) | — | Criar ou revisar estrutura inicial em `Aneety/ai` quando este ciclo começar. |
+| `repositorio` | `bloqueado` | media | `arquitetura` | [Issue histórica #16](https://github.com/Aneety/.github/issues/16); inspeção local 2026-05-29 confirmou apenas `aneety-platform/apps/.gitkeep` em `Aneety/ai`. | Falta raiz `aneety-platform/apps/producao-execucao/...` em `Aneety/ai`; checkout local também está sujo com `.playwright-mcp/`. | Limpar checkout local de `Aneety/ai` e criar raiz canônica da responsabilidade antes de avançar para `deploy`. |
 | `deploy` | `triagem` | media | `processo` | — | Aguardando ciclo `repositorio` ficar verde neste arquivo. | Executar `deploy` depois de concluir `repositorio` com evidência objetiva. |
 | `publicacao` | `triagem` | media | `processo` | — | Aguardando ciclo `deploy` ficar verde neste arquivo. | Executar `publicacao` depois de concluir `deploy` com evidência objetiva. |
 | `banco` | `triagem` | media | `DB` | — | Aguardando ciclo `publicacao` ficar verde neste arquivo. | Executar `banco` depois de concluir `publicacao` com evidência objetiva. |
@@ -35,3 +35,4 @@
 ## Histórico curto
 
 - 2026-05-29 — backlog migrado do painel operacional anterior para `docs/project`.
+- 2026-05-29 — ciclo `repositorio` rebaixado para `bloqueado` após inspeção local de `Aneety/ai` revelar só `aneety-platform/apps/.gitkeep` e checkout sujo com `.playwright-mcp/`.
