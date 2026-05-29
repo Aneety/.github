@@ -26,7 +26,7 @@ Aneety Platform transforma operações fragmentadas em uma jornada única e rast
 
 Valor entregue:
 
-- Centraliza pedidos customizados, produção, qualidade, logística, evidências e pagamentos.
+- Centraliza pedidos customizados, catálogo, orçamento, produção, qualidade, logística, comunicação, evidências e pagamentos.
 - Reduz perda de informação entre atendimento, produção, entrega e administração.
 - Dá visibilidade do status para cada pessoa conforme seu papel na operação.
 - Cria histórico auditável de decisões, aprovações, rejeições, anexos e entregas.
@@ -71,6 +71,26 @@ Pagamentos entram como parte do ciclo do pedido. A plataforma registra intençã
 
 Falhas de pagamento não devem apagar nem corromper a jornada operacional. O pedido precisa manter status claro para ação administrativa.
 
+### Onboarding e catálogo
+
+A plataforma guia primeiro acesso por papel e permite configurar catálogo de produtos ou serviços, atributos de personalização, preço-base, prazo-base, evidências exigidas e etapas obrigatórias por tenant.
+
+### Estados, SLA e capacidade
+
+Cada fluxo usa estados oficiais e transições permitidas por papel. A operação controla prazos, prioridades, reagendamentos, atrasos, agenda e capacidade de produtores, equipes e entregadores.
+
+### Orçamentos e precificação
+
+Aneety pode gerar cotação antes do pedido, calcular preço por personalização, urgência, distância ou retrabalho, registrar aprovação e preservar histórico de ajustes.
+
+### Comunicação, suporte e exceções
+
+Mensagens, notificações, chamados, disputas, correções, retrabalho, devoluções operacionais, reentregas e reembolsos parciais ficam vinculados ao pedido, com responsável, motivo, evidência e decisão auditável.
+
+### Offline, privacidade e auditoria
+
+A experiência de campo mantém fila local, evidencia pendências de sincronização, trata conflitos, aplica consentimentos e registra auditoria de ações sensíveis com rastreabilidade.
+
 ### Marketplace operacional
 
 O marketplace permite encontrar, comparar, favoritar e acionar participantes operacionais: produtores, equipes, operadores e entregadores.
@@ -114,10 +134,10 @@ Superfície administrativa. Prioriza usuários, perfis, permissões, marcas, par
 
 Aneety Platform deve ser considerada bem-sucedida quando:
 
-- um pedido customizado pode ser criado, acompanhado, produzido ou executado, validado, pago, retirado e entregue com histórico completo;
+- um pedido customizado pode ser orçado, criado a partir de catálogo, acompanhado por estados oficiais, produzido ou executado, validado, pago, retirado e entregue com histórico completo;
 - cada papel enxerga apenas ações e informações compatíveis com sua responsabilidade;
-- evidências críticas ficam vinculadas ao pedido e disponíveis para auditoria;
-- produtores e entregadores podem aceitar, rejeitar e concluir demandas sem perder rastreabilidade;
+- evidências críticas, mensagens, exceções, consentimentos e decisões ficam vinculados ao pedido e disponíveis para auditoria;
+- produtores e entregadores podem aceitar, rejeitar e concluir demandas respeitando agenda, capacidade, SLA e rastreabilidade;
 - uma nova marca pode ajustar identidade, textos e fluxos sem reescrever a operação central;
 - Lia funciona como primeira marca operacional sem limitar a plataforma à vertical odontológica.
 

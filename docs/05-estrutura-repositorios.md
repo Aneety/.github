@@ -103,6 +103,21 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 - Cada responsabilidade implementada em repo próprio deve estar catalogada e documentada em `Aneety/.github`.
 - Cada responsabilidade que usa visual compartilhado deve referenciar os assets SVG canônicos em `Aneety/assets`.
 
+## Responsabilidades funcionais v1 candidatas
+
+As lacunas de produto adicionadas aos requisitos devem ser tratadas como responsabilidades candidatas antes de virar implementação. Nenhum repo novo é obrigatório neste momento; cada uma só vira repo/submódulo quando tiver contrato, owner, dados, custo zero sempre, testes e aceite.
+
+- `onboarding-acesso`: convites, primeiro acesso, recuperação, bloqueio e reativação por papel.
+- `catalogo-operacional`: produtos, serviços, atributos de personalização, preço-base, prazo-base e etapas obrigatórias.
+- `workflow-estados`: estados oficiais, transições, permissões, motivos e bloqueios de avanço.
+- `sla-capacidade`: prazos, alertas, agenda, disponibilidade, capacidade e raio de atendimento.
+- `orcamentos-precificacao`: cotações, aprovação, ajustes de preço, urgência, distância e retrabalho.
+- `comunicacao-operacional`: mensagens internas, avisos ao cliente e notificações in-app.
+- `suporte-excecoes`: chamados, disputas, correções, retrabalho, devolução operacional, reentrega e reembolso parcial.
+- `offline-sync`: fila local, replay, conflito e evidência capturada sem rede.
+- `privacidade-consentimento`: consentimento, retenção, visibilidade e exportação de dados sensíveis.
+- `auditoria-operacional`: eventos sensíveis, valores antes/depois, motivo e correlação com pedido ou demanda.
+
 ## Responsabilidades opcionais do MVP
 
 Gmail e Google SSO entram no MVP como integrações opcionais, separadas e substituíveis. Nenhuma das duas pode virar requisito obrigatório de login, operação ou aceite.

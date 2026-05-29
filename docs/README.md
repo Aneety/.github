@@ -19,8 +19,8 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 ## Fronteira dos documentos
 
 - `01-arquitetura.md`: decisões estruturais permanentes, runtime, módulos, submódulos, NFR estruturais, serviços externos e limites de fornecedor.
-- `02-requisitos.md`: requisitos de produto, requisitos técnicos e critérios verificáveis de aceite.
-- `03-processos.md`: modo de execução, ordem de trabalho e gates operacionais; não deve ser fonte exclusiva de regra normativa.
+- `02-requisitos.md`: requisitos de produto, fluxos complementares v1, requisitos técnicos e critérios verificáveis de aceite.
+- `03-processos.md`: modo de execução, fluxos operacionais, ordem de trabalho e gates operacionais; não deve ser fonte exclusiva de regra normativa.
 - `07-governanca-github.md`: rastreabilidade operacional em GitHub Issues e GitHub Projects; não substitui contrato, arquitetura, requisitos, processos ou evidências.
 
 ## Fontes aproveitadas

@@ -10,7 +10,7 @@ Aneety Platform deve oferecer operação white-label para produtos e serviços c
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-pedidos-customizados.mmd) / [SVG](assets/diagrams/fluxo-pedidos-customizados.svg) / [JPEG](assets/diagrams/fluxo-pedidos-customizados.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Consumidor inicia pedido"] --> B["Operação registra dados do pedido"]
   B --> C["Define produto ou serviço customizado"]
@@ -33,7 +33,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-producao-execucao.mmd) / [SVG](assets/diagrams/fluxo-producao-execucao.svg) / [JPEG](assets/diagrams/fluxo-producao-execucao.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Pedido aprovado"] --> B["Demanda enviada ao produtor ou equipe"]
   B --> C{"Responsável aceita?"}
@@ -56,7 +56,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-garantia-qualidade.mmd) / [SVG](assets/diagrams/fluxo-garantia-qualidade.svg) / [JPEG](assets/diagrams/fluxo-garantia-qualidade.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Etapa exige qualidade"] --> B["Registrar checkpoint"]
   B --> C{"Evidência obrigatória presente?"}
@@ -78,7 +78,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-retirada-entrega-mapas.mmd) / [SVG](assets/diagrams/fluxo-retirada-entrega-mapas.svg) / [JPEG](assets/diagrams/fluxo-retirada-entrega-mapas.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Pedido pronto para logística"] --> B["Criar demanda de coleta ou entrega"]
   B --> C{"Entregador aceita?"}
@@ -103,7 +103,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-anexos-evidencias.mmd) / [SVG](assets/diagrams/fluxo-anexos-evidencias.svg) / [JPEG](assets/diagrams/fluxo-anexos-evidencias.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Checkpoint solicita evidência"] --> B["Capturar foto, assinatura ou documento"]
   B --> C["Validar tipo, tamanho e permissão"]
@@ -125,7 +125,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-pagamentos.mmd) / [SVG](assets/diagrams/fluxo-pagamentos.svg) / [JPEG](assets/diagrams/fluxo-pagamentos.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Pedido exige pagamento"] --> B["Criar intenção de pagamento"]
   B --> C["Enviar ao adapter de pagamento"]
@@ -148,7 +148,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-marketplace-operacional.mmd) / [SVG](assets/diagrams/fluxo-marketplace-operacional.svg) / [JPEG](assets/diagrams/fluxo-marketplace-operacional.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Operação abre marketplace"] --> B["Listar atores permitidos pelo tenant"]
   B --> C["Filtrar por tipo, proximidade ou disponibilidade"]
@@ -173,7 +173,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-white-label-tenant.mmd) / [SVG](assets/diagrams/fluxo-white-label-tenant.svg) / [JPEG](assets/diagrams/fluxo-white-label-tenant.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Administrador configura tenant"] --> B["Definir nome, marca, logo e cores"]
   B --> C["Selecionar textos e fluxos ativos"]
@@ -193,7 +193,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-carga-demo-testes.mmd) / [SVG](assets/diagrams/fluxo-carga-demo-testes.svg) / [JPEG](assets/diagrams/fluxo-carga-demo-testes.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Selecionar evidência útil do MVP Lia"] --> B["Reclassificar como demo, seed ou massa de teste"]
   B --> C["Remover acoplamento à vertical odontológica"]
@@ -213,7 +213,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-administracao.mmd) / [SVG](assets/diagrams/fluxo-administracao.svg) / [JPEG](assets/diagrams/fluxo-administracao.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Administrador acessa gestão"] --> B["Gerir usuários e identidades"]
   B --> C["Associar tenant, perfil e permissões"]
@@ -228,13 +228,110 @@ flowchart TD
 - Associar usuário, tenant e perfil.
 - Exibir métricas por tenant, operação, qualidade, produção, entrega e rastreabilidade.
 
+### Onboarding, catálogo e máquina de estados
+
+#### Fluxo de onboarding, catálogo e estados
+
+- Links: [fonte Mermaid](assets/diagrams/fluxo-onboarding-catalogo-estados.mmd) / [SVG](assets/diagrams/fluxo-onboarding-catalogo-estados.svg) / [JPEG](assets/diagrams/fluxo-onboarding-catalogo-estados.jpg)
+
+```mmd
+flowchart TD
+  A["Administrador convida usuário ou ator"] --> B["Usuário aceita convite e completa primeiro acesso"]
+  B --> C["Operação escolhe item do catálogo"]
+  C --> D["Formulário captura atributos de personalização"]
+  D --> E["Máquina de estados define próximo passo permitido"]
+  E --> F{"Transição permitida para o papel?"}
+  F -->|"Não"| G["Bloquear ação e orientar próxima etapa"]
+  F -->|"Sim"| H["Registrar evento e liberar próxima ação"]
+```
+
+- Convidar, ativar, bloquear, reativar e recuperar acesso de consumidores, produtores, operadores, entregadores e administradores.
+- Orientar primeiro acesso por papel, com dados mínimos, aceite de termos aplicáveis e confirmação de contato quando necessário.
+- Configurar catálogo por tenant com produtos, serviços, atributos de personalização, requisitos de evidência, preço-base, prazo-base e etapas obrigatórias.
+- Aplicar máquina de estados oficial para pedido, produção, qualidade, logística e pagamento, com transições permitidas por papel e motivo obrigatório em bloqueios, cancelamentos, pausas, reaberturas e expirações.
+
+### Precificação, SLA, agenda e capacidade
+
+#### Fluxo de precificação, SLA e capacidade
+
+- Links: [fonte Mermaid](assets/diagrams/fluxo-precificacao-sla-capacidade.mmd) / [SVG](assets/diagrams/fluxo-precificacao-sla-capacidade.svg) / [JPEG](assets/diagrams/fluxo-precificacao-sla-capacidade.jpg)
+
+```mmd
+flowchart TD
+  A["Pedido ou orçamento iniciado"] --> B["Calcular preço base, personalização e urgência"]
+  B --> C["Verificar agenda, capacidade e raio de atendimento"]
+  C --> D{"Capacidade disponível?"}
+  D -->|"Não"| E["Sugerir prazo, responsável ou alternativa"]
+  D -->|"Sim"| F["Gerar orçamento e promessa operacional"]
+  F --> G{"Cliente aprova?"}
+  G -->|"Não"| H["Registrar recusa ou ajuste"]
+  G -->|"Sim"| I["Criar pedido com SLA e responsáveis"]
+```
+
+- Gerar orçamento antes do pedido quando o tenant exigir aprovação comercial.
+- Calcular preço por item de catálogo, personalização, urgência, distância, retrabalho e ajustes manuais autorizados.
+- Registrar aprovação, recusa, expiração e revisão de orçamento sem apagar histórico.
+- Definir SLA, promessa de entrega, prioridade, reagendamento, atraso e alerta operacional por pedido, etapa e demanda.
+- Controlar agenda, disponibilidade, capacidade diária, bloqueios e raio de atendimento de produtores, equipes e entregadores.
+
+### Comunicação, exceções e suporte
+
+#### Fluxo de comunicação, exceções e suporte
+
+- Links: [fonte Mermaid](assets/diagrams/fluxo-comunicacao-excecoes-suporte.mmd) / [SVG](assets/diagrams/fluxo-comunicacao-excecoes-suporte.svg) / [JPEG](assets/diagrams/fluxo-comunicacao-excecoes-suporte.jpg)
+
+```mmd
+flowchart TD
+  A["Evento operacional ocorre"] --> B["Gerar notificação ou mensagem interna"]
+  B --> C{"Há exceção?"}
+  C -->|"Não"| D["Registrar comunicação no histórico"]
+  C -->|"Sim"| E["Abrir disputa, correção, retrabalho ou suporte"]
+  E --> F["Responsável analisa e propõe ação"]
+  F --> G{"Resolvido?"}
+  G -->|"Não"| H["Escalar ou manter pendência"]
+  G -->|"Sim"| I["Atualizar pedido e auditar decisão"]
+```
+
+- Enviar notificações in-app e registrar mensagens por pedido, demanda, evidência, pagamento, atraso, aceite, rejeição e conclusão.
+- Separar comentários internos, mensagens ao cliente e avisos operacionais por permissão e contexto.
+- Abrir e resolver chamados de suporte vinculados a pedido, usuário, ator, pagamento, evidência, entrega ou operação do tenant.
+- Registrar disputas, correções, retrabalho, devolução operacional, reentrega, reembolso parcial e aprovação administrativa quando houver exceção.
+- Manter histórico de decisão, responsável, motivo, impacto no prazo, impacto financeiro e evidências associadas.
+
+### Offline-first, privacidade, consentimento e auditoria
+
+#### Fluxo offline, privacidade e auditoria
+
+- Links: [fonte Mermaid](assets/diagrams/fluxo-offline-privacidade-auditoria.mmd) / [SVG](assets/diagrams/fluxo-offline-privacidade-auditoria.svg) / [JPEG](assets/diagrams/fluxo-offline-privacidade-auditoria.jpg)
+
+```mmd
+flowchart TD
+  A["Usuário atua em campo"] --> B{"Há conexão?"}
+  B -->|"Não"| C["Salvar ação e evidência na fila local"]
+  B -->|"Sim"| D["Enviar ação ao gateway"]
+  C --> E["Sincronizar quando rede voltar"]
+  E --> F{"Conflito detectado?"}
+  F -->|"Sim"| G["Bloquear merge automático e pedir resolução"]
+  F -->|"Não"| H["Persistir ação"]
+  D --> H
+  H --> I["Aplicar consentimento, permissão e retenção"]
+  I --> J["Registrar auditoria operacional"]
+```
+
+- Manter fila local para ações e evidências capturadas sem rede, com status visível de pendente, sincronizando, sincronizado, erro e conflito.
+- Preservar ordem de replay por tenant, usuário, dispositivo, entidade e dependência operacional.
+- Bloquear merge automático quando houver conflito de estado, evidência, pagamento, etapa ou permissão que exija decisão humana.
+- Registrar consentimento para localização, evidências, assinatura, contato e comunicação quando aplicável ao tenant e ao papel.
+- Definir retenção, exclusão lógica, visibilidade e exportação de evidências conforme permissão e necessidade operacional.
+- Auditar ações sensíveis com ator, papel, tenant, entidade, valor anterior, valor novo, motivo, origem, data e correlação com pedido ou demanda.
+
 ### Integração opcional Gmail
 
 #### Fluxo de integração opcional Gmail
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-integracao-gmail.mmd) / [SVG](assets/diagrams/fluxo-integracao-gmail.svg) / [JPEG](assets/diagrams/fluxo-integracao-gmail.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Fluxo precisa de e-mail"] --> B{"Gmail habilitado para tenant?"}
   B -->|"Não"| C["Operar sem Gmail"]
@@ -261,7 +358,7 @@ flowchart TD
 
 - Links: [fonte Mermaid](assets/diagrams/fluxo-integracao-google-sso.mmd) / [SVG](assets/diagrams/fluxo-integracao-google-sso.svg) / [JPEG](assets/diagrams/fluxo-integracao-google-sso.jpg)
 
-```mermaid
+```mmd
 flowchart TD
   A["Usuário solicita acesso"] --> B{"Google SSO habilitado para tenant?"}
   B -->|"Não"| C["Autenticar pelo modelo próprio Aneety"]
@@ -306,7 +403,8 @@ flowchart TD
 - `comunicacao-email` e `identidade-federada` devem ser responsabilidades separadas, com contratos, schemas e adapters independentes quando ativadas.
 - Segredos de Gmail e Google SSO não podem aparecer em frontend, Git, bundle, log, screenshot, fixture pública ou documentação de usuário final.
 - E2E de aceite deve cobrir modo desligado para Gmail e Google SSO.
-- Experiência offline-first deve manter fila local para pedidos, checkpoints, anexos, mapas, rastreabilidade e pagamentos pendentes.
+- Experiência offline-first deve manter fila local para pedidos, checkpoints, anexos, mapas, rastreabilidade, pagamentos pendentes, mensagens e suporte.
+- Catálogo, máquina de estados, SLA, orçamento, capacidade, comunicação, suporte, exceções, consentimento e auditoria devem ter contrato próprio antes de implementação.
 - E2E público somente em `aneety.com`.
 - Guias de usuários, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios vivem em `Aneety/.github`; GitHub Pages, se existir, deve publicar ou apontar somente para essa documentação.
 - Assets reutilizáveis devem ser consumidos de `Aneety/assets` ou referenciar sua fonte SVG canônica nesse repositório.
@@ -318,7 +416,7 @@ flowchart TD
 
 - Seed E2E deve ser controlado, idempotente e sem segredos versionados.
 - Backup/export Postgres deve estar documentado antes de dados reais relevantes.
-- Smoke público deve cobrir, quando aplicável, microfrontend, gateway, BFF, banco, login, pedido, checkpoint, anexo, mapa, rastreabilidade e administração.
+- Smoke público deve cobrir, quando aplicável, microfrontend, gateway, BFF, banco, login, onboarding, catálogo, pedido, estado, SLA, orçamento, checkpoint, anexo, mapa, rastreabilidade, comunicação, suporte, exceção, auditoria e administração.
 - Bloqueios operacionais devem ser registrados com causa objetiva, como DNS, secret ausente, policy falha, migration pendente, E2E sem credencial, mapa indisponível ou evento de rastreabilidade atrasado.
 - Gmail e Google SSO devem ter modo desligado validado antes de qualquer ativação por tenant.
 - Microfrontends com UI devem cobrir estados de carregando, vazio, erro e sucesso.

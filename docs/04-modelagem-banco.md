@@ -129,6 +129,74 @@ Snapshots calculados para exibição de mapas e acompanhamento operacional. Camp
 
 Auditoria de ações sensíveis. Campos mínimos: `id`, `tenant_id`, `actor_identity_id`, `actor_user_id`, `action`, `entity`, `entity_id`, `metadata`, `created_at`, `deleted_at`.
 
+### `catalogs`
+
+Catálogos configuráveis por tenant. Campos mínimos: `id`, `tenant_id`, `name`, `status`, `created_at`, `updated_at`, `deleted_at`.
+
+### `catalog_items`
+
+Produtos ou serviços customizáveis. Campos mínimos: `id`, `tenant_id`, `catalog_id`, `name`, `description`, `base_price`, `base_sla_minutes`, `requires_budget_approval`, `status`, `created_at`, `updated_at`, `deleted_at`.
+
+### `catalog_item_options`
+
+Atributos e opções de personalização. Campos mínimos: `id`, `tenant_id`, `catalog_item_id`, `key`, `label`, `value_type`, `required`, `price_delta`, `sla_delta_minutes`, `created_at`, `updated_at`, `deleted_at`.
+
+### `workflow_states`
+
+Estados oficiais por fluxo operacional. Campos mínimos: `id`, `tenant_id`, `entity`, `state_key`, `label`, `is_initial`, `is_terminal`, `created_at`, `updated_at`, `deleted_at`.
+
+### `workflow_state_transitions`
+
+Transições permitidas por papel e permissão. Campos mínimos: `id`, `tenant_id`, `entity`, `from_state_key`, `to_state_key`, `required_permission`, `requires_reason`, `created_at`, `updated_at`, `deleted_at`.
+
+### `sla_policies`
+
+Regras de prazo, prioridade e alerta. Campos mínimos: `id`, `tenant_id`, `entity`, `state_key`, `priority`, `target_minutes`, `warning_minutes`, `created_at`, `updated_at`, `deleted_at`.
+
+### `operational_schedules`
+
+Agenda, bloqueio e disponibilidade de atores operacionais. Campos mínimos: `id`, `tenant_id`, `actor_id`, `starts_at`, `ends_at`, `capacity_units`, `status`, `reason`, `created_at`, `updated_at`, `deleted_at`.
+
+### `budget_requests`
+
+Orçamentos e cotações antes ou durante o pedido. Campos mínimos: `id`, `tenant_id`, `order_id`, `requested_by_actor_id`, `status`, `total_amount`, `currency`, `expires_at`, `approved_at`, `rejected_at`, `created_at`, `updated_at`, `deleted_at`.
+
+### `budget_items`
+
+Linhas de preço de orçamento. Campos mínimos: `id`, `tenant_id`, `budget_request_id`, `label`, `amount`, `reason`, `created_at`, `updated_at`, `deleted_at`.
+
+### `operational_messages`
+
+Mensagens internas, avisos ao cliente e comunicação por pedido ou demanda. Campos mínimos: `id`, `tenant_id`, `order_id`, `actor_user_id`, `visibility_scope`, `message_body`, `created_at`, `deleted_at`.
+
+### `notifications`
+
+Notificações in-app e pendências de leitura. Campos mínimos: `id`, `tenant_id`, `recipient_user_id`, `entity`, `entity_id`, `title`, `body`, `status`, `created_at`, `read_at`, `deleted_at`.
+
+### `support_cases`
+
+Chamados operacionais vinculados a pedido, usuário, ator ou tenant. Campos mínimos: `id`, `tenant_id`, `order_id`, `opened_by_user_id`, `assigned_to_user_id`, `status`, `category`, `priority`, `summary`, `created_at`, `updated_at`, `closed_at`, `deleted_at`.
+
+### `exception_cases`
+
+Disputas, correções, retrabalho, devolução operacional, reentrega ou reembolso parcial. Campos mínimos: `id`, `tenant_id`, `order_id`, `case_type`, `status`, `reason`, `impact_summary`, `resolved_by_user_id`, `created_at`, `updated_at`, `resolved_at`, `deleted_at`.
+
+### `actor_capacity_slots`
+
+Capacidade operacional planejada por produtor, equipe ou entregador. Campos mínimos: `id`, `tenant_id`, `actor_id`, `date`, `capacity_units`, `reserved_units`, `status`, `created_at`, `updated_at`, `deleted_at`.
+
+### `consent_records`
+
+Consentimentos para localização, evidências, assinatura, contato e comunicação. Campos mínimos: `id`, `tenant_id`, `identity_id`, `consent_type`, `status`, `source`, `granted_at`, `revoked_at`, `created_at`, `deleted_at`.
+
+### `offline_conflicts`
+
+Conflitos de sincronização offline que exigem decisão humana. Campos mínimos: `id`, `tenant_id`, `sync_event_id`, `entity`, `entity_id`, `conflict_type`, `local_payload`, `server_payload`, `status`, `resolved_by_user_id`, `created_at`, `updated_at`, `deleted_at`.
+
+### `audit_event_changes`
+
+Valores antes/depois para ações sensíveis auditadas. Campos mínimos: `id`, `tenant_id`, `audit_event_id`, `field_name`, `old_value`, `new_value`, `created_at`, `deleted_at`.
+
 ### `demo_seed_cases`
 
 Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scenario_key`, `vertical_label`, `description`, `payload`, `created_at`, `updated_at`, `deleted_at`.
@@ -136,13 +204,17 @@ Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scena
 ## Índices mínimos
 
 - `tenant_id` em todas as tabelas operacionais.
-- `(tenant_id, status, updated_at desc)` em pedidos, demandas, pagamentos e sync.
+- `(tenant_id, status, updated_at desc)` em pedidos, demandas, pagamentos, orçamentos, suporte, exceções e sync.
 - `(tenant_id, order_id, occurred_at desc)` em eventos de rastreabilidade.
 - `(tenant_id, order_id, updated_at desc)` em snapshots de mapa.
 - FKs com índice líder.
 - `auth_sessions` por hash de token e expiração.
 - `app_identities` por `(tenant_id, email)` e `(tenant_id, phone)` quando aplicável.
 - `marketplace_actors` por `(tenant_id, actor_type, status)`.
+- Catálogo por `(tenant_id, status)`, item por `(tenant_id, catalog_id, status)` e opções por `(tenant_id, catalog_item_id)`.
+- Estados por `(tenant_id, entity, state_key)` e transições por `(tenant_id, entity, from_state_key, to_state_key)`.
+- Agenda e capacidade por `(tenant_id, actor_id, starts_at)` ou `(tenant_id, actor_id, date)`.
+- Mensagens, notificações, suporte, exceções, consentimentos e conflitos offline por tenant, entidade e status.
 
 ## RLS e policies
 
@@ -153,3 +225,4 @@ Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scena
 - Admin de plataforma opera com trilha de auditoria.
 - Dados de mapa e localização respeitam escopo de visibilidade por tenant, pedido, perfil e etapa.
 - Policies devem funcionar no schema do BFF e continuar portáveis para banco físico futuro.
+- Mensagens, suporte, exceções, consentimentos, evidências, localização e auditoria devem aplicar visibilidade por tenant, perfil, papel operacional e vínculo com o pedido ou demanda.
