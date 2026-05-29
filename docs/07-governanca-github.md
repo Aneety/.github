@@ -27,6 +27,9 @@ Regras:
 - Se `docs/project` disser `concluido`, mas a fonte documental ou a evidência estiver ausente, o ciclo continua aberto.
 - Se houver conflito entre issue histórica e documento normativo, vale o documento normativo até existir PR documental aprovado.
 - Decisão arquitetural nova exige atualização documental antes de virar implementação.
+- Antes de ler ou alterar qualquer repo local da org `Aneety`, registrar `git status --short`, branch atual, SHA atual, remoto `origin` e executar `git fetch --all --prune`.
+- Mudança local humana não pode ser sobrescrita pela automação. Repo sujo deve ficar fora de edição até normalização.
+- Se `Aneety/.github` local estiver sujo ou não conseguir atualizar `origin/main`, esse checkout não pode ser fonte de verdade; a automação deve ler a documentação canônica por `origin/main` ou por clone/worktree limpo antes de decidir backlog, status ou bloqueio.
 
 ## Papel do GitHub
 

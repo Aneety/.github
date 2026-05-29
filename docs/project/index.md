@@ -39,6 +39,11 @@
 
 - `Aneety/ai` local em `/Users/mal/GitHub/Aneety/ai` está sujo (`?? .playwright-mcp/`), então a automação não pode criar ou revisar raízes de responsabilidade ali com segurança.
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
+- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` está sujo na branch `codex/issue-template-path`, e o `git fetch --all --prune` local falhou ao atualizar `refs/remotes/origin/main`; decisões canônicas deste ciclo precisaram usar clone limpo de `origin/main`.
+
+## Últimas atualizações
+
+- 2026-05-29 — governança passou a exigir `origin/main` ou clone/worktree limpo quando `Aneety/.github` local estiver sujo ou sem fetch confiável.
 - `/Users/mal/GitHub/Aneety/.github` local está sujo na branch `codex/issue-template-path`, então decisões documentais devem ler `origin/main` ou worktree limpo, nunca esse checkout como fonte de verdade.
 
 ## Últimas atualizações
