@@ -15,6 +15,7 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 7. [Ciclos de desenvolvimento por cobertura](06-ciclos-cobertura.md)
 8. [Governança GitHub](07-governanca-github.md)
 9. [Planejamento de ciclos e issues](08-planejamento-ciclos-implementacao-repositorios.md)
+10. [Painel operacional em Markdown](project/index.md)
 
 ## Fronteira dos documentos
 
@@ -24,8 +25,9 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 - `04-modelagem-banco.md`: modelagem conceitual, índices mínimos, isolamento e regras de acesso.
 - `05-estrutura-repositorios.md`: catálogo estrutural de repositórios centrais, monorepo, clones locais e regras de runtime do MVP.
 - `06-ciclos-cobertura.md`: ordem fixa dos ciclos, sequência CRUD e gates de cobertura/E2E.
-- `07-governanca-github.md`: rastreabilidade operacional em GitHub Issues e GitHub Projects; não substitui contrato, arquitetura, requisitos, processos ou evidências.
+- `07-governanca-github.md`: governança operacional de issues, PRs e do painel Markdown em `docs/project`; não substitui contrato, arquitetura, requisitos, processos ou evidências.
 - `08-planejamento-ciclos-implementacao-repositorios.md`: backlog operacional derivado dos documentos normativos, com matriz de responsabilidades, ciclos e aceite.
+- `docs/project/`: painel operacional versionado, com índice executivo e um arquivo por responsabilidade ativa.
 
 ## Fontes aproveitadas
 
