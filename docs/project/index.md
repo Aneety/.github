@@ -39,23 +39,23 @@
 
 - `Aneety/ai` local em `/Users/mal/GitHub/Aneety/ai` está sujo (`?? .playwright-mcp/`), então a automação não pode criar ou revisar raízes de responsabilidade ali com segurança.
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
-- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` está sujo na branch `codex/issue-template-path`, e o `git fetch --all --prune` local falhou ao atualizar `refs/remotes/origin/main`; decisões canônicas deste ciclo precisaram usar clone limpo de `origin/main`.
+- `Aneety/ai` local também está 4 commits atrás de `origin/main`, então leitura de implementação deste ciclo precisou usar worktree limpo em `origin/main`.
+- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` segue sujo na branch `codex/issue-template-path`; mesmo com `git fetch --all --prune` concluído, decisões canônicas deste ciclo precisaram usar worktree limpo em `origin/main`, nunca esse checkout como fonte de verdade.
+- GitHub Project externo continua bloqueado por permissão `organization.projectV2`; backlog ativo segue somente em `docs/project`.
 
 ## Últimas atualizações
 
-- 2026-05-29 — governança passou a exigir `origin/main` ou clone/worktree limpo quando `Aneety/.github` local estiver sujo ou sem fetch confiável.
-- `/Users/mal/GitHub/Aneety/.github` local está sujo na branch `codex/issue-template-path`, então decisões documentais devem ler `origin/main` ou worktree limpo, nunca esse checkout como fonte de verdade.
-
-## Últimas atualizações
-
-- 2026-05-29 — inspeção local confirmou `Aneety/.github` sujo em `codex/issue-template-path`; esta automação passou a usar `origin/main`/worktree limpo como leitura canônica.
-- 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincroniza o painel Markdown com a evidência atual dos repositórios.
-- 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formaliza que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
+- 2026-05-29 — worktrees limpos de `origin/main` passaram a ser leitura canônica deste ciclo para `Aneety/.github` e `Aneety/ai` por causa de checkout local sujo e checkout local defasado.
+- 2026-05-29 — PR [#6](https://github.com/Aneety/ai/pull/6) (`ci: expand actions-first governance gates`) segue em draft, mas o head `0bfdcd0` já ficou verde em `Remote CI gate`, `Governance policy gate`, `Security gate` e `Governance audit`.
+- 2026-05-29 — PR [#65](https://github.com/Aneety/.github/pull/65) (`docs: require actions-first validation gates`) segue em draft para alinhar `docs/03`, `docs/07` e `docs/08`; até merge, `main` ainda carrega redação anterior sobre a ordem explícita PR -> Actions -> Cloudflare.
+- 2026-05-29 — consulta em `Aneety/.github`, `Aneety/ai` e `Aneety/assets` confirmou zero issues abertas neste ciclo.
+- 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincronizou o painel Markdown com a evidência atual dos repositórios.
+- 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formalizou que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
 - 2026-05-29 — inspeção local rebaixou todos os ciclos `repositorio` para `bloqueado` até existir raiz real por responsabilidade em `Aneety/ai` e checkout limpo.
-- 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) remove documento paralelo de produto.
-- 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinha caminho canônico dos issue templates.
-- 2026-05-29 — PR [#55](https://github.com/Aneety/.github/pull/55) consolida contrato monorepo em `Aneety/ai`.
-- 2026-05-29 — este diretório substitui o painel operacional anterior por arquivos Markdown versionados.
+- 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) removeu documento paralelo de produto.
+- 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinhou caminho canônico dos issue templates.
+- 2026-05-29 — PR [#55](https://github.com/Aneety/.github/pull/55) consolidou contrato monorepo em `Aneety/ai`.
+- 2026-05-29 — este diretório substituiu o painel operacional anterior por arquivos Markdown versionados.
 
 ## Governança mínima de atualização
 
