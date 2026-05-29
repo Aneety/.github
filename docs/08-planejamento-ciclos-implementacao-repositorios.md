@@ -86,7 +86,7 @@ Toda issue derivada deste documento deve usar o corpo mínimo abaixo, preenchido
 -
 ```
 
-Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual, usar `ISSUE_TEMPLATE/backlog-operacional.yml` como base.
+Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual, usar `.github/ISSUE_TEMPLATE/backlog-operacional.yml` como base.
 
 ## Matriz por modelagem de banco
 

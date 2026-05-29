@@ -37,7 +37,7 @@ Referências operacionais do próprio GitHub:
 
 - [GitHub Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects/) permite acompanhar issues e pull requests em views de tabela, board e roadmap.
 - [Views de Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project) permitem filtrar, ordenar, agrupar e visualizar itens por campos.
-- [Issue forms/templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository) podem padronizar entradas futuras em `ISSUE_TEMPLATE`.
+- [Issue forms/templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository) podem padronizar entradas futuras em `.github/ISSUE_TEMPLATE`.
 
 ## Modelo de Issues
 
@@ -264,7 +264,7 @@ Project `Done` sem evidência não fecha ciclo. Issue fechada sem evidência dev
 
 ## Evolução futura
 
-Fluxo manual base passa a contar com issue form em `ISSUE_TEMPLATE/backlog-operacional.yml` e taxonomia de labels padronizada nos repositórios Aneety atuais. Evolução futura deve focar em:
+Fluxo manual base passa a contar com issue form em `.github/ISSUE_TEMPLATE/backlog-operacional.yml` e taxonomia de labels padronizada nos repositórios Aneety atuais. Evolução futura deve focar em:
 - configuração documentada do org-level Project;
 - automação leve para adicionar issue ao Project;
 - validação de campos obrigatórios;
