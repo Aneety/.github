@@ -2,7 +2,7 @@
 
 Status: **MVP Lia encerrado como linha de implementação; Aneety Platform inicia como sucessor.**
 
-Este diretório é a documentação canônica da plataforma Aneety e registra a estratégia para descontinuar o MVP Lia sem apagar código, histórico, evidências, decisões ou aprendizados. A implementação nova deve nascer na org `https://github.com/Aneety`, com `Aneety/ai` como repositório orquestrador. Todos os projetos/repositórios Aneety devem ser clonados em `/Users/mal/GitHub/Aneety/*`, pareando `https://github.com/Aneety/<repo>` com `/Users/mal/GitHub/Aneety/<repo>`. Cada responsabilidade ou derivação com implementação própria deve ter repo próprio e ser linkada como submódulo no caminho correspondente em `aneety-platform/apps/<responsabilidade>/...`.
+Este diretório é a documentação canônica da plataforma Aneety e registra a estratégia para descontinuar o MVP Lia sem apagar código, histórico, evidências, decisões ou aprendizados. A implementação nova deve nascer na org `https://github.com/Aneety`, com `Aneety/ai` como monorepo único de implementação. Os repositórios centrais do contrato atual devem ser clonados em `/Users/mal/GitHub/Aneety/*`, com foco em `Aneety/ai`, `Aneety/.github` e `Aneety/assets`. Cada responsabilidade ou derivação com implementação própria deve viver como módulo interno no caminho correspondente em `aneety-platform/apps/<responsabilidade>/...`.
 
 ## Índice
 
@@ -18,11 +18,11 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 
 ## Fronteira dos documentos
 
-- `01-arquitetura.md`: decisões estruturais permanentes, runtime, módulos, submódulos, NFR estruturais, serviços externos e limites de fornecedor.
+- `01-arquitetura.md`: decisões estruturais permanentes, runtime, módulos internos, NFR estruturais, serviços externos e limites de fornecedor.
 - `02-requisitos.md`: requisitos de produto, fluxos complementares v1, requisitos técnicos e critérios verificáveis de aceite.
 - `03-processos.md`: modo de execução, fluxos operacionais, ordem de trabalho e gates operacionais; não deve ser fonte exclusiva de regra normativa.
 - `04-modelagem-banco.md`: modelagem conceitual, índices mínimos, isolamento e regras de acesso.
-- `05-estrutura-repositorios.md`: catálogo estrutural de repositórios, submódulos, clones locais e regras de runtime do MVP.
+- `05-estrutura-repositorios.md`: catálogo estrutural de repositórios centrais, monorepo, clones locais e regras de runtime do MVP.
 - `06-ciclos-cobertura.md`: ordem fixa dos ciclos, sequência CRUD e gates de cobertura/E2E.
 - `07-governanca-github.md`: rastreabilidade operacional em GitHub Issues e GitHub Projects; não substitui contrato, arquitetura, requisitos, processos ou evidências.
 - `08-planejamento-ciclos-implementacao-repositorios.md`: backlog operacional derivado dos documentos normativos, com matriz de responsabilidades, ciclos e aceite.
@@ -44,14 +44,14 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 - Lia: primeiro tenant/marca, não nome rígido da plataforma.
 - Org GitHub: `https://github.com/Aneety`.
 - Clone root local obrigatório: `/Users/mal/GitHub/Aneety/*`.
-- Regra remoto/local: `https://github.com/Aneety/<repo>` -> `/Users/mal/GitHub/Aneety/<repo>`.
-- Repositório orquestrador de implementação: `Aneety/ai` (`https://github.com/Aneety/ai.git`, clone local `/Users/mal/GitHub/Aneety/ai`).
+- Regra remoto/local dos repositórios centrais: `https://github.com/Aneety/ai` -> `/Users/mal/GitHub/Aneety/ai`, `https://github.com/Aneety/.github` -> `/Users/mal/GitHub/Aneety/.github` e `https://github.com/Aneety/assets` -> `/Users/mal/GitHub/Aneety/assets`.
+- Monorepo de implementação: `Aneety/ai` (`https://github.com/Aneety/ai.git`, clone local `/Users/mal/GitHub/Aneety/ai`).
 - Repositório canônico de documentação de todos os projetos/repositórios: `Aneety/.github` (`https://github.com/Aneety/.github.git`, clone local `/Users/mal/GitHub/Aneety/.github`).
 - Repositório canônico de assets reutilizáveis: `Aneety/assets` (`https://github.com/Aneety/assets.git`, clone local `/Users/mal/GitHub/Aneety/assets`), sempre com versão SVG para logos, ícones, ilustrações, diagramas, marcas, pictogramas e demais assets reutilizáveis.
-- Estrutura: repos próprios por responsabilidade/derivação, linkados como submódulos.
+- Estrutura: responsabilidades e derivações implementadas como módulos internos no monorepo `Aneety/ai`.
 - Regra de diretório: `aneety-platform/apps/<responsabilidade>/<mfe|mc|gw|worker|fe|job|auto|db|pkg|core|int|wl>-<nome>`.
-- Documentação: guias de usuário, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios devem viver em `Aneety/.github`; repos de implementação mantêm apenas README mínimo com link para essa fonte canônica.
-- Assets: todo asset reutilizável do projeto deve ser versionado em SVG no repo `Aneety/assets`; repos de implementação devem consumir ou referenciar esse acervo, não manter cópias divergentes.
+- Documentação: guias de usuário, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios devem viver em `Aneety/.github`; o monorepo de implementação mantém apenas README mínimo com link para essa fonte canônica.
+- Assets: todo asset reutilizável do projeto deve ser versionado em SVG no repositório `Aneety/assets`; o monorepo de implementação deve consumir ou referenciar esse acervo, não manter cópias divergentes.
 - Frontends operacionais: microfrontends Single SPA em `mfe-<nome>`.
 - BFFs MVP: `worker-<nome>` em Cloudflare Workers/Hono.
 - Gateway MVP: `worker-gateway`.
@@ -61,4 +61,4 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 - Autenticação: identidade, credenciais, sessões e permissões próprias no modelo de dados da plataforma, via gateway/BFF, sem provedor externo obrigatório.
 - Serviços externos por semântica: Cloudflare, GitHub, persistência, mapas ou qualquer fornecedor equivalente são meios substituíveis; requisitos devem declarar função, dados, segredos, custo, contrato local, testes e plano de saída.
 - Custo: custo zero sempre; dependência paga bloqueia ou exige redesenho.
-- Este repositório é a fonte oficial de documentação; a nova implementação nasce limpa no orquestrador `Aneety/ai`.
+- Este repositório é a fonte oficial de documentação; a nova implementação nasce limpa no monorepo `Aneety/ai`.

@@ -1,26 +1,26 @@
-# Planejamento de ciclos e issues para implementação de repositórios — Aneety Platform
+# Planejamento de ciclos e issues para implementação no monorepo — Aneety Platform
 
 ## Objetivo
 
-Este documento transforma requisitos, processos, modelagens de banco e regras de repositórios da Aneety Platform em um backlog operacional de ciclos e issues. Ele orienta a abertura de repositórios, submódulos, estruturas de dados, BFFs, jobs, microfrontends, validações e fechamento de evidências sem substituir os documentos normativos.
+Este documento transforma requisitos, processos, modelagens de banco e regras de repositórios da Aneety Platform em um backlog operacional de ciclos e issues. Ele orienta a criação de responsabilidades e módulos internos no monorepo, além de estruturas de dados, BFFs, jobs, microfrontends, validações e fechamento de evidências sem substituir os documentos normativos.
 
 ## Fontes normativas
 
 A implementação deve obedecer à seguinte precedência documental:
 
-1. [`01-arquitetura.md`](01-arquitetura.md) — arquitetura, runtime, limites de fornecedor, segredos, dados e submódulos.
+1. [`01-arquitetura.md`](01-arquitetura.md) — arquitetura, runtime, limites de fornecedor, segredos, dados e módulos internos.
 2. [`02-requisitos.md`](02-requisitos.md) — requisitos de produto, requisitos técnicos, aceite e integrações opcionais.
 3. [`03-processos.md`](03-processos.md) — fluxo de execução, operação, migração e gates.
 4. [`04-modelagem-banco.md`](04-modelagem-banco.md) — tabelas conceituais, isolamento, índices e regras de acesso.
-5. [`05-estrutura-repositorios.md`](05-estrutura-repositorios.md) — org, clone local, submódulos, prefixos e responsabilidades.
+5. [`05-estrutura-repositorios.md`](05-estrutura-repositorios.md) — org, clones centrais, monorepo, prefixos e responsabilidades.
 6. [`06-ciclos-cobertura.md`](06-ciclos-cobertura.md) — ordem de ciclos, sequência CRUD e gates de cobertura.
 7. [`07-governanca-github.md`](07-governanca-github.md) — issues, labels, Project, Definition of Done e bloqueios.
 
 Regra de execução: issue, Project, PR ou automação não muda contrato. Mudança de contrato começa por PR documental nos arquivos acima.
 
-## Gates antes de criar repositório ou submódulo
+## Gates antes de criar responsabilidade ou módulo
 
-Uma responsabilidade só pode virar repositório próprio quando registrar:
+Uma responsabilidade só pode virar módulo interno do monorepo quando registrar:
 
 - contrato local e fonte documental;
 - owner operacional;
@@ -30,8 +30,8 @@ Uma responsabilidade só pode virar repositório próprio quando registrar:
 - critérios de aceite verificáveis;
 - testes previstos;
 - plano de saída para fornecedor externo quando aplicável;
-- caminho no orquestrador `Aneety/ai` sob `aneety-platform/apps/<responsabilidade>/...`;
-- remoto oficial `https://github.com/Aneety/<repo>` e clone local `/Users/mal/GitHub/Aneety/<repo>`.
+- caminho no monorepo `Aneety/ai` sob `aneety-platform/apps/<responsabilidade>/...`;
+- repo destino `Aneety/ai` e caminho canônico interno da responsabilidade.
 
 ## Ordem de ciclos usada neste planejamento
 
@@ -90,7 +90,7 @@ Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual
 
 ## Matriz por modelagem de banco
 
-| Responsabilidade | Tabelas cobertas | Repo esperado | Caminho no orquestrador | Ciclos obrigatórios | Aceite e evidência base |
+| Responsabilidade | Tabelas cobertas | Responsabilidade raiz | Caminho no monorepo | Ciclos obrigatórios | Aceite e evidência base |
 | --- | --- | --- | --- | --- | --- |
 | `tenant-white-label` | `tenants`, `tenant_branding` | `tenant-white-label` | `aneety-platform/apps/tenant-white-label/db-tenant-white-label`, `worker-tenant-white-label`, `mfe-tenant-white-label` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Tenant e marca versionados, isolados por tenant, com controles internos de isolamento, contrato BFF e tela administrativa sem vazamento técnico. Evidência: migration/DDL ou contrato de storage, teste de dados, contrato API, smoke visual e docs. |
 | `identidade-acesso` | `app_identities`, `auth_credentials`, `auth_sessions`, `app_users`, `access_profiles`, `permissions`, `access_profile_permissions` | `identidade-acesso` | `aneety-platform/apps/identidade-acesso/db-identidade-acesso`, `worker-identidade-acesso`, `mfe-identidade-acesso` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Identidade própria, sessão, perfil e permissões sem acesso direto do frontend ao banco. Evidência: hash de credenciais, expiração/revogação, regras de acesso, contrato de sessão e testes negativos. |
@@ -118,7 +118,7 @@ Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual
 
 Algumas responsabilidades do MVP não nascem de uma tabela própria em `04-modelagem-banco.md`, mas continuam mandatórias por contrato arquitetural e de runtime. Elas devem entrar no backlog com a mesma disciplina de owner, custo zero, aceite, deploy, publicação, teste e governança.
 
-| Responsabilidade | Origem normativa | Repo esperado | Caminho no orquestrador | Ciclos obrigatórios | Aceite e evidência base |
+| Responsabilidade | Origem normativa | Responsabilidade raiz | Caminho no monorepo | Ciclos obrigatórios | Aceite e evidência base |
 | --- | --- | --- | --- | --- | --- |
 | `gateway-borda` | `01-arquitetura.md` (`## Runtime alvo do MVP`, `## Fluxo de dados`), `05-estrutura-repositorios.md` (`## Regras de runtime e evolução`, `## Responsabilidades funcionais v1 candidatas`) | `gateway-borda` | `aneety-platform/apps/gateway-borda/worker-gateway`, `pkg-contratos-publicos` | `repositorio`, `deploy`, `publicacao`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | `worker-gateway` valida borda, CORS, versão de contrato, sessão pública Aneety e roteamento/service bindings para BFFs `worker-*`, sem segredo no frontend e sem runtime fora de Workers. Evidência: contrato HTTP, smoke de borda, teste de roteamento e docs atualizadas. |
 
@@ -130,7 +130,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][gateway-borda] preparar contrato, owner, repo e submódulo` | Responsabilidade transversal do `worker-gateway` registrada com owner, custo zero, contrato de borda e caminho `aneety-platform/apps/gateway-borda/...`. | PR documental e issue aberta com links normativos. | Gateway obrigatório ficar sem backlog próprio e atrasar todos os BFFs. |
+| `repositorio` | `[repositorio][gateway-borda] preparar contrato, owner e estrutura monorepo` | Responsabilidade transversal do `worker-gateway` registrada com owner, custo zero, contrato de borda e caminho `aneety-platform/apps/gateway-borda/...`. | PR documental e issue aberta com links normativos. | Gateway obrigatório ficar sem backlog próprio e atrasar todos os BFFs. |
 | `deploy` | `[deploy][gateway-borda] preparar runtime de custo zero` | Deploy do `worker-gateway` documentado em runtime 100% Workers, sem segredo versionado. | Configuração de deploy, bindings e checklist sem valores. | Segredo em Git/log ou runtime fora de Workers. |
 | `publicacao` | `[publicacao][gateway-borda] publicar endpoint de borda permitido` | Endpoint público do gateway publicado sem depender de GitHub Pages como runtime transacional. | URL publicada, roteamento básico e evidência de ambiente. | Publicação sem contrato de borda. |
 | `backend` | `[backend][gateway-borda] publicar contrato do worker-gateway` | Gateway valida CORS, sessão pública Aneety, versão de contrato e roteamento/service bindings para `worker-*`. | Contrato HTTP, testes 401/403/CORS e diff do worker. | Bypass de autorização, roteamento público entre Workers ou vazamento de segredo. |
@@ -144,19 +144,19 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][tenant-white-label] preparar contrato, owner, repo e submódulo` | Contrato, owner, dados, custo zero, repo e caminho `aneety-platform/apps/tenant-white-label/...` registrados. | PR documental e submódulo planejado ou criado conforme gate. | Marca, dados de tenant, lock-in de DNS/CDN. |
+| `repositorio` | `[repositorio][tenant-white-label] preparar contrato, owner e estrutura monorepo` | Contrato, owner, dados, custo zero, responsabilidade raiz e caminho `aneety-platform/apps/tenant-white-label/...` registrados. | PR documental e estrutura monorepo planejada ou criada conforme gate. | Marca, dados de tenant, lock-in de DNS/CDN. |
 | `banco` | `[banco][tenant-white-label] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `tenants` e `tenant_branding` com UUID, datas, exclusão lógica, índices e controles de isolamento. | Migration, rollback, teste de dados e seed de tenant Lia como marca inicial. | Cross-tenant e configuração visual sensível. |
 | `backend` | `[backend][tenant-white-label] publicar contrato do BFF/worker` | API controla tenants e branding por permissão, sem segredo em frontend. | Contrato HTTP, testes de autorização e erro de domínio. | Exposição de dados administrativos. |
 | `teste-integracao-api` | `[teste-integracao-api][tenant-white-label] validar API integrada à camada de dados real do ciclo` | API e banco validam isolamento e CRUD coberto. | Run de integração com camada de dados real do ciclo. | Issue precisa entrar no Project com evidência do run. |
 | `microfrontend` | `[microfrontend][tenant-white-label] entregar fluxo visual quando houver UI` | Administração de marca usa linguagem de produto, sem termos de runtime. | Screenshot ou smoke visual com estados de vazio, erro e sucesso. | Vazamento técnico em UI final. |
-| `documentacao` | `[documentacao][tenant-white-label] sincronizar docs e evidências` | Arquitetura, requisitos e docs de repo atualizados. | PR documental com links de evidência. | Duplicação fora de `Aneety/.github`. |
+| `documentacao` | `[documentacao][tenant-white-label] sincronizar docs e evidências` | Arquitetura, requisitos e docs da responsabilidade atualizados. | PR documental com links de evidência. | Duplicação fora de `Aneety/.github`. |
 | `governanca` | `[governanca][tenant-white-label] fechar ciclo com aceite e Project` | Issue tem aceite, evidência final e Project atualizado. | Link do Project, PRs e checks. | Fechamento sem evidência. |
 
 ### `identidade-acesso`
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][identidade-acesso] preparar contrato, owner, repo e submódulo` | Responsabilidade de identidade própria, sessão, perfil e permissão registrada. | PR documental e caminho `aneety-platform/apps/identidade-acesso/...`. | Segredos, dados pessoais, lock-in de identidade externa. |
+| `repositorio` | `[repositorio][identidade-acesso] preparar contrato, owner e estrutura monorepo` | Responsabilidade de identidade própria, sessão, perfil e permissão registrada. | PR documental e caminho `aneety-platform/apps/identidade-acesso/...`. | Segredos, dados pessoais, lock-in de identidade externa. |
 | `banco` | `[banco][identidade-acesso] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Identidades, credenciais, sessões, usuários, perfis e permissões com hash forte, expiração e controles de isolamento. | Migration, rollback, testes de hash, revogação e isolamento. | Credencial em texto, sessão sem expiração. |
 | `backend` | `[backend][identidade-acesso] publicar contrato do BFF/worker` | Sessão própria emitida por validação interna de tenant, perfil e status. | Contrato HTTP, testes de login, refresh, revogação e acesso negado. | Frontend acessar banco ou IdP diretamente. |
 | `teste-integracao-api` | `[teste-integracao-api][identidade-acesso] validar API integrada à camada de dados real do ciclo` | Fluxo real valida criação, autenticação, perfil e bloqueio. | Run de integração com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
@@ -168,7 +168,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][onboarding-acesso] preparar contrato, owner, repo e submódulo` | Contrato de convite, primeiro acesso, recuperação, bloqueio e reativação registrado. | PR documental e caminho `aneety-platform/apps/onboarding-acesso/...`. | Dados pessoais, convite indevido, token exposto. |
+| `repositorio` | `[repositorio][onboarding-acesso] preparar contrato, owner e estrutura monorepo` | Contrato de convite, primeiro acesso, recuperação, bloqueio e reativação registrado. | PR documental e caminho `aneety-platform/apps/onboarding-acesso/...`. | Dados pessoais, convite indevido, token exposto. |
 | `deploy` | `[deploy][onboarding-acesso] preparar runtime de custo zero` | Runtime de worker e microfrontend sem segredo versionado e com rollback documentado. | Log de deploy ou dry-run e checklist de segredo sem valores. | Secret ausente, custo externo, rollback inexistente. |
 | `publicacao` | `[publicacao][onboarding-acesso] publicar artefato ou URL permitida` | URL ou artefato permitido para fluxo de primeiro acesso, sem GitHub Pages como runtime transacional. | Link publicado ou artefato com origem rastreável. | Publicação em runtime proibido. |
 | `banco` | `[banco][onboarding-acesso] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Convites, onboarding, confirmação, recuperação e lifecycle com hash, expiração, status e controles de isolamento. | Migration, rollback e testes de convite/recuperação/lifecycle. | Token em texto, leitura cross-tenant, convite expirado aceito. |
@@ -184,7 +184,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][identidade-federada] preparar contrato, owner, repo e submódulo` | Responsabilidade opcional de vínculo externo registrada, separada de `identidade-acesso`. | PR documental e caminho `aneety-platform/apps/identidade-federada/...`. | Google SSO virar requisito de login. |
+| `repositorio` | `[repositorio][identidade-federada] preparar contrato, owner e estrutura monorepo` | Responsabilidade opcional de vínculo externo registrada, separada de `identidade-acesso`. | PR documental e caminho `aneety-platform/apps/identidade-federada/...`. | Google SSO virar requisito de login. |
 | `deploy` | `[deploy][identidade-federada] preparar runtime de custo zero` | Worker e adapter opcionais sem segredo versionado e com modo desligado. | Log de deploy ou dry-run e checklist de segredo sem valores. | Custo externo, segredo no ambiente errado. |
 | `publicacao` | `[publicacao][identidade-federada] publicar artefato ou URL permitida` | Publicação permite validar integração opcional sem tornar provedor obrigatório. | Link ou artefato publicado e modo desligado documentado. | Dependência de fornecedor no aceite. |
 | `banco` | `[banco][identidade-federada] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Settings, vínculos e tentativas guardam adapter, subject hash, status e auditoria sem segredo. | Migration, rollback e testes de isolamento/vínculo/tentativa. | Subject externo em texto, segredo em banco. |
@@ -199,19 +199,19 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][pedidos-customizados] preparar contrato, owner, repo e submódulo` | Contrato de pedidos e checkpoints criado com owner e repo. | PR documental e caminho `aneety-platform/apps/pedidos-customizados/...`. | Acoplar pedido à vertical odontológica. |
+| `repositorio` | `[repositorio][pedidos-customizados] preparar contrato, owner e estrutura monorepo` | Contrato de pedidos e checkpoints criado com owner e responsabilidade raiz. | PR documental e caminho `aneety-platform/apps/pedidos-customizados/...`. | Acoplar pedido à vertical odontológica. |
 | `banco` | `[banco][pedidos-customizados] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `orders` e `order_checkpoints` versionados, sem exclusão física, com CRUD incremental. | Migration, rollback, testes CRUD e seed demo sanitizado. | Perda de histórico operacional. |
 | `backend` | `[backend][pedidos-customizados] publicar contrato do BFF/worker` | API cobre incluir, pesquisar por id, pesquisar por filtros, atualizar e excluir logicamente. | Contrato HTTP, testes de paginação e auditoria mínima. | Mutação sem nova versão. |
 | `teste-integracao-api` | `[teste-integracao-api][pedidos-customizados] validar API integrada à camada de dados real do ciclo` | API + camada de dados validam sequência CRUD obrigatória até etapa declarada. | Run de integração com tenant isolado. | Issue precisa entrar no Project com evidência do run. |
 | `microfrontend` | `[microfrontend][pedidos-customizados] entregar fluxo visual quando houver UI` | Fluxo visual cria, lista, edita e acompanha pedido. | Smoke visual e screenshot sem termos técnicos. | UI sugerir banco, worker ou fornecedor. |
-| `documentacao` | `[documentacao][pedidos-customizados] sincronizar docs e evidências` | Requisitos, processos e evidências alinhados ao fluxo central. | PR documental com evidência de CRUD. | Docs duplicadas no repo de implementação. |
+| `documentacao` | `[documentacao][pedidos-customizados] sincronizar docs e evidências` | Requisitos, processos e evidências alinhados ao fluxo central. | PR documental com evidência de CRUD. | Docs duplicadas no monorepo de implementação. |
 | `governanca` | `[governanca][pedidos-customizados] fechar ciclo com aceite e Project` | Project e issue refletem status final e evidência. | Links de PR, testes e smoke. | Fechar antes de smoke. |
 
 ### `qualidade-evidencias`
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][qualidade-evidencias] preparar contrato, owner, repo e submódulo` | Contrato de qualidade e evidências separado do pedido, com owner. | PR documental e caminho `aneety-platform/apps/qualidade-evidencias/...`. | Anexo expor dado sensível. |
+| `repositorio` | `[repositorio][qualidade-evidencias] preparar contrato, owner e estrutura monorepo` | Contrato de qualidade e evidências separado do pedido, com owner. | PR documental e caminho `aneety-platform/apps/qualidade-evidencias/...`. | Anexo expor dado sensível. |
 | `banco` | `[banco][qualidade-evidencias] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `quality_reviews` e `attachments` guardam metadados, status, vínculo e permissão. | Migration, rollback, testes de isolamento e metadados. | Bytes sem lifecycle ou metadado sem autorização. |
 | `backend` | `[backend][qualidade-evidencias] publicar contrato do BFF/worker` | API valida evidência obrigatória e bloqueia avanço indevido. | Contrato HTTP e testes de rejeição/aprovação. | Expor storage interno na UI. |
 | `teste-integracao-api` | `[teste-integracao-api][qualidade-evidencias] validar API integrada à camada de dados real do ciclo` | Camada de dados e API validam revisão, anexo e permissão. | Run integrado com caso aprovado e reprovado. | Issue precisa entrar no Project com evidência do run. |
@@ -223,7 +223,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][pagamentos] preparar contrato, owner, repo e submódulo` | Responsabilidade de pagamento e adapter substituível registrada. | PR documental e caminho `aneety-platform/apps/pagamentos/...`. | Dependência paga obrigatória. |
+| `repositorio` | `[repositorio][pagamentos] preparar contrato, owner e estrutura monorepo` | Responsabilidade de pagamento e adapter substituível registrada. | PR documental e caminho `aneety-platform/apps/pagamentos/...`. | Dependência paga obrigatória. |
 | `banco` | `[banco][pagamentos] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `payment_intents` persiste valor, moeda, status e referência externa sem corromper pedido. | Migration, rollback e testes de status. | Provider virar fonte de verdade. |
 | `backend` | `[backend][pagamentos] publicar contrato do BFF/worker` | API cria, consulta e concilia intenção com degradação controlada. | Contrato HTTP e testes de indisponibilidade. | Vazamento de chave ou checkout interno. |
 | `teste-integracao-api` | `[teste-integracao-api][pagamentos] validar API integrada à camada de dados real do ciclo` | API + camada de dados mantêm pedido íntegro mesmo com adapter indisponível. | Run integrado com falha simulada. | Issue precisa entrar no Project com evidência do run. |
@@ -235,7 +235,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][offline-sync] preparar contrato, owner, repo e submódulo` | Contrato de fila, replay e conflito registrado. | PR documental e caminho `aneety-platform/apps/offline-sync/...`. | Conflito perder dado operacional. |
+| `repositorio` | `[repositorio][offline-sync] preparar contrato, owner e estrutura monorepo` | Contrato de fila, replay e conflito registrado. | PR documental e caminho `aneety-platform/apps/offline-sync/...`. | Conflito perder dado operacional. |
 | `banco` | `[banco][offline-sync] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `sync_events` e `offline_conflicts` têm payloads, status, conflito e resolução. | Migration, rollback e testes de isolamento. | Payload com dado sensível em log. |
 | `jobs` | `[jobs][offline-sync] implementar replay idempotente e reprocessamento` | Job reprocessa eventos por tenant sem duplicar efeito. | Run de job com replay repetido e log operacional. | Reprocessamento destrutivo. |
 | `backend` | `[backend][offline-sync] publicar contrato do BFF/worker` | API recebe eventos, expõe status e permite resolução de conflito. | Contrato HTTP e testes de idempotência. | Aceitar evento cross-tenant. |
@@ -248,7 +248,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][marketplace-operacional] preparar contrato, owner, repo e submódulo` | Contrato de atores e favoritos registrado. | PR documental e caminho `aneety-platform/apps/marketplace-operacional/...`. | Exposição de contato indevida. |
+| `repositorio` | `[repositorio][marketplace-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de atores e favoritos registrado. | PR documental e caminho `aneety-platform/apps/marketplace-operacional/...`. | Exposição de contato indevida. |
 | `banco` | `[banco][marketplace-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `marketplace_actors` e `marketplace_favorites` filtram por tenant, tipo e status. | Migration, rollback, testes de filtro e favorito. | Listagem cross-tenant. |
 | `backend` | `[backend][marketplace-operacional] publicar contrato do BFF/worker` | API lista, filtra, favorita e aciona ator conforme permissão. | Contrato HTTP e testes paginados. | Dados de localização sensíveis. |
 | `teste-integracao-api` | `[teste-integracao-api][marketplace-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida filtro, ordenação e favorito. | Run integrado com múltiplos atores. | Issue precisa entrar no Project com evidência do run. |
@@ -260,7 +260,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][producao-execucao] preparar contrato, owner, repo e submódulo` | Contrato de demanda de produção registrado. | PR documental e caminho `aneety-platform/apps/producao-execucao/...`. | Misturar produção com pedido sem contrato. |
+| `repositorio` | `[repositorio][producao-execucao] preparar contrato, owner e estrutura monorepo` | Contrato de demanda de produção registrado. | PR documental e caminho `aneety-platform/apps/producao-execucao/...`. | Misturar produção com pedido sem contrato. |
 | `banco` | `[banco][producao-execucao] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `production_demands` cobre aceite, rejeição, motivo e status. | Migration, rollback e testes de status. | Reatribuição sem trilha. |
 | `backend` | `[backend][producao-execucao] publicar contrato do BFF/worker` | API envia demanda, aceita, rejeita e consulta por filtros. | Contrato HTTP e testes de transição. | Ator indevido aceitar demanda. |
 | `teste-integracao-api` | `[teste-integracao-api][producao-execucao] validar API integrada à camada de dados real do ciclo` | Integração valida ciclo de demanda de produção. | Run integrado com aceite e rejeição. | Issue precisa entrar no Project com evidência do run. |
@@ -272,7 +272,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][logistica-rastreabilidade] preparar contrato, owner, repo e submódulo` | Contrato de coleta, entrega, eventos, mapas e adapter substituível registrado. | PR documental e caminho `aneety-platform/apps/logistica-rastreabilidade/...`. | Localização sensível e lock-in de mapa. |
+| `repositorio` | `[repositorio][logistica-rastreabilidade] preparar contrato, owner e estrutura monorepo` | Contrato de coleta, entrega, eventos, mapas e adapter substituível registrado. | PR documental e caminho `aneety-platform/apps/logistica-rastreabilidade/...`. | Localização sensível e lock-in de mapa. |
 | `banco` | `[banco][logistica-rastreabilidade] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Demandas, evidências, eventos e snapshots têm tenant, pedido, status e visibilidade. | Migration, rollback, testes de isolamento e índices. | Expor localização fora do escopo. |
 | `jobs` | `[jobs][logistica-rastreabilidade] implementar snapshots e rotinas idempotentes` | Job calcula snapshots sem duplicar eventos. | Run de job com reexecução segura. | Snapshot incorreto virar fonte de verdade. |
 | `backend` | `[backend][logistica-rastreabilidade] publicar contrato do BFF/worker` | API cria demanda, registra check-in/out, eventos e consulta mapa. | Contrato HTTP e testes de visibilidade. | Dependência direta de fornecedor de mapa. |
@@ -285,7 +285,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][auditoria-operacional] preparar contrato, owner, repo e submódulo` | Contrato de auditoria sensível registrado. | PR documental e caminho `aneety-platform/apps/auditoria-operacional/...`. | Auditoria insuficiente para alteração sensível. |
+| `repositorio` | `[repositorio][auditoria-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de auditoria sensível registrado. | PR documental e caminho `aneety-platform/apps/auditoria-operacional/...`. | Auditoria insuficiente para alteração sensível. |
 | `banco` | `[banco][auditoria-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `audit_events` e `audit_event_changes` guardam ação, entidade, ator e valores. | Migration, rollback e testes de before/after. | Registrar segredo em auditoria. |
 | `backend` | `[backend][auditoria-operacional] publicar contrato do BFF/worker` | API consulta e registra eventos com permissão administrativa. | Contrato HTTP e testes de acesso negado. | Exposição cross-tenant. |
 | `teste-integracao-api` | `[teste-integracao-api][auditoria-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida registro e consulta controlada. | Run integrado com alteração sensível. | Issue precisa entrar no Project com evidência do run. |
@@ -297,7 +297,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][catalogo-operacional] preparar contrato, owner, repo e submódulo` | Contrato de catálogo e personalização registrado. | PR documental e caminho `aneety-platform/apps/catalogo-operacional/...`. | Catálogo acoplar vertical única. |
+| `repositorio` | `[repositorio][catalogo-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de catálogo e personalização registrado. | PR documental e caminho `aneety-platform/apps/catalogo-operacional/...`. | Catálogo acoplar vertical única. |
 | `banco` | `[banco][catalogo-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Catálogos, itens e opções têm preço, prazo, status e tenant. | Migration, rollback e testes de opções. | Preço sem histórico. |
 | `backend` | `[backend][catalogo-operacional] publicar contrato do BFF/worker` | API cobre CRUD e consulta paginada de catálogo. | Contrato HTTP e testes de filtro. | Item inválido gerar pedido inválido. |
 | `teste-integracao-api` | `[teste-integracao-api][catalogo-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida criação de catálogo e leitura de item. | Run integrado com opções obrigatórias. | Issue precisa entrar no Project com evidência do run. |
@@ -309,7 +309,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][workflow-estados] preparar contrato, owner, repo e submódulo` | Contrato de estados e transições registrado. | PR documental e caminho `aneety-platform/apps/workflow-estados/...`. | Estados divergirem por módulo. |
+| `repositorio` | `[repositorio][workflow-estados] preparar contrato, owner e estrutura monorepo` | Contrato de estados e transições registrado. | PR documental e caminho `aneety-platform/apps/workflow-estados/...`. | Estados divergirem por módulo. |
 | `banco` | `[banco][workflow-estados] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Estados e transições têm entidade, origem, destino, permissão e motivo obrigatório. | Migration, rollback e testes de matriz. | Transição sem permissão. |
 | `backend` | `[backend][workflow-estados] publicar contrato do BFF/worker` | API valida próxima transição permitida por perfil. | Contrato HTTP e testes de bloqueio. | Fluxo permitir salto indevido. |
 | `teste-integracao-api` | `[teste-integracao-api][workflow-estados] validar API integrada à camada de dados real do ciclo` | Integração valida transição permitida e negada. | Run integrado com matriz oficial. | Issue precisa entrar no Project com evidência do run. |
@@ -321,7 +321,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][sla-capacidade] preparar contrato, owner, repo e submódulo` | Contrato de SLA, agenda e capacidade registrado. | PR documental e caminho `aneety-platform/apps/sla-capacidade/...`. | Promessa operacional sem capacidade real. |
+| `repositorio` | `[repositorio][sla-capacidade] preparar contrato, owner e estrutura monorepo` | Contrato de SLA, agenda e capacidade registrado. | PR documental e caminho `aneety-platform/apps/sla-capacidade/...`. | Promessa operacional sem capacidade real. |
 | `banco` | `[banco][sla-capacidade] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Políticas, agendas e slots têm tenant, ator, data, status e capacidade. | Migration, rollback e testes de disponibilidade. | Overbooking. |
 | `jobs` | `[jobs][sla-capacidade] implementar alertas e rotinas idempotentes` | Job de alerta calcula prazos sem duplicar notificação. | Run de job com reexecução segura. | Alerta indevido ou ausente. |
 | `backend` | `[backend][sla-capacidade] publicar contrato do BFF/worker` | API consulta capacidade e calcula promessa operacional. | Contrato HTTP e testes de agenda. | Cálculo fora do contrato. |
@@ -334,7 +334,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][orcamentos-precificacao] preparar contrato, owner, repo e submódulo` | Contrato de orçamento e preço registrado. | PR documental e caminho `aneety-platform/apps/orcamentos-precificacao/...`. | Valor financeiro sem auditoria. |
+| `repositorio` | `[repositorio][orcamentos-precificacao] preparar contrato, owner e estrutura monorepo` | Contrato de orçamento e preço registrado. | PR documental e caminho `aneety-platform/apps/orcamentos-precificacao/...`. | Valor financeiro sem auditoria. |
 | `banco` | `[banco][orcamentos-precificacao] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Orçamentos e itens têm valor, moeda, status, expiração e aprovação. | Migration, rollback e testes de linhas. | Cálculo sem explicação. |
 | `backend` | `[backend][orcamentos-precificacao] publicar contrato do BFF/worker` | API cria, ajusta, aprova, rejeita e expira orçamento. | Contrato HTTP e testes de status. | Atualização sem versionamento. |
 | `teste-integracao-api` | `[teste-integracao-api][orcamentos-precificacao] validar API integrada à camada de dados real do ciclo` | Integração valida aprovação e expiração. | Run integrado com orçamento vencido. | Issue precisa entrar no Project com evidência do run. |
@@ -346,7 +346,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][comunicacao-operacional] preparar contrato, owner, repo e submódulo` | Contrato de mensagens e notificações registrado. | PR documental e caminho `aneety-platform/apps/comunicacao-operacional/...`. | Mensagem conter dado sensível. |
+| `repositorio` | `[repositorio][comunicacao-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de mensagens e notificações registrado. | PR documental e caminho `aneety-platform/apps/comunicacao-operacional/...`. | Mensagem conter dado sensível. |
 | `banco` | `[banco][comunicacao-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Mensagens e notificações têm destinatário, entidade, status e visibilidade. | Migration, rollback e testes de leitura. | Notificação cross-tenant. |
 | `jobs` | `[jobs][comunicacao-operacional] implementar distribuição e reprocessamento idempotente` | Job distribui notificações sem duplicar leitura. | Run de job com repetição segura. | Duplicidade de notificação. |
 | `backend` | `[backend][comunicacao-operacional] publicar contrato do BFF/worker` | API cria, lista, marca leitura e registra aviso operacional. | Contrato HTTP e testes de status. | Exposição de mensagem privada. |
@@ -359,7 +359,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][comunicacao-email] preparar contrato, owner, repo e submódulo` | Responsabilidade opcional de e-mail registrada, separada de pedido, evidência, auditoria e autenticação. | PR documental e caminho `aneety-platform/apps/comunicacao-email/...`. | Gmail virar fonte única de domínio. |
+| `repositorio` | `[repositorio][comunicacao-email] preparar contrato, owner e estrutura monorepo` | Responsabilidade opcional de e-mail registrada, separada de pedido, evidência, auditoria e autenticação. | PR documental e caminho `aneety-platform/apps/comunicacao-email/...`. | Gmail virar fonte única de domínio. |
 | `deploy` | `[deploy][comunicacao-email] preparar runtime de custo zero` | Worker e adapter opcionais sem segredo versionado e com modo desligado por tenant. | Log de deploy ou dry-run e checklist de segredo sem valores. | Segredo de e-mail em Git, bundle ou log. |
 | `publicacao` | `[publicacao][comunicacao-email] publicar artefato ou URL permitida` | Publicação permite validar e-mail opcional sem bloquear operação sem Gmail. | Link ou artefato publicado e modo desligado documentado. | Dependência do Gmail no aceite. |
 | `banco` | `[banco][comunicacao-email] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Settings, registros e tentativas guardam adapter, referência segura, status, entidade e auditoria fora do Gmail. | Migration, rollback e testes de isolamento/registros/tentativas. | Metadado sensível visível, segredo em banco. |
@@ -374,7 +374,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][suporte-excecoes] preparar contrato, owner, repo e submódulo` | Contrato de chamados e exceções registrado. | PR documental e caminho `aneety-platform/apps/suporte-excecoes/...`. | Exceção alterar pedido sem regra. |
+| `repositorio` | `[repositorio][suporte-excecoes] preparar contrato, owner e estrutura monorepo` | Contrato de chamados e exceções registrado. | PR documental e caminho `aneety-platform/apps/suporte-excecoes/...`. | Exceção alterar pedido sem regra. |
 | `banco` | `[banco][suporte-excecoes] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Chamados e exceções têm categoria, prioridade, impacto, status e resolução. | Migration, rollback e testes de status. | Caso sensível visível a perfil errado. |
 | `backend` | `[backend][suporte-excecoes] publicar contrato do BFF/worker` | API abre, atribui, atualiza e fecha caso com permissão. | Contrato HTTP e testes de resolução. | Fechamento sem motivo. |
 | `teste-integracao-api` | `[teste-integracao-api][suporte-excecoes] validar API integrada à camada de dados real do ciclo` | Integração valida abertura, atribuição e fechamento. | Run integrado com suporte e exceção. | Issue precisa entrar no Project com evidência do run. |
@@ -386,7 +386,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][privacidade-consentimento] preparar contrato, owner, repo e submódulo` | Contrato de consentimento e privacidade registrado. | PR documental e caminho `aneety-platform/apps/privacidade-consentimento/...`. | Dado sensível sem consentimento. |
+| `repositorio` | `[repositorio][privacidade-consentimento] preparar contrato, owner e estrutura monorepo` | Contrato de consentimento e privacidade registrado. | PR documental e caminho `aneety-platform/apps/privacidade-consentimento/...`. | Dado sensível sem consentimento. |
 | `banco` | `[banco][privacidade-consentimento] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `consent_records` cobre tipo, status, origem, concessão e revogação. | Migration, rollback e testes de revogação. | Consentimento sem trilha. |
 | `backend` | `[backend][privacidade-consentimento] publicar contrato do BFF/worker` | API registra, consulta e revoga consentimento com permissão. | Contrato HTTP e testes de bloqueio. | Uso de localização sem consentimento. |
 | `teste-integracao-api` | `[teste-integracao-api][privacidade-consentimento] validar API integrada à camada de dados real do ciclo` | Integração valida concessão, revogação e bloqueio de uso. | Run integrado com consentimento revogado. | Issue precisa entrar no Project com evidência do run. |
@@ -398,7 +398,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][demo-seeds] preparar contrato, owner, repo e submódulo` | Contrato de seeds e massa demo registrado. | PR documental e caminho `aneety-platform/apps/demo-seeds/...`. | Dado real em seed pública. |
+| `repositorio` | `[repositorio][demo-seeds] preparar contrato, owner e estrutura monorepo` | Contrato de seeds e massa demo registrado. | PR documental e caminho `aneety-platform/apps/demo-seeds/...`. | Dado real em seed pública. |
 | `banco` | `[banco][demo-seeds] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `demo_seed_cases` guarda cenário, vertical, descrição e payload sanitizado. | Migration, rollback e teste de sanitização. | Vertical odontológica virar limite do produto. |
 | `jobs` | `[jobs][demo-seeds] implementar carga idempotente de massa controlada` | Job carrega seed sem duplicar registros. | Run de carga repetida com contagem estável. | Seed sobrescrever dado operacional. |
 | `backend` | `[backend][demo-seeds] publicar contrato do BFF/worker` | API consulta ou aciona demo apenas por permissão controlada. | Contrato HTTP e teste de acesso negado. | Demo disponível em tenant indevido. |
@@ -410,7 +410,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 ### `repositorio`
 
-Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner, repo e submódulo` para todas as responsabilidades da matriz e para as responsabilidades transversais mandatórias. Nenhum repo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `gateway-borda`, `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
+Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner e estrutura monorepo` para todas as responsabilidades da matriz e para as responsabilidades transversais mandatórias. Nenhum módulo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `gateway-borda`, `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
 
 ### `deploy`
 
@@ -450,7 +450,7 @@ Criar issues de teste para consolidar cobertura unitária, contrato, integraçã
 
 ### `documentacao`
 
-Criar issues `[documentacao][<responsabilidade>] sincronizar docs e evidências` antes do fechamento de governança. Aceite mínimo: documentos canônicos sincronizados em `Aneety/.github/docs`, README mínimo no repo de implementação e links para evidências.
+Criar issues `[documentacao][<responsabilidade>] sincronizar docs e evidências` antes do fechamento de governança. Aceite mínimo: documentos canônicos sincronizados em `Aneety/.github/docs`, README mínimo no monorepo de implementação e links para evidências.
 
 ### `governanca`
 
@@ -495,7 +495,7 @@ Este documento estará apto para uso quando:
 
 - todas as tabelas de `04-modelagem-banco.md` estiverem cobertas uma única vez na matriz;
 - responsabilidades transversais mandatórias do MVP, como `gateway-borda`, estiverem cobertas com ciclos e aceite;
-- cada responsabilidade tiver repo esperado, caminho de submódulo, ciclos, issues, aceite e evidência;
+- cada responsabilidade tiver responsabilidade raiz, caminho canônico no monorepo, ciclos, issues, aceite e evidência;
 - backlog por ciclo respeitar a ordem de `06-ciclos-cobertura.md`;
 - bloqueios normativos estiverem explícitos;
 - não houver placeholder textual, segredo, valor sensível ou instrução para usar GitHub Pages como runtime operacional.
