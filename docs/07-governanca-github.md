@@ -50,6 +50,16 @@ Para código fonte do MVP, evidência de build, execução, teste, smoke, public
 
 Se Codex encontrar lacuna de implementação mas não houver ambiente Cloudflare permitido, segredo seguro, contrato ou gate anterior verde, deve atualizar `docs/project` com bloqueio objetivo e próxima ação. Não deve compensar a lacuna com servidor local, container, Python, VPS, banco externo obrigatório ou runtime fora de Cloudflare Workers.
 
+## Proteção de checkout e leitura canônica
+
+Antes de comparar, revisar ou alterar qualquer repositório Aneety, a automação deve proteger o trabalho humano:
+
+- executar `git status --short`, registrar branch atual, SHA atual e remotos do repositório;
+- executar `git fetch --all --prune` antes de usar o checkout como base de comparação;
+- se houver mudança local não criada no ciclo atual, não sobrescrever, não limpar e não editar aquele checkout; registrar bloqueio objetivo em `docs/project/<responsabilidade>.md` ou em `docs/project/index.md` quando o impacto for global;
+- se `/Users/mal/GitHub/Aneety/.github` estiver sujo, esse checkout não pode ser usado como fonte de verdade para decisão documental; a leitura canônica deve acontecer por `origin/main`, worktree limpo ou clone limpo equivalente;
+- alterações documentais em `Aneety/.github` devem acontecer somente em branch derivada de `main` atualizado dentro de worktree limpo.
+
 ## Modelo de Issues
 
 Criar issue apenas para incremento, lacuna, decisão, bloqueio ou evidência que realmente precise de thread própria.
@@ -195,19 +205,21 @@ Regras:
 - Mover para `validacao` somente com PR, diff ou artefato pronto para revisão.
 - Mover para `concluido` somente com evidência final linkada.
 - Atualizar `docs/project/index.md` sempre que `Status`, `Owner`, `Prioridade`, `Ciclo ativo` ou bloqueio global mudarem.
+- Quando o bloqueio vier de checkout sujo, branch errada, SHA defasado ou fetch pendente, registrar a causa objetiva e o repo afetado no painel Markdown antes de qualquer outra ação.
 
 ## Fluxo de ciclo
 
 Antes de iniciar um ciclo:
 
-1. Confirmar fonte documental e critério de aceite.
-2. Confirmar ciclo pela ordem fixa de `06-ciclos-cobertura.md`.
-3. Confirmar responsabilidade e repo destino.
-4. Confirmar owner.
-5. Confirmar evidência esperada.
-6. Abrir ou atualizar issue somente se ela ainda for necessária como thread histórica.
-7. Atualizar `docs/project/<responsabilidade>.md`.
-8. Marcar `status:pronto` no arquivo correspondente.
+1. Proteger checkout humano com `git status --short`, branch, SHA, remotos e `git fetch --all --prune`.
+2. Confirmar fonte documental e critério de aceite.
+3. Confirmar ciclo pela ordem fixa de `06-ciclos-cobertura.md`.
+4. Confirmar responsabilidade e repo destino.
+5. Confirmar owner.
+6. Confirmar evidência esperada.
+7. Abrir ou atualizar issue somente se ela ainda for necessária como thread histórica.
+8. Atualizar `docs/project/<responsabilidade>.md`.
+9. Marcar `status:pronto` no arquivo correspondente.
 
 Durante o ciclo:
 

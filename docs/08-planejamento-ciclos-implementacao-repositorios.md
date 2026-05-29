@@ -1,8 +1,8 @@
-# Planejamento de ciclos e issues para implementação no monorepo — Aneety Platform
+# Planejamento de ciclos e registro operacional para implementação no monorepo — Aneety Platform
 
 ## Objetivo
 
-Este documento transforma requisitos, processos, modelagens de banco e regras de repositórios da Aneety Platform em um backlog operacional de ciclos e issues. Ele orienta a criação de responsabilidades e módulos internos no monorepo, além de estruturas de dados, BFFs, jobs, microfrontends, validações e fechamento de evidências sem substituir os documentos normativos. O painel operacional ativo deste backlog vive em `docs/project/`.
+Este documento transforma requisitos, processos, modelagens de banco e regras de repositórios da Aneety Platform em um backlog operacional de ciclos. Ele orienta a criação de responsabilidades e módulos internos no monorepo, além de estruturas de dados, BFFs, jobs, microfrontends, validações e fechamento de evidências sem substituir os documentos normativos. O painel operacional ativo deste backlog vive em `docs/project/`, e issue histórica só entra quando uma thread própria for realmente necessária.
 
 ## Fontes normativas
 
@@ -43,6 +43,16 @@ Uma responsabilidade só pode virar módulo interno do monorepo quando registrar
 - plano de saída para fornecedor externo quando aplicável;
 - caminho no monorepo `Aneety/ai` sob `aneety-platform/apps/<responsabilidade>/...`;
 - repo destino `Aneety/ai` e caminho canônico interno da responsabilidade.
+
+## Gate de proteção de checkout
+
+Antes de comparar backlog, documentação, issue histórica ou implementação em qualquer repositório Aneety, a automação deve:
+
+- executar `git status --short`, registrar branch atual, SHA atual e remotos;
+- executar `git fetch --all --prune` antes de usar o checkout como base de decisão;
+- preservar mudanças locais não criadas no ciclo atual; se o checkout estiver sujo, registrar bloqueio no arquivo correspondente de `docs/project` e pular edição naquele repositório;
+- quando `/Users/mal/GitHub/Aneety/.github` estiver sujo, ler a documentação canônica por `origin/main`, worktree limpo ou clone limpo equivalente; o checkout sujo não pode servir como fonte de verdade;
+- tratar checkout limpo e branch derivada de `main` atualizado como pré-condição para editar `Aneety/.github`.
 
 ## Limite operacional para Codex e validação
 
@@ -105,7 +115,7 @@ Toda issue derivada deste documento deve usar o corpo mínimo abaixo, preenchido
 -
 ```
 
-Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual, usar `.github/ISSUE_TEMPLATE/backlog-operacional.yml` como base.
+Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Para abertura manual, usar `.github/ISSUE_TEMPLATE/backlog-operacional.yml` como base quando uma issue histórica for realmente necessária.
 
 ## Matriz por modelagem de banco
 
@@ -141,15 +151,15 @@ Algumas responsabilidades do MVP não nascem de uma tabela própria em `04-model
 | --- | --- | --- | --- | --- | --- |
 | `gateway-borda` | `01-arquitetura.md` (`## Runtime alvo do MVP`, `## Fluxo de dados`), `05-estrutura-repositorios.md` (`## Regras de runtime e evolução`, `## Responsabilidades funcionais v1 candidatas`) | `gateway-borda` | `aneety-platform/apps/gateway-borda/worker-gateway`, `pkg-contratos-publicos` | `repositorio`, `deploy`, `publicacao`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | `worker-gateway` valida borda, CORS, versão de contrato, sessão pública Aneety e roteamento/service bindings para BFFs `worker-*`, sem segredo no frontend e sem runtime fora de Workers. Evidência: contrato HTTP, smoke de borda, teste de roteamento e docs atualizadas. |
 
-## Issues por responsabilidade
+## Backlog por responsabilidade
 
-Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve usar o template de corpo obrigatório deste documento e labels coerentes com `07-governanca-github.md`.
+Os blocos abaixo são prontos para registro no painel `docs/project` e, quando necessário, para abertura de issues históricas no GitHub. Quando houver issue, ela deve usar o template de corpo obrigatório deste documento e labels coerentes com `07-governanca-github.md`.
 
 ### `gateway-borda`
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
 | --- | --- | --- | --- | --- |
-| `repositorio` | `[repositorio][gateway-borda] preparar contrato, owner e estrutura monorepo` | Responsabilidade transversal do `worker-gateway` registrada com owner, custo zero, contrato de borda e caminho `aneety-platform/apps/gateway-borda/...`. | PR documental e issue aberta com links normativos. | Gateway obrigatório ficar sem backlog próprio e atrasar todos os BFFs. |
+| `repositorio` | `[repositorio][gateway-borda] preparar contrato, owner e estrutura monorepo` | Responsabilidade transversal do `worker-gateway` registrada com owner, custo zero, contrato de borda e caminho `aneety-platform/apps/gateway-borda/...`. | PR documental e, quando necessário, issue histórica com links normativos. | Gateway obrigatório ficar sem backlog próprio e atrasar todos os BFFs. |
 | `deploy` | `[deploy][gateway-borda] preparar runtime de custo zero` | Deploy do `worker-gateway` documentado em runtime 100% Workers, sem segredo versionado. | Configuração de deploy, bindings e checklist sem valores. | Segredo em Git/log ou runtime fora de Workers. |
 | `publicacao` | `[publicacao][gateway-borda] publicar endpoint de borda permitido` | Endpoint público do gateway publicado sem depender de GitHub Pages como runtime transacional. | URL publicada, roteamento básico e evidência de ambiente. | Publicação sem contrato de borda. |
 | `backend` | `[backend][gateway-borda] publicar contrato do worker-gateway` | Gateway valida CORS, sessão pública Aneety, versão de contrato e roteamento/service bindings para `worker-*`. | Contrato HTTP, testes 401/403/CORS e diff do worker. | Bypass de autorização, roteamento público entre Workers ou vazamento de segredo. |
@@ -429,53 +439,53 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 ### `repositorio`
 
-Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner e estrutura monorepo` para todas as responsabilidades da matriz e para as responsabilidades transversais mandatórias. Nenhum módulo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `gateway-borda`, `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
+Registrar primeiro no painel `docs/project/<responsabilidade>.md` os itens `[repositorio][<responsabilidade>] preparar contrato, owner e estrutura monorepo` para todas as responsabilidades da matriz e para as responsabilidades transversais mandatórias. Issue histórica só deve ser aberta nesse ciclo quando a discussão, decisão ou trilha de evidência precisar de thread própria. Nenhum módulo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `gateway-borda`, `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
 
 O ciclo `repositorio` só fica verde com evidência dupla: PR/documento canônico e presença física da raiz `aneety-platform/apps/<responsabilidade>/...` no repo destino `Aneety/ai`. Se o checkout local do repo destino estiver sujo ou se `aneety-platform/apps/` contiver apenas `.gitkeep`, `docs/project/<responsabilidade>.md` deve registrar `bloqueado` e não pode avançar para `deploy`.
 
 ### `deploy`
 
-Criar issues de deploy somente após o ciclo `repositorio` ficar verde para a responsabilidade. Aceite mínimo: runtime de custo zero em Cloudflare Workers, sem segredo em repositório, caminho de ambiente documentado, evidência de Cloudflare Workers Build, preview remoto ou `wrangler deploy --dry-run`, e plano de rollback. Para MVP, BFFs usam `worker-<nome>` e microfrontends operacionais usam `mfe-<nome>`.
+Avançar para `deploy` somente após o ciclo `repositorio` ficar verde para a responsabilidade. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: runtime de custo zero em Cloudflare Workers, sem segredo em repositório, caminho de ambiente documentado, evidência de Cloudflare Workers Build, preview remoto ou `wrangler deploy --dry-run`, e plano de rollback. Para MVP, BFFs usam `worker-<nome>` e microfrontends operacionais usam `mfe-<nome>`.
 
 ### `publicacao`
 
-Criar issues de publicação após deploy mínimo. Aceite mínimo: URL ou artefato público adequado ao ciclo em Cloudflare permitido, sem GitHub Pages como runtime transacional. GitHub Pages pode publicar documentação originada em `Aneety/.github`.
+Avançar para `publicacao` após deploy mínimo. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: URL ou artefato público adequado ao ciclo em Cloudflare permitido, sem GitHub Pages como runtime transacional. GitHub Pages pode publicar documentação originada em `Aneety/.github`.
 
 ### `banco`
 
-Criar issues `[banco][<responsabilidade>] implementar estrutura de dados, constraints, índices, isolamento e seeds` na ordem de prioridades funcionais. Aceite mínimo: migrations/DDL ou contrato de storage Workers-compatible, rollback, constraints, índices, controles de isolamento/regras de acesso, seeds controlados e testes de leitura/escrita para o nível CRUD declarado, com evidência Cloudflare-backed.
+Executar e registrar `[banco][<responsabilidade>] implementar estrutura de dados, constraints, índices, isolamento e seeds` na ordem de prioridades funcionais. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: migrations/DDL ou contrato de storage Workers-compatible, rollback, constraints, índices, controles de isolamento/regras de acesso, seeds controlados e testes de leitura/escrita para o nível CRUD declarado, com evidência Cloudflare-backed.
 
 ### `jobs`
 
-Criar issues de job apenas para responsabilidades com rotina assíncrona prevista: `offline-sync`, `logistica-rastreabilidade`, `sla-capacidade`, `comunicacao-operacional`, `demo-seeds`. Aceite mínimo: idempotência, retries, logs operacionais, reprocessamento e isolamento por tenant.
+Executar e registrar `jobs` apenas para responsabilidades com rotina assíncrona prevista: `offline-sync`, `logistica-rastreabilidade`, `sla-capacidade`, `comunicacao-operacional`, `demo-seeds`. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: idempotência, retries, logs operacionais, reprocessamento e isolamento por tenant.
 
 ### `backend`
 
-Criar issues `[backend][<responsabilidade>] publicar contrato do BFF/worker` após banco verde para o nível CRUD declarado. Aceite mínimo: contrato HTTP ou evento, gateway/contrato público quando aplicável, validação, autorização, paginação quando aplicável, erros de domínio, auditoria mínima e testes de contrato; microfrontend nunca acessa banco direto.
+Executar e registrar `[backend][<responsabilidade>] publicar contrato do BFF/worker` após banco verde para o nível CRUD declarado. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: contrato HTTP ou evento, gateway/contrato público quando aplicável, validação, autorização, paginação quando aplicável, erros de domínio, auditoria mínima e testes de contrato; microfrontend nunca acessa banco direto.
 
 ### `teste-integracao-api`
 
-Criar issues `[teste-integracao-api][<responsabilidade>] validar API integrada à camada de dados real do ciclo` após backend verde. Aceite mínimo: API integrada à camada de dados real do ciclo em preview remoto ou runtime Cloudflare permitido, casos positivos e negativos, isolamento por tenant e evidência do run. Em labels, usar `ciclo:teste-integracao-api`.
+Executar e registrar `[teste-integracao-api][<responsabilidade>] validar API integrada à camada de dados real do ciclo` após backend verde. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: API integrada à camada de dados real do ciclo em preview remoto ou runtime Cloudflare permitido, casos positivos e negativos, isolamento por tenant e evidência do run. Em labels, usar `ciclo:teste-integracao-api`.
 
 ### `microfrontend`
 
-Criar issues `[microfrontend][<responsabilidade>] entregar fluxo visual quando houver UI` após integração de API verde. Aceite mínimo: Single SPA, shadcn/ui e tokens semânticos quando aplicável, estados de carregamento/vazio/erro/sucesso, permissões, acessibilidade básica e nenhuma exposição de fornecedor, banco, runtime, framework, segredo ou ferramenta interna em UI final.
+Executar e registrar `[microfrontend][<responsabilidade>] entregar fluxo visual quando houver UI` após integração de API verde. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: Single SPA, shadcn/ui e tokens semânticos quando aplicável, estados de carregamento/vazio/erro/sucesso, permissões, acessibilidade básica e nenhuma exposição de fornecedor, banco, runtime, framework, segredo ou ferramenta interna em UI final.
 
 ### `smoke`
 
-Criar issues de smoke por responsabilidade quando backend e microfrontend do ciclo estiverem verdes. Aceite mínimo: fluxo crítico real executado em Cloudflare permitido, evidência com log, screenshot ou artefato verificável, sem depender de GitHub Pages ou runtime local como runtime operacional.
+Executar e registrar `smoke` por responsabilidade quando backend e microfrontend do ciclo estiverem verdes. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: fluxo crítico real executado em Cloudflare permitido, evidência com log, screenshot ou artefato verificável, sem depender de GitHub Pages ou runtime local como runtime operacional.
 
 ### `teste`
 
-Criar issues de teste para consolidar cobertura unitária, contrato, integração e regressão do ciclo. Quando o teste virar evidência de aceite de código fonte do MVP, deve executar em Cloudflare Workers Builds, preview remoto, runtime remoto ou comando Wrangler que use Cloudflare como alvo. Nova cobertura E2E só entra quando todos os gates de `06-ciclos-cobertura.md` estiverem verdes.
+Executar e registrar `teste` para consolidar cobertura unitária, contrato, integração e regressão do ciclo. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Quando o teste virar evidência de aceite de código fonte do MVP, deve executar em Cloudflare Workers Builds, preview remoto, runtime remoto ou comando Wrangler que use Cloudflare como alvo. Nova cobertura E2E só entra quando todos os gates de `06-ciclos-cobertura.md` estiverem verdes.
 
 ### `documentacao`
 
-Criar issues `[documentacao][<responsabilidade>] sincronizar docs e evidências` antes do fechamento de governança. Aceite mínimo: documentos canônicos sincronizados em `Aneety/.github/docs`, README mínimo no monorepo de implementação, `docs/project` coerente e links para evidências.
+Executar e registrar `[documentacao][<responsabilidade>] sincronizar docs e evidências` antes do fechamento de governança. Abrir ou atualizar issue histórica apenas se o ciclo exigir thread própria de decisão, bloqueio ou evidência. Aceite mínimo: documentos canônicos sincronizados em `Aneety/.github/docs`, README mínimo no monorepo de implementação, `docs/project` coerente e links para evidências.
 
 ### `governanca`
 
-Criar issues `[governanca][<responsabilidade>] fechar ciclo com aceite e docs/project` apenas quando uma thread histórica ainda for necessária. O painel oficial deve ser atualizado em `docs/project/<responsabilidade>.md` e refletido em `docs/project/index.md` quando `Status`, `Ciclo`, `Responsabilidade`, `Repo destino`, `Owner`, `Prioridade`, `Gate`, `Evidência` e `Bloqueio` mudarem. Fechar a issue histórica somente depois que o arquivo Markdown correspondente estiver coerente.
+Executar e registrar `[governanca][<responsabilidade>] fechar ciclo com aceite e docs/project`, abrindo ou atualizando issue histórica apenas quando uma thread própria ainda for necessária. O painel oficial deve ser atualizado em `docs/project/<responsabilidade>.md` e refletido em `docs/project/index.md` quando `Status`, `Ciclo`, `Responsabilidade`, `Repo destino`, `Owner`, `Prioridade`, `Gate`, `Evidência` e `Bloqueio` mudarem. Fechar a issue histórica somente depois que o arquivo Markdown correspondente estiver coerente.
 
 ## Sequência CRUD obrigatória por responsabilidade com dados
 
@@ -508,7 +518,7 @@ Antes de ativar `comunicacao-email` ou `identidade-federada` para qualquer tenan
 | Bloqueio | Impacto | Próxima ação | Issue sugerida |
 | --- | --- | --- | --- |
 | Painel Markdown desatualizado ou sem evidência objetiva pode quebrar a rastreabilidade do backlog. | Backlog pode evoluir fora do status real e sem trilha verificável em Git. | Atualizar primeiro `docs/project/<responsabilidade>.md` e depois `docs/project/index.md` em toda mudança de estado. | `[governanca][docs-project] sincronizar painel operacional em Markdown` |
-| Responsabilidades fora do backlog inicial ainda podem nascer sem owner real se as issues forem abertas em lote. | Issue executável não pode entrar em ciclo sem responsável nominal. | Continuar abrindo issue somente com owner nomeado no corpo e no campo correspondente do Project. | Uma issue de `status:triagem` por responsabilidade sem owner nominal. |
+| Responsabilidades fora do backlog inicial ainda podem nascer sem owner real se o registro operacional for aberto sem revisão. | Item executável não pode entrar em ciclo sem responsável nominal. | Registrar owner nomeado primeiro em `docs/project/<responsabilidade>.md` e, se houver issue histórica, repetir o owner no corpo da issue. | Uma issue de `status:triagem` por responsabilidade sem owner nominal, quando a thread histórica for necessária. |
 
 ## Critério de conclusão deste planejamento
 
