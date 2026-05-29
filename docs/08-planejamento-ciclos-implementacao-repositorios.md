@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este documento transforma requisitos, processos, modelagens de banco e regras de repositórios da Aneety Platform em um backlog operacional de ciclos e issues. Ele orienta a criação de responsabilidades e módulos internos no monorepo, além de estruturas de dados, BFFs, jobs, microfrontends, validações e fechamento de evidências sem substituir os documentos normativos.
+Este documento transforma requisitos, processos, modelagens de banco e regras de repositórios da Aneety Platform em um backlog operacional de ciclos e issues. Ele orienta a criação de responsabilidades e módulos internos no monorepo, além de estruturas de dados, BFFs, jobs, microfrontends, validações e fechamento de evidências sem substituir os documentos normativos. O painel operacional ativo deste backlog vive em `docs/project/`.
 
 ## Fontes normativas
 
@@ -14,9 +14,9 @@ A implementação deve obedecer à seguinte precedência documental:
 4. [`04-modelagem-banco.md`](04-modelagem-banco.md) — tabelas conceituais, isolamento, índices e regras de acesso.
 5. [`05-estrutura-repositorios.md`](05-estrutura-repositorios.md) — org, clones centrais, monorepo, prefixos e responsabilidades.
 6. [`06-ciclos-cobertura.md`](06-ciclos-cobertura.md) — ordem de ciclos, sequência CRUD e gates de cobertura.
-7. [`07-governanca-github.md`](07-governanca-github.md) — issues, labels, Project, Definition of Done e bloqueios.
+7. [`07-governanca-github.md`](07-governanca-github.md) — issues, labels, painel Markdown, Definition of Done e bloqueios.
 
-Regra de execução: issue, Project, PR ou automação não muda contrato. Mudança de contrato começa por PR documental nos arquivos acima.
+Regra de execução: issue, arquivo em `docs/project`, PR ou automação não muda contrato. Mudança de contrato começa por PR documental nos arquivos acima.
 
 ## Gates antes de criar responsabilidade ou módulo
 
@@ -134,11 +134,11 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `deploy` | `[deploy][gateway-borda] preparar runtime de custo zero` | Deploy do `worker-gateway` documentado em runtime 100% Workers, sem segredo versionado. | Configuração de deploy, bindings e checklist sem valores. | Segredo em Git/log ou runtime fora de Workers. |
 | `publicacao` | `[publicacao][gateway-borda] publicar endpoint de borda permitido` | Endpoint público do gateway publicado sem depender de GitHub Pages como runtime transacional. | URL publicada, roteamento básico e evidência de ambiente. | Publicação sem contrato de borda. |
 | `backend` | `[backend][gateway-borda] publicar contrato do worker-gateway` | Gateway valida CORS, sessão pública Aneety, versão de contrato e roteamento/service bindings para `worker-*`. | Contrato HTTP, testes 401/403/CORS e diff do worker. | Bypass de autorização, roteamento público entre Workers ou vazamento de segredo. |
-| `teste-integracao-api` | `[teste-integracao-api][gateway-borda] validar gateway integrado aos BFFs do ciclo` | Integração valida borda real do ciclo, erros de contrato e encaminhamento para BFF Worker. | Run integrado com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][gateway-borda] validar gateway integrado aos BFFs do ciclo` | Integração valida borda real do ciclo, erros de contrato e encaminhamento para BFF Worker. | Run integrado com casos positivos e negativos. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `smoke` | `[smoke][gateway-borda] validar fluxo crítico publicado da borda` | Smoke confirma endpoint ativo, rota crítica e headers obrigatórios sem vazar detalhe técnico ao usuário final. | Log, screenshot técnica ou artefato verificável. | Smoke só de 200 sem validar borda. |
 | `teste` | `[teste][gateway-borda] consolidar cobertura da borda` | Cobertura unitária, contrato, integração e regressão do gateway consolidada. | Saída de testes com falhas zero. | Regressão em CORS, sessão ou roteamento. |
 | `documentacao` | `[documentacao][gateway-borda] sincronizar docs e evidências` | Arquitetura, estrutura de repositórios, contratos de borda e evidências refletem `worker-gateway`. | PR documental com links de evidência. | Docs continuarem sem backlog do gateway. |
-| `governanca` | `[governanca][gateway-borda] fechar ciclo com aceite e Project` | Issue tem aceite final, evidências e status coerentes no Project. | Links de PR, testes, smoke e item do Project. | Fechamento sem prova de borda publicada. |
+| `governanca` | `[governanca][gateway-borda] fechar ciclo com aceite e docs/project` | Issue tem aceite final, evidências e status coerentes no arquivo correspondente em `docs/project`. | Links de PR, testes, smoke e arquivo em `docs/project`. | Fechamento sem prova de borda publicada. |
 
 ### `tenant-white-label`
 
@@ -147,10 +147,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][tenant-white-label] preparar contrato, owner e estrutura monorepo` | Contrato, owner, dados, custo zero, responsabilidade raiz e caminho `aneety-platform/apps/tenant-white-label/...` registrados. | PR documental e estrutura monorepo planejada ou criada conforme gate. | Marca, dados de tenant, lock-in de DNS/CDN. |
 | `banco` | `[banco][tenant-white-label] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `tenants` e `tenant_branding` com UUID, datas, exclusão lógica, índices e controles de isolamento. | Migration, rollback, teste de dados e seed de tenant Lia como marca inicial. | Cross-tenant e configuração visual sensível. |
 | `backend` | `[backend][tenant-white-label] publicar contrato do BFF/worker` | API controla tenants e branding por permissão, sem segredo em frontend. | Contrato HTTP, testes de autorização e erro de domínio. | Exposição de dados administrativos. |
-| `teste-integracao-api` | `[teste-integracao-api][tenant-white-label] validar API integrada à camada de dados real do ciclo` | API e banco validam isolamento e CRUD coberto. | Run de integração com camada de dados real do ciclo. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][tenant-white-label] validar API integrada à camada de dados real do ciclo` | API e banco validam isolamento e CRUD coberto. | Run de integração com camada de dados real do ciclo. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][tenant-white-label] entregar fluxo visual quando houver UI` | Administração de marca usa linguagem de produto, sem termos de runtime. | Screenshot ou smoke visual com estados de vazio, erro e sucesso. | Vazamento técnico em UI final. |
 | `documentacao` | `[documentacao][tenant-white-label] sincronizar docs e evidências` | Arquitetura, requisitos e docs da responsabilidade atualizados. | PR documental com links de evidência. | Duplicação fora de `Aneety/.github`. |
-| `governanca` | `[governanca][tenant-white-label] fechar ciclo com aceite e Project` | Issue tem aceite, evidência final e Project atualizado. | Link do Project, PRs e checks. | Fechamento sem evidência. |
+| `governanca` | `[governanca][tenant-white-label] fechar ciclo com aceite e docs/project` | Issue tem aceite, evidência final e `docs/project` atualizado. | Link do arquivo em `docs/project`, PRs e checks. | Fechamento sem evidência. |
 
 ### `identidade-acesso`
 
@@ -159,10 +159,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][identidade-acesso] preparar contrato, owner e estrutura monorepo` | Responsabilidade de identidade própria, sessão, perfil e permissão registrada. | PR documental e caminho `aneety-platform/apps/identidade-acesso/...`. | Segredos, dados pessoais, lock-in de identidade externa. |
 | `banco` | `[banco][identidade-acesso] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Identidades, credenciais, sessões, usuários, perfis e permissões com hash forte, expiração e controles de isolamento. | Migration, rollback, testes de hash, revogação e isolamento. | Credencial em texto, sessão sem expiração. |
 | `backend` | `[backend][identidade-acesso] publicar contrato do BFF/worker` | Sessão própria emitida por validação interna de tenant, perfil e status. | Contrato HTTP, testes de login, refresh, revogação e acesso negado. | Frontend acessar banco ou IdP diretamente. |
-| `teste-integracao-api` | `[teste-integracao-api][identidade-acesso] validar API integrada à camada de dados real do ciclo` | Fluxo real valida criação, autenticação, perfil e bloqueio. | Run de integração com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][identidade-acesso] validar API integrada à camada de dados real do ciclo` | Fluxo real valida criação, autenticação, perfil e bloqueio. | Run de integração com casos positivos e negativos. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][identidade-acesso] entregar fluxo visual quando houver UI` | Telas de acesso e gestão usam linguagem de usuário e permissões claras. | Smoke visual de entrada, bloqueio e recuperação. | Termos técnicos de provedor ou token em UI. |
 | `documentacao` | `[documentacao][identidade-acesso] sincronizar docs e evidências` | Docs registram sessão própria e integração externa opcional. | PR documental e evidências de segurança. | SSO externo virar requisito obrigatório. |
-| `governanca` | `[governanca][identidade-acesso] fechar ciclo com aceite e Project` | Issue fechada com evidência verificável. | Project atualizado e links finais. | Evidência de segurança ausente. |
+| `governanca` | `[governanca][identidade-acesso] fechar ciclo com aceite e docs/project` | Issue histórica fechada com evidência verificável e `docs/project` atualizado. | `docs/project` atualizado e links finais. | Evidência de segurança ausente. |
 
 ### `onboarding-acesso`
 
@@ -173,12 +173,12 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `publicacao` | `[publicacao][onboarding-acesso] publicar artefato ou URL permitida` | URL ou artefato permitido para fluxo de primeiro acesso, sem GitHub Pages como runtime transacional. | Link publicado ou artefato com origem rastreável. | Publicação em runtime proibido. |
 | `banco` | `[banco][onboarding-acesso] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Convites, onboarding, confirmação, recuperação e lifecycle com hash, expiração, status e controles de isolamento. | Migration, rollback e testes de convite/recuperação/lifecycle. | Token em texto, leitura cross-tenant, convite expirado aceito. |
 | `backend` | `[backend][onboarding-acesso] publicar contrato do BFF/worker` | API convida, aceita, confirma contato, recupera acesso, bloqueia e reativa por gateway/contrato público. | Contrato HTTP, 401/403, testes de expiração e permissão. | Bypass de perfil, mutação sem auditoria. |
-| `teste-integracao-api` | `[teste-integracao-api][onboarding-acesso] validar API integrada à camada de dados real do ciclo` | Integração valida convite feliz, convite expirado, recuperação e bloqueio. | Run integrado com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][onboarding-acesso] validar API integrada à camada de dados real do ciclo` | Integração valida convite feliz, convite expirado, recuperação e bloqueio. | Run integrado com casos positivos e negativos. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][onboarding-acesso] entregar fluxo visual quando houver UI` | UI orienta primeiro acesso, confirmação e recuperação sem termos técnicos. | Smoke visual com estados de carregando, vazio, erro e sucesso. | UI expor token, provedor, banco ou runtime. |
 | `smoke` | `[smoke][onboarding-acesso] validar fluxo crítico publicado` | Convite até primeiro acesso executa no ambiente publicado permitido. | Log, screenshot ou vídeo curto com dados controlados. | Dado real ou segredo em evidência. |
 | `teste` | `[teste][onboarding-acesso] consolidar cobertura de onboarding` | Cobertura unitária, contrato, integração e regressão para convites e recuperação. | Saída de testes com falhas zero. | Lacuna em expiração ou bloqueio. |
 | `documentacao` | `[documentacao][onboarding-acesso] sincronizar docs e evidências` | Requisitos, processos, modelagem e evidências atualizados. | PR documental com links de evidência. | Divergência entre fluxo e modelo. |
-| `governanca` | `[governanca][onboarding-acesso] fechar ciclo com aceite e Project` | Issue tem owner, aceite, evidência final e Project atualizado. | Links finais de PR, testes e smoke. | Fechamento sem evidência. |
+| `governanca` | `[governanca][onboarding-acesso] fechar ciclo com aceite e docs/project` | Issue tem owner, aceite, evidência final e `docs/project` atualizado. | Links finais de PR, testes e smoke. | Fechamento sem evidência. |
 
 ### `identidade-federada`
 
@@ -189,11 +189,11 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `publicacao` | `[publicacao][identidade-federada] publicar artefato ou URL permitida` | Publicação permite validar integração opcional sem tornar provedor obrigatório. | Link ou artefato publicado e modo desligado documentado. | Dependência de fornecedor no aceite. |
 | `banco` | `[banco][identidade-federada] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Settings, vínculos e tentativas guardam adapter, subject hash, status e auditoria sem segredo. | Migration, rollback e testes de isolamento/vínculo/tentativa. | Subject externo em texto, segredo em banco. |
 | `backend` | `[backend][identidade-federada] publicar contrato do BFF/worker` | API valida vínculo externo permitido e emite somente sessão própria Aneety via gateway/contrato público. | Contrato HTTP, testes de modo desligado, recusa e falha de provider. | Sessão final emitida pelo provedor externo. |
-| `teste-integracao-api` | `[teste-integracao-api][identidade-federada] validar API integrada à camada de dados real do ciclo` | Integração valida modo desligado, vínculo válido, vínculo recusado e fornecedor indisponível. | Run integrado com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][identidade-federada] validar API integrada à camada de dados real do ciclo` | Integração valida modo desligado, vínculo válido, vínculo recusado e fornecedor indisponível. | Run integrado com casos positivos e negativos. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `smoke` | `[smoke][identidade-federada] validar fluxo crítico publicado` | Login próprio segue funcionando sem Google SSO e tentativa federada degrada corretamente. | Evidência de smoke sem imprimir token externo. | Exposição de token ou claim. |
 | `teste` | `[teste][identidade-federada] consolidar cobertura de integração opcional` | Cobertura unitária, contrato, integração e regressão para modo desligado/degradação. | Saída de testes com falhas zero. | Falta de teste de modo desligado. |
 | `documentacao` | `[documentacao][identidade-federada] sincronizar docs e evidências` | Docs deixam claro que Google SSO é adapter opcional e sessão final é Aneety. | PR documental e evidência de degradação. | Linguagem transformar SSO em requisito. |
-| `governanca` | `[governanca][identidade-federada] fechar ciclo com aceite e Project` | Issue tem aceite, evidência final e Project atualizado. | Links finais de PR, testes e smoke. | Fechamento sem teste de modo desligado. |
+| `governanca` | `[governanca][identidade-federada] fechar ciclo com aceite e docs/project` | Issue tem aceite, evidência final e `docs/project` atualizado. | Links finais de PR, testes e smoke. | Fechamento sem teste de modo desligado. |
 
 ### `pedidos-customizados`
 
@@ -202,10 +202,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][pedidos-customizados] preparar contrato, owner e estrutura monorepo` | Contrato de pedidos e checkpoints criado com owner e responsabilidade raiz. | PR documental e caminho `aneety-platform/apps/pedidos-customizados/...`. | Acoplar pedido à vertical odontológica. |
 | `banco` | `[banco][pedidos-customizados] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `orders` e `order_checkpoints` versionados, sem exclusão física, com CRUD incremental. | Migration, rollback, testes CRUD e seed demo sanitizado. | Perda de histórico operacional. |
 | `backend` | `[backend][pedidos-customizados] publicar contrato do BFF/worker` | API cobre incluir, pesquisar por id, pesquisar por filtros, atualizar e excluir logicamente. | Contrato HTTP, testes de paginação e auditoria mínima. | Mutação sem nova versão. |
-| `teste-integracao-api` | `[teste-integracao-api][pedidos-customizados] validar API integrada à camada de dados real do ciclo` | API + camada de dados validam sequência CRUD obrigatória até etapa declarada. | Run de integração com tenant isolado. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][pedidos-customizados] validar API integrada à camada de dados real do ciclo` | API + camada de dados validam sequência CRUD obrigatória até etapa declarada. | Run de integração com tenant isolado. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][pedidos-customizados] entregar fluxo visual quando houver UI` | Fluxo visual cria, lista, edita e acompanha pedido. | Smoke visual e screenshot sem termos técnicos. | UI sugerir banco, worker ou fornecedor. |
 | `documentacao` | `[documentacao][pedidos-customizados] sincronizar docs e evidências` | Requisitos, processos e evidências alinhados ao fluxo central. | PR documental com evidência de CRUD. | Docs duplicadas no monorepo de implementação. |
-| `governanca` | `[governanca][pedidos-customizados] fechar ciclo com aceite e Project` | Project e issue refletem status final e evidência. | Links de PR, testes e smoke. | Fechar antes de smoke. |
+| `governanca` | `[governanca][pedidos-customizados] fechar ciclo com aceite e docs/project` | `docs/project` e issue histórica refletem status final e evidência. | Links de PR, testes e smoke. | Fechar antes de smoke. |
 
 ### `qualidade-evidencias`
 
@@ -214,10 +214,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][qualidade-evidencias] preparar contrato, owner e estrutura monorepo` | Contrato de qualidade e evidências separado do pedido, com owner. | PR documental e caminho `aneety-platform/apps/qualidade-evidencias/...`. | Anexo expor dado sensível. |
 | `banco` | `[banco][qualidade-evidencias] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `quality_reviews` e `attachments` guardam metadados, status, vínculo e permissão. | Migration, rollback, testes de isolamento e metadados. | Bytes sem lifecycle ou metadado sem autorização. |
 | `backend` | `[backend][qualidade-evidencias] publicar contrato do BFF/worker` | API valida evidência obrigatória e bloqueia avanço indevido. | Contrato HTTP e testes de rejeição/aprovação. | Expor storage interno na UI. |
-| `teste-integracao-api` | `[teste-integracao-api][qualidade-evidencias] validar API integrada à camada de dados real do ciclo` | Camada de dados e API validam revisão, anexo e permissão. | Run integrado com caso aprovado e reprovado. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][qualidade-evidencias] validar API integrada à camada de dados real do ciclo` | Camada de dados e API validam revisão, anexo e permissão. | Run integrado com caso aprovado e reprovado. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][qualidade-evidencias] entregar fluxo visual quando houver UI` | Tela mostra pendência, aprovação e correção em linguagem operacional. | Smoke visual com estados de evidência ausente e aceita. | Termos técnicos de armazenamento. |
 | `documentacao` | `[documentacao][qualidade-evidencias] sincronizar docs e evidências` | Docs indicam metadados no banco e bytes por adapter. | PR documental. | Misturar regra de domínio com fornecedor. |
-| `governanca` | `[governanca][qualidade-evidencias] fechar ciclo com aceite e Project` | Evidência final linkada antes do fechamento. | Project atualizado. | Aprovação sem trilha. |
+| `governanca` | `[governanca][qualidade-evidencias] fechar ciclo com aceite e docs/project` | Evidência final linkada antes do fechamento. | `docs/project` atualizado. | Aprovação sem trilha. |
 
 ### `pagamentos`
 
@@ -226,10 +226,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][pagamentos] preparar contrato, owner e estrutura monorepo` | Responsabilidade de pagamento e adapter substituível registrada. | PR documental e caminho `aneety-platform/apps/pagamentos/...`. | Dependência paga obrigatória. |
 | `banco` | `[banco][pagamentos] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `payment_intents` persiste valor, moeda, status e referência externa sem corromper pedido. | Migration, rollback e testes de status. | Provider virar fonte de verdade. |
 | `backend` | `[backend][pagamentos] publicar contrato do BFF/worker` | API cria, consulta e concilia intenção com degradação controlada. | Contrato HTTP e testes de indisponibilidade. | Vazamento de chave ou checkout interno. |
-| `teste-integracao-api` | `[teste-integracao-api][pagamentos] validar API integrada à camada de dados real do ciclo` | API + camada de dados mantêm pedido íntegro mesmo com adapter indisponível. | Run integrado com falha simulada. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][pagamentos] validar API integrada à camada de dados real do ciclo` | API + camada de dados mantêm pedido íntegro mesmo com adapter indisponível. | Run integrado com falha simulada. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][pagamentos] entregar fluxo visual quando houver UI` | UI mostra status financeiro sem citar fornecedor técnico. | Smoke visual de pendência e conciliação. | Lock-in em texto de produto. |
 | `documentacao` | `[documentacao][pagamentos] sincronizar docs e evidências` | Docs registram função semântica e plano de saída. | PR documental. | Custo externo sem decisão formal. |
-| `governanca` | `[governanca][pagamentos] fechar ciclo com aceite e Project` | Fechamento com evidência de custo zero ou bloqueio formal. | Project atualizado. | Fechar com custo não resolvido. |
+| `governanca` | `[governanca][pagamentos] fechar ciclo com aceite e docs/project` | Fechamento com evidência de custo zero ou bloqueio formal. | `docs/project` atualizado. | Fechar com custo não resolvido. |
 
 ### `offline-sync`
 
@@ -239,10 +239,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `banco` | `[banco][offline-sync] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `sync_events` e `offline_conflicts` têm payloads, status, conflito e resolução. | Migration, rollback e testes de isolamento. | Payload com dado sensível em log. |
 | `jobs` | `[jobs][offline-sync] implementar replay idempotente e reprocessamento` | Job reprocessa eventos por tenant sem duplicar efeito. | Run de job com replay repetido e log operacional. | Reprocessamento destrutivo. |
 | `backend` | `[backend][offline-sync] publicar contrato do BFF/worker` | API recebe eventos, expõe status e permite resolução de conflito. | Contrato HTTP e testes de idempotência. | Aceitar evento cross-tenant. |
-| `teste-integracao-api` | `[teste-integracao-api][offline-sync] validar API integrada à camada de dados real do ciclo` | Integração valida evento, replay e conflito. | Run integrado com conflito controlado. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][offline-sync] validar API integrada à camada de dados real do ciclo` | Integração valida evento, replay e conflito. | Run integrado com conflito controlado. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][offline-sync] entregar fluxo visual quando houver UI` | Tela de conflito orienta decisão humana sem jargão técnico. | Smoke visual de conflito e resolução. | UI expor payload bruto sensível. |
 | `documentacao` | `[documentacao][offline-sync] sincronizar docs e evidências` | Docs registram retry, replay e política de conflito. | PR documental. | Falta de critério de reprocessamento. |
-| `governanca` | `[governanca][offline-sync] fechar ciclo com aceite e Project` | Evidência de idempotência anexada. | Project atualizado. | Fechar sem replay verificado. |
+| `governanca` | `[governanca][offline-sync] fechar ciclo com aceite e docs/project` | Evidência de idempotência anexada. | `docs/project` atualizado. | Fechar sem replay verificado. |
 
 ### `marketplace-operacional`
 
@@ -251,10 +251,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][marketplace-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de atores e favoritos registrado. | PR documental e caminho `aneety-platform/apps/marketplace-operacional/...`. | Exposição de contato indevida. |
 | `banco` | `[banco][marketplace-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `marketplace_actors` e `marketplace_favorites` filtram por tenant, tipo e status. | Migration, rollback, testes de filtro e favorito. | Listagem cross-tenant. |
 | `backend` | `[backend][marketplace-operacional] publicar contrato do BFF/worker` | API lista, filtra, favorita e aciona ator conforme permissão. | Contrato HTTP e testes paginados. | Dados de localização sensíveis. |
-| `teste-integracao-api` | `[teste-integracao-api][marketplace-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida filtro, ordenação e favorito. | Run integrado com múltiplos atores. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][marketplace-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida filtro, ordenação e favorito. | Run integrado com múltiplos atores. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][marketplace-operacional] entregar fluxo visual quando houver UI` | UI mostra atores por disponibilidade e favoritos. | Smoke visual de filtro e favorito. | UI sugerir pontuação não auditada. |
 | `documentacao` | `[documentacao][marketplace-operacional] sincronizar docs e evidências` | Docs registram critérios de listagem e privacidade. | PR documental. | Critério implícito não documentado. |
-| `governanca` | `[governanca][marketplace-operacional] fechar ciclo com aceite e Project` | Evidência final anexada. | Project atualizado. | Fechar sem teste de permissão. |
+| `governanca` | `[governanca][marketplace-operacional] fechar ciclo com aceite e docs/project` | Evidência final anexada. | `docs/project` atualizado. | Fechar sem teste de permissão. |
 
 ### `producao-execucao`
 
@@ -263,10 +263,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][producao-execucao] preparar contrato, owner e estrutura monorepo` | Contrato de demanda de produção registrado. | PR documental e caminho `aneety-platform/apps/producao-execucao/...`. | Misturar produção com pedido sem contrato. |
 | `banco` | `[banco][producao-execucao] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `production_demands` cobre aceite, rejeição, motivo e status. | Migration, rollback e testes de status. | Reatribuição sem trilha. |
 | `backend` | `[backend][producao-execucao] publicar contrato do BFF/worker` | API envia demanda, aceita, rejeita e consulta por filtros. | Contrato HTTP e testes de transição. | Ator indevido aceitar demanda. |
-| `teste-integracao-api` | `[teste-integracao-api][producao-execucao] validar API integrada à camada de dados real do ciclo` | Integração valida ciclo de demanda de produção. | Run integrado com aceite e rejeição. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][producao-execucao] validar API integrada à camada de dados real do ciclo` | Integração valida ciclo de demanda de produção. | Run integrado com aceite e rejeição. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][producao-execucao] entregar fluxo visual quando houver UI` | UI mostra demanda, responsável, notas e rejeição. | Smoke visual de aceite/rejeição. | Texto expor arquitetura. |
 | `documentacao` | `[documentacao][producao-execucao] sincronizar docs e evidências` | Docs sincronizam processo de produção. | PR documental. | Processo divergente de requisitos. |
-| `governanca` | `[governanca][producao-execucao] fechar ciclo com aceite e Project` | Issue fechada com evidência de transição. | Project atualizado. | Fechar sem teste negativo. |
+| `governanca` | `[governanca][producao-execucao] fechar ciclo com aceite e docs/project` | Issue fechada com evidência de transição. | `docs/project` atualizado. | Fechar sem teste negativo. |
 
 ### `logistica-rastreabilidade`
 
@@ -276,10 +276,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `banco` | `[banco][logistica-rastreabilidade] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Demandas, evidências, eventos e snapshots têm tenant, pedido, status e visibilidade. | Migration, rollback, testes de isolamento e índices. | Expor localização fora do escopo. |
 | `jobs` | `[jobs][logistica-rastreabilidade] implementar snapshots e rotinas idempotentes` | Job calcula snapshots sem duplicar eventos. | Run de job com reexecução segura. | Snapshot incorreto virar fonte de verdade. |
 | `backend` | `[backend][logistica-rastreabilidade] publicar contrato do BFF/worker` | API cria demanda, registra check-in/out, eventos e consulta mapa. | Contrato HTTP e testes de visibilidade. | Dependência direta de fornecedor de mapa. |
-| `teste-integracao-api` | `[teste-integracao-api][logistica-rastreabilidade] validar API integrada à camada de dados real do ciclo` | Integração valida coleta, entrega, evento e snapshot. | Run integrado com rota controlada. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][logistica-rastreabilidade] validar API integrada à camada de dados real do ciclo` | Integração valida coleta, entrega, evento e snapshot. | Run integrado com rota controlada. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][logistica-rastreabilidade] entregar fluxo visual quando houver UI` | UI exibe acompanhamento sem expor fornecedor ou dados indevidos. | Smoke visual de mapa e rastreabilidade. | UI mostrar precisão indevida. |
 | `documentacao` | `[documentacao][logistica-rastreabilidade] sincronizar docs e evidências` | Docs registram permissão, mapa e rastreabilidade. | PR documental. | Contrato de localização incompleto. |
-| `governanca` | `[governanca][logistica-rastreabilidade] fechar ciclo com aceite e Project` | Evidência de permissão e smoke anexada. | Project atualizado. | Fechar sem teste de visibilidade. |
+| `governanca` | `[governanca][logistica-rastreabilidade] fechar ciclo com aceite e docs/project` | Evidência de permissão e smoke anexada. | `docs/project` atualizado. | Fechar sem teste de visibilidade. |
 
 ### `auditoria-operacional`
 
@@ -288,10 +288,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][auditoria-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de auditoria sensível registrado. | PR documental e caminho `aneety-platform/apps/auditoria-operacional/...`. | Auditoria insuficiente para alteração sensível. |
 | `banco` | `[banco][auditoria-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `audit_events` e `audit_event_changes` guardam ação, entidade, ator e valores. | Migration, rollback e testes de before/after. | Registrar segredo em auditoria. |
 | `backend` | `[backend][auditoria-operacional] publicar contrato do BFF/worker` | API consulta e registra eventos com permissão administrativa. | Contrato HTTP e testes de acesso negado. | Exposição cross-tenant. |
-| `teste-integracao-api` | `[teste-integracao-api][auditoria-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida registro e consulta controlada. | Run integrado com alteração sensível. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][auditoria-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida registro e consulta controlada. | Run integrado com alteração sensível. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][auditoria-operacional] entregar fluxo visual quando houver UI` | UI mostra trilha sem valores secretos. | Smoke visual de consulta auditável. | Mostrar dado sensível em tela. |
 | `documentacao` | `[documentacao][auditoria-operacional] sincronizar docs e evidências` | Docs indicam eventos obrigatórios e campos proibidos. | PR documental. | Lacuna de auditoria. |
-| `governanca` | `[governanca][auditoria-operacional] fechar ciclo com aceite e Project` | Evidência final anexada. | Project atualizado. | Fechar sem teste negativo. |
+| `governanca` | `[governanca][auditoria-operacional] fechar ciclo com aceite e docs/project` | Evidência final anexada. | `docs/project` atualizado. | Fechar sem teste negativo. |
 
 ### `catalogo-operacional`
 
@@ -300,10 +300,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][catalogo-operacional] preparar contrato, owner e estrutura monorepo` | Contrato de catálogo e personalização registrado. | PR documental e caminho `aneety-platform/apps/catalogo-operacional/...`. | Catálogo acoplar vertical única. |
 | `banco` | `[banco][catalogo-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Catálogos, itens e opções têm preço, prazo, status e tenant. | Migration, rollback e testes de opções. | Preço sem histórico. |
 | `backend` | `[backend][catalogo-operacional] publicar contrato do BFF/worker` | API cobre CRUD e consulta paginada de catálogo. | Contrato HTTP e testes de filtro. | Item inválido gerar pedido inválido. |
-| `teste-integracao-api` | `[teste-integracao-api][catalogo-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida criação de catálogo e leitura de item. | Run integrado com opções obrigatórias. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][catalogo-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida criação de catálogo e leitura de item. | Run integrado com opções obrigatórias. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][catalogo-operacional] entregar fluxo visual quando houver UI` | UI administra catálogo com linguagem de produto. | Smoke visual de item e opção. | Termos técnicos em configuração. |
 | `documentacao` | `[documentacao][catalogo-operacional] sincronizar docs e evidências` | Docs registram catálogo por tenant e uso em pedidos. | PR documental. | Divergência entre catálogo e pedido. |
-| `governanca` | `[governanca][catalogo-operacional] fechar ciclo com aceite e Project` | Project atualizado com evidência. | Links finais. | Fechar sem seed controlado. |
+| `governanca` | `[governanca][catalogo-operacional] fechar ciclo com aceite e docs/project` | `docs/project` atualizado com evidência. | Links finais. | Fechar sem seed controlado. |
 
 ### `workflow-estados`
 
@@ -312,10 +312,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][workflow-estados] preparar contrato, owner e estrutura monorepo` | Contrato de estados e transições registrado. | PR documental e caminho `aneety-platform/apps/workflow-estados/...`. | Estados divergirem por módulo. |
 | `banco` | `[banco][workflow-estados] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Estados e transições têm entidade, origem, destino, permissão e motivo obrigatório. | Migration, rollback e testes de matriz. | Transição sem permissão. |
 | `backend` | `[backend][workflow-estados] publicar contrato do BFF/worker` | API valida próxima transição permitida por perfil. | Contrato HTTP e testes de bloqueio. | Fluxo permitir salto indevido. |
-| `teste-integracao-api` | `[teste-integracao-api][workflow-estados] validar API integrada à camada de dados real do ciclo` | Integração valida transição permitida e negada. | Run integrado com matriz oficial. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][workflow-estados] validar API integrada à camada de dados real do ciclo` | Integração valida transição permitida e negada. | Run integrado com matriz oficial. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][workflow-estados] entregar fluxo visual quando houver UI` | UI orienta próxima ação e bloqueios em linguagem operacional. | Smoke visual de transição permitida/negada. | Mensagem revelar implementação. |
 | `documentacao` | `[documentacao][workflow-estados] sincronizar docs e evidências` | Docs registram máquina de estados oficial. | PR documental. | Matriz não versionada. |
-| `governanca` | `[governanca][workflow-estados] fechar ciclo com aceite e Project` | Evidência de matriz anexada. | Project atualizado. | Fechar sem bloqueios testados. |
+| `governanca` | `[governanca][workflow-estados] fechar ciclo com aceite e docs/project` | Evidência de matriz anexada. | `docs/project` atualizado. | Fechar sem bloqueios testados. |
 
 ### `sla-capacidade`
 
@@ -325,10 +325,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `banco` | `[banco][sla-capacidade] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Políticas, agendas e slots têm tenant, ator, data, status e capacidade. | Migration, rollback e testes de disponibilidade. | Overbooking. |
 | `jobs` | `[jobs][sla-capacidade] implementar alertas e rotinas idempotentes` | Job de alerta calcula prazos sem duplicar notificação. | Run de job com reexecução segura. | Alerta indevido ou ausente. |
 | `backend` | `[backend][sla-capacidade] publicar contrato do BFF/worker` | API consulta capacidade e calcula promessa operacional. | Contrato HTTP e testes de agenda. | Cálculo fora do contrato. |
-| `teste-integracao-api` | `[teste-integracao-api][sla-capacidade] validar API integrada à camada de dados real do ciclo` | Integração valida capacidade disponível e indisponível. | Run integrado com slots concorrentes. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][sla-capacidade] validar API integrada à camada de dados real do ciclo` | Integração valida capacidade disponível e indisponível. | Run integrado com slots concorrentes. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][sla-capacidade] entregar fluxo visual quando houver UI` | UI mostra disponibilidade e alerta sem jargão técnico. | Smoke visual de agenda e capacidade. | UI prometer prazo não garantido. |
 | `documentacao` | `[documentacao][sla-capacidade] sincronizar docs e evidências` | Docs registram regra de prazo e capacidade. | PR documental. | Regra implícita. |
-| `governanca` | `[governanca][sla-capacidade] fechar ciclo com aceite e Project` | Evidência de alerta e capacidade anexada. | Project atualizado. | Fechar sem teste concorrente. |
+| `governanca` | `[governanca][sla-capacidade] fechar ciclo com aceite e docs/project` | Evidência de alerta e capacidade anexada. | `docs/project` atualizado. | Fechar sem teste concorrente. |
 
 ### `orcamentos-precificacao`
 
@@ -337,10 +337,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][orcamentos-precificacao] preparar contrato, owner e estrutura monorepo` | Contrato de orçamento e preço registrado. | PR documental e caminho `aneety-platform/apps/orcamentos-precificacao/...`. | Valor financeiro sem auditoria. |
 | `banco` | `[banco][orcamentos-precificacao] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Orçamentos e itens têm valor, moeda, status, expiração e aprovação. | Migration, rollback e testes de linhas. | Cálculo sem explicação. |
 | `backend` | `[backend][orcamentos-precificacao] publicar contrato do BFF/worker` | API cria, ajusta, aprova, rejeita e expira orçamento. | Contrato HTTP e testes de status. | Atualização sem versionamento. |
-| `teste-integracao-api` | `[teste-integracao-api][orcamentos-precificacao] validar API integrada à camada de dados real do ciclo` | Integração valida aprovação e expiração. | Run integrado com orçamento vencido. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][orcamentos-precificacao] validar API integrada à camada de dados real do ciclo` | Integração valida aprovação e expiração. | Run integrado com orçamento vencido. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][orcamentos-precificacao] entregar fluxo visual quando houver UI` | UI apresenta orçamento, validade e decisão clara. | Smoke visual de aprovação/rejeição. | UI expor cálculo técnico. |
 | `documentacao` | `[documentacao][orcamentos-precificacao] sincronizar docs e evidências` | Docs registram critérios de preço e aceite. | PR documental. | Custo externo obrigatório. |
-| `governanca` | `[governanca][orcamentos-precificacao] fechar ciclo com aceite e Project` | Evidência financeira anexada. | Project atualizado. | Fechar sem teste de expiração. |
+| `governanca` | `[governanca][orcamentos-precificacao] fechar ciclo com aceite e docs/project` | Evidência financeira anexada. | `docs/project` atualizado. | Fechar sem teste de expiração. |
 
 ### `comunicacao-operacional`
 
@@ -350,10 +350,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `banco` | `[banco][comunicacao-operacional] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Mensagens e notificações têm destinatário, entidade, status e visibilidade. | Migration, rollback e testes de leitura. | Notificação cross-tenant. |
 | `jobs` | `[jobs][comunicacao-operacional] implementar distribuição e reprocessamento idempotente` | Job distribui notificações sem duplicar leitura. | Run de job com repetição segura. | Duplicidade de notificação. |
 | `backend` | `[backend][comunicacao-operacional] publicar contrato do BFF/worker` | API cria, lista, marca leitura e registra aviso operacional. | Contrato HTTP e testes de status. | Exposição de mensagem privada. |
-| `teste-integracao-api` | `[teste-integracao-api][comunicacao-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida envio, leitura e permissão. | Run integrado com destinatários distintos. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][comunicacao-operacional] validar API integrada à camada de dados real do ciclo` | Integração valida envio, leitura e permissão. | Run integrado com destinatários distintos. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][comunicacao-operacional] entregar fluxo visual quando houver UI` | UI mostra avisos e mensagens sem jargão técnico. | Smoke visual de caixa de avisos. | Texto final citar adapter externo. |
 | `documentacao` | `[documentacao][comunicacao-operacional] sincronizar docs e evidências` | Docs registram escopo de comunicação e retenção. | PR documental. | Integração opcional virar requisito. |
-| `governanca` | `[governanca][comunicacao-operacional] fechar ciclo com aceite e Project` | Evidência de permissão anexada. | Project atualizado. | Fechar sem teste de leitura. |
+| `governanca` | `[governanca][comunicacao-operacional] fechar ciclo com aceite e docs/project` | Evidência de permissão anexada. | `docs/project` atualizado. | Fechar sem teste de leitura. |
 
 ### `comunicacao-email`
 
@@ -364,11 +364,11 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `publicacao` | `[publicacao][comunicacao-email] publicar artefato ou URL permitida` | Publicação permite validar e-mail opcional sem bloquear operação sem Gmail. | Link ou artefato publicado e modo desligado documentado. | Dependência do Gmail no aceite. |
 | `banco` | `[banco][comunicacao-email] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Settings, registros e tentativas guardam adapter, referência segura, status, entidade e auditoria fora do Gmail. | Migration, rollback e testes de isolamento/registros/tentativas. | Metadado sensível visível, segredo em banco. |
 | `backend` | `[backend][comunicacao-email] publicar contrato do BFF/worker` | API envia ou registra e-mail por adapter, preserva operação sem Gmail e registra falhas controladas via gateway/contrato público. | Contrato HTTP, testes de modo desligado, limite e indisponibilidade. | Falha de provider corromper pedido. |
-| `teste-integracao-api` | `[teste-integracao-api][comunicacao-email] validar API integrada à camada de dados real do ciclo` | Integração valida modo desligado, tentativa aceita, falha e limite. | Run integrado com casos positivos e negativos. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][comunicacao-email] validar API integrada à camada de dados real do ciclo` | Integração valida modo desligado, tentativa aceita, falha e limite. | Run integrado com casos positivos e negativos. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `smoke` | `[smoke][comunicacao-email] validar fluxo crítico publicado` | Operação segue criando e acompanhando pedido sem Gmail habilitado. | Evidência de smoke sem segredo ou conteúdo sensível. | Conteúdo de e-mail real em evidência. |
 | `teste` | `[teste][comunicacao-email] consolidar cobertura de integração opcional` | Cobertura unitária, contrato, integração e regressão para modo desligado/degradação. | Saída de testes com falhas zero. | Falta de teste de falha de provider. |
 | `documentacao` | `[documentacao][comunicacao-email] sincronizar docs e evidências` | Docs deixam claro que Gmail é adapter opcional e metadados/auditoria ficam na Aneety. | PR documental e evidência de degradação. | Linguagem transformar Gmail em requisito. |
-| `governanca` | `[governanca][comunicacao-email] fechar ciclo com aceite e Project` | Issue tem aceite, evidência final e Project atualizado. | Links finais de PR, testes e smoke. | Fechamento sem modo desligado validado. |
+| `governanca` | `[governanca][comunicacao-email] fechar ciclo com aceite e docs/project` | Issue tem aceite, evidência final e `docs/project` atualizado. | Links finais de PR, testes e smoke. | Fechamento sem modo desligado validado. |
 
 ### `suporte-excecoes`
 
@@ -377,10 +377,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][suporte-excecoes] preparar contrato, owner e estrutura monorepo` | Contrato de chamados e exceções registrado. | PR documental e caminho `aneety-platform/apps/suporte-excecoes/...`. | Exceção alterar pedido sem regra. |
 | `banco` | `[banco][suporte-excecoes] implementar estrutura de dados, constraints, índices, isolamento e seeds` | Chamados e exceções têm categoria, prioridade, impacto, status e resolução. | Migration, rollback e testes de status. | Caso sensível visível a perfil errado. |
 | `backend` | `[backend][suporte-excecoes] publicar contrato do BFF/worker` | API abre, atribui, atualiza e fecha caso com permissão. | Contrato HTTP e testes de resolução. | Fechamento sem motivo. |
-| `teste-integracao-api` | `[teste-integracao-api][suporte-excecoes] validar API integrada à camada de dados real do ciclo` | Integração valida abertura, atribuição e fechamento. | Run integrado com suporte e exceção. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][suporte-excecoes] validar API integrada à camada de dados real do ciclo` | Integração valida abertura, atribuição e fechamento. | Run integrado com suporte e exceção. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][suporte-excecoes] entregar fluxo visual quando houver UI` | UI orienta suporte, disputa e correção sem termos técnicos. | Smoke visual de abertura/fechamento. | Texto de impacto confuso ao usuário. |
 | `documentacao` | `[documentacao][suporte-excecoes] sincronizar docs e evidências` | Docs registram categorias e impactos. | PR documental. | Fluxo de exceção sem aceite. |
-| `governanca` | `[governanca][suporte-excecoes] fechar ciclo com aceite e Project` | Evidência de resolução anexada. | Project atualizado. | Fechar sem auditoria. |
+| `governanca` | `[governanca][suporte-excecoes] fechar ciclo com aceite e docs/project` | Evidência de resolução anexada. | `docs/project` atualizado. | Fechar sem auditoria. |
 
 ### `privacidade-consentimento`
 
@@ -389,10 +389,10 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `repositorio` | `[repositorio][privacidade-consentimento] preparar contrato, owner e estrutura monorepo` | Contrato de consentimento e privacidade registrado. | PR documental e caminho `aneety-platform/apps/privacidade-consentimento/...`. | Dado sensível sem consentimento. |
 | `banco` | `[banco][privacidade-consentimento] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `consent_records` cobre tipo, status, origem, concessão e revogação. | Migration, rollback e testes de revogação. | Consentimento sem trilha. |
 | `backend` | `[backend][privacidade-consentimento] publicar contrato do BFF/worker` | API registra, consulta e revoga consentimento com permissão. | Contrato HTTP e testes de bloqueio. | Uso de localização sem consentimento. |
-| `teste-integracao-api` | `[teste-integracao-api][privacidade-consentimento] validar API integrada à camada de dados real do ciclo` | Integração valida concessão, revogação e bloqueio de uso. | Run integrado com consentimento revogado. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][privacidade-consentimento] validar API integrada à camada de dados real do ciclo` | Integração valida concessão, revogação e bloqueio de uso. | Run integrado com consentimento revogado. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `microfrontend` | `[microfrontend][privacidade-consentimento] entregar fluxo visual quando houver UI` | UI explica consentimento em linguagem clara de usuário. | Smoke visual de conceder/revogar. | Texto jurídico ou técnico incompreensível. |
 | `documentacao` | `[documentacao][privacidade-consentimento] sincronizar docs e evidências` | Docs registram retenção, visibilidade e revogação. | PR documental. | Ausência de retenção documentada. |
-| `governanca` | `[governanca][privacidade-consentimento] fechar ciclo com aceite e Project` | Evidência de revogação anexada. | Project atualizado. | Fechar sem teste negativo. |
+| `governanca` | `[governanca][privacidade-consentimento] fechar ciclo com aceite e docs/project` | Evidência de revogação anexada. | `docs/project` atualizado. | Fechar sem teste negativo. |
 
 ### `demo-seeds`
 
@@ -402,9 +402,9 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `banco` | `[banco][demo-seeds] implementar estrutura de dados, constraints, índices, isolamento e seeds` | `demo_seed_cases` guarda cenário, vertical, descrição e payload sanitizado. | Migration, rollback e teste de sanitização. | Vertical odontológica virar limite do produto. |
 | `jobs` | `[jobs][demo-seeds] implementar carga idempotente de massa controlada` | Job carrega seed sem duplicar registros. | Run de carga repetida com contagem estável. | Seed sobrescrever dado operacional. |
 | `backend` | `[backend][demo-seeds] publicar contrato do BFF/worker` | API consulta ou aciona demo apenas por permissão controlada. | Contrato HTTP e teste de acesso negado. | Demo disponível em tenant indevido. |
-| `teste-integracao-api` | `[teste-integracao-api][demo-seeds] validar API integrada à camada de dados real do ciclo` | Integração valida carga e leitura de cenário. | Run integrado com massa sanitizada. | Issue precisa entrar no Project com evidência do run. |
+| `teste-integracao-api` | `[teste-integracao-api][demo-seeds] validar API integrada à camada de dados real do ciclo` | Integração valida carga e leitura de cenário. | Run integrado com massa sanitizada. | O arquivo correspondente em `docs/project` precisa registrar evidência do run. |
 | `documentacao` | `[documentacao][demo-seeds] sincronizar docs e evidências` | Docs registram uso de Lia como seed/demo/test mass, não limite de produto. | PR documental. | Reintroduzir contrato antigo como produto final. |
-| `governanca` | `[governanca][demo-seeds] fechar ciclo com aceite e Project` | Evidência de sanitização anexada. | Project atualizado. | Fechar sem prova de sanitização. |
+| `governanca` | `[governanca][demo-seeds] fechar ciclo com aceite e docs/project` | Evidência de sanitização anexada. | `docs/project` atualizado. | Fechar sem prova de sanitização. |
 
 ## Backlog inicial por ciclo
 
@@ -450,11 +450,11 @@ Criar issues de teste para consolidar cobertura unitária, contrato, integraçã
 
 ### `documentacao`
 
-Criar issues `[documentacao][<responsabilidade>] sincronizar docs e evidências` antes do fechamento de governança. Aceite mínimo: documentos canônicos sincronizados em `Aneety/.github/docs`, README mínimo no monorepo de implementação e links para evidências.
+Criar issues `[documentacao][<responsabilidade>] sincronizar docs e evidências` antes do fechamento de governança. Aceite mínimo: documentos canônicos sincronizados em `Aneety/.github/docs`, README mínimo no monorepo de implementação, `docs/project` coerente e links para evidências.
 
 ### `governanca`
 
-Criar issues `[governanca][<responsabilidade>] fechar ciclo com aceite e Project` para cada responsabilidade. Criar também issue específica `[governanca][ciclos] garantir campos e acesso operacional do Project 1` quando o painel não refletir `Status`, `Ciclo`, `Responsabilidade`, `Repo destino`, `Owner`, `Prioridade`, `Gate`, `Evidência` e `Bloqueio`.
+Criar issues `[governanca][<responsabilidade>] fechar ciclo com aceite e docs/project` apenas quando uma thread histórica ainda for necessária. O painel oficial deve ser atualizado em `docs/project/<responsabilidade>.md` e refletido em `docs/project/index.md` quando `Status`, `Ciclo`, `Responsabilidade`, `Repo destino`, `Owner`, `Prioridade`, `Gate`, `Evidência` e `Bloqueio` mudarem. Fechar a issue histórica somente depois que o arquivo Markdown correspondente estiver coerente.
 
 ## Sequência CRUD obrigatória por responsabilidade com dados
 
@@ -486,7 +486,7 @@ Antes de ativar `comunicacao-email` ou `identidade-federada` para qualquer tenan
 
 | Bloqueio | Impacto | Próxima ação | Issue sugerida |
 | --- | --- | --- | --- |
-| Operador sem acesso suficiente ao org-level Project não consegue mover items, validar campos ou auditar backlog completo. | Backlog pode evoluir fora do status real e sem rastreabilidade central. | Garantir acesso operacional ao Project 1 antes de abrir ou mover backlog amplo. | `[governanca][ciclos] garantir campos e acesso operacional do Project 1` |
+| Painel Markdown desatualizado ou sem evidência objetiva pode quebrar a rastreabilidade do backlog. | Backlog pode evoluir fora do status real e sem trilha verificável em Git. | Atualizar primeiro `docs/project/<responsabilidade>.md` e depois `docs/project/index.md` em toda mudança de estado. | `[governanca][docs-project] sincronizar painel operacional em Markdown` |
 | Responsabilidades fora do backlog inicial ainda podem nascer sem owner real se as issues forem abertas em lote. | Issue executável não pode entrar em ciclo sem responsável nominal. | Continuar abrindo issue somente com owner nomeado no corpo e no campo correspondente do Project. | Uma issue de `status:triagem` por responsabilidade sem owner nominal. |
 
 ## Critério de conclusão deste planejamento
@@ -495,7 +495,7 @@ Este documento estará apto para uso quando:
 
 - todas as tabelas de `04-modelagem-banco.md` estiverem cobertas uma única vez na matriz;
 - responsabilidades transversais mandatórias do MVP, como `gateway-borda`, estiverem cobertas com ciclos e aceite;
-- cada responsabilidade tiver responsabilidade raiz, caminho canônico no monorepo, ciclos, issues, aceite e evidência;
+- cada responsabilidade tiver responsabilidade raiz, caminho canônico no monorepo, arquivo correspondente em `docs/project`, ciclos, aceite e evidência;
 - backlog por ciclo respeitar a ordem de `06-ciclos-cobertura.md`;
 - bloqueios normativos estiverem explícitos;
 - não houver placeholder textual, segredo, valor sensível ou instrução para usar GitHub Pages como runtime operacional.

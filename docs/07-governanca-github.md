@@ -4,7 +4,7 @@
 
 Controlar a execução da Aneety Platform com rastreabilidade objetiva entre arquitetura, requisitos, processos, ciclos, evidências e trabalho operacional.
 
-GitHub Issues e GitHub Projects devem organizar o trabalho visível, mas não substituem os documentos normativos. Cada item executado precisa apontar para fonte documental, critério de aceite, ciclo de cobertura, evidência esperada e evidência final.
+A fonte operacional de backlog, status, owner, evidência e bloqueio vive em `docs/project/`. GitHub continua útil para versionamento, PRs, CI, comentários e issues históricas, mas não é mais o painel ativo de status.
 
 Este documento é governança de transição. A documentação canônica vive em `Aneety/.github/docs`, que mantém a base normativa do novo produto enquanto a migração do MVP Lia para Aneety Platform estiver em andamento.
 
@@ -12,38 +12,38 @@ Este documento é governança de transição. A documentação canônica vive em
 
 A precedência documental é:
 
-1. `01-arquitetura.md` — decisões estruturais, runtime, responsabilidades, submódulos, NFR estruturais, limites de fornecedores e documentação canônica.
+1. `01-arquitetura.md` — decisões estruturais, runtime, responsabilidades, NFR estruturais, limites de fornecedores e documentação canônica.
 2. `02-requisitos.md` — requisitos de produto, técnicos e critérios verificáveis de aceite.
 3. `03-processos.md` — modo de execução, gates operacionais e sequência de validação.
 4. `04-modelagem-banco.md` — modelagem conceitual, índices mínimos, isolamento e regras de acesso.
-5. `05-estrutura-repositorios.md` — organização dos repositórios, submódulos, clones locais e regras de runtime do MVP.
+5. `05-estrutura-repositorios.md` — organização dos repositórios centrais, monorepo, clones locais e regras de runtime do MVP.
 6. `06-ciclos-cobertura.md` — ordem incremental dos ciclos, gates de E2E e critérios de conclusão.
 7. `08-planejamento-ciclos-implementacao-repositorios.md` — backlog operacional derivado das normas anteriores; não substitui contrato, mas organiza execução e aceite.
+8. `docs/project/index.md` e `docs/project/<responsabilidade>.md` — painel operacional versionado; não muda contrato, apenas registra status e evidência.
 
 Regras:
 
-- Issue, Project, PR, comentário ou automação não pode alterar contrato por conta própria.
-- Se GitHub Project disser "Done", mas a fonte documental ou a evidência estiver ausente, o ciclo continua aberto.
-- Se houver conflito entre Issue e documento normativo, vale o documento normativo até existir PR documental aprovado.
+- Issue, arquivo em `docs/project`, PR, comentário ou automação não pode alterar contrato por conta própria.
+- Se `docs/project` disser `concluido`, mas a fonte documental ou a evidência estiver ausente, o ciclo continua aberto.
+- Se houver conflito entre issue histórica e documento normativo, vale o documento normativo até existir PR documental aprovado.
 - Decisão arquitetural nova exige atualização documental antes de virar implementação.
 
 ## Papel do GitHub
 
-GitHub é permitido para versionamento, revisão, PRs, CI, Issues, Projects e documentação.
+GitHub é permitido para versionamento, revisão, PRs, CI, Issues históricas e documentação.
 
 GitHub não é runtime operacional da plataforma. GitHub Pages, quando existir, só pode publicar ou apontar documentação mantida em `Aneety/.github`; nunca app, smoke, E2E, fluxo operacional ou URL pública de aceite.
 
 Referências operacionais do próprio GitHub:
 
-- [GitHub Projects](https://docs.github.com/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects/) permite acompanhar issues e pull requests em views de tabela, board e roadmap.
-- [Views de Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project) permitem filtrar, ordenar, agrupar e visualizar itens por campos.
-- [Issue forms/templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository) podem padronizar entradas futuras em `.github/ISSUE_TEMPLATE`.
+- [Issue forms/templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository) podem padronizar entradas futuras em `.github/ISSUE_TEMPLATE` quando uma issue realmente for necessária.
+- PRs, comentários e checks continuam como evidência rastreável para atualizar `docs/project`.
 
 ## Modelo de Issues
 
-Criar uma issue por incremento, lacuna, decisão, bloqueio ou evidência relevante.
+Criar issue apenas para incremento, lacuna, decisão, bloqueio ou evidência que realmente precise de thread própria.
 
-Não usar uma issue para misturar responsabilidades independentes. Se um trabalho tocar banco, backend, microfrontend e documentação, a issue principal deve declarar a responsabilidade do ciclo e linkar subtarefas ou PRs por camada.
+Não usar issue como painel ativo de status. O status ativo vive em `docs/project/<responsabilidade>.md`.
 
 ### Título
 
@@ -58,7 +58,7 @@ Exemplos:
 ```text
 [banco][pedidos] criar estrutura de dados inicial de pedidos customizados
 [backend][pedidos] publicar contrato HTTP de criação de pedido
-[governanca][documentacao] formalizar labels e campos do Project
+[governanca][documentacao] formalizar atualização do painel em Markdown
 [bloqueio][deploy] registrar domínio sem resolução pública
 ```
 
@@ -139,7 +139,7 @@ Labels devem classificar tipo, ciclo e status. Evitar labels que dupliquem texto
 Normalização obrigatória:
 
 - Em labels, automações e filtros técnicos, usar slugs sem acento: `ciclo:publicacao`, `ciclo:documentacao`, `ciclo:teste-integracao-api`.
-- Em texto de negócio, roadmap e documentação narrativa, manter grafia legível: `publicação`, `documentação`, `Testes de integração de API`.
+- Em texto de negócio e documentação narrativa, manter grafia legível: `publicação`, `documentação`, `Testes de integração de API`.
 
 ### Status
 
@@ -148,6 +148,7 @@ Normalização obrigatória:
 - `status:em-ciclo` — item em execução ativa.
 - `status:validacao` — implementação feita, aguardando evidência final ou revisão.
 - `status:bloqueado` — item parado por decisão, dependência, acesso, dado, secret, custo, runtime, arquitetura ou evidência ausente.
+- `status:concluido` — item encerrado com evidência final e painel Markdown atualizado.
 
 Regras:
 
@@ -155,18 +156,14 @@ Regras:
 - Issue bloqueada deve registrar causa objetiva e próxima ação.
 - Issue de evidência deve linkar o artefato verificável.
 
-## Modelo de GitHub Project
+## Modelo de `docs/project`
 
-O Project deve ser org-level em `Aneety`, não restrito a um repositório antigo da Lia.
+`docs/project/` é o painel operacional versionado em Git.
 
-GitHub Projects deve funcionar como painel de execução e auditoria. O Project organiza items, mas a verdade continua nos documentos versionados e nas evidências linkadas.
+### Arquivos obrigatórios
 
-### Views obrigatórias
-
-- **Backlog tabela:** todos os itens abertos, agrupados por ciclo e responsabilidade.
-- **Board por status:** colunas por `status:*`, com foco em fluxo operacional.
-- **Roadmap por ciclo:** visão temporal ou sequencial para planejar a ordem `repositorio` -> `deploy` -> `publicação` (`publicacao`) -> `banco` -> `jobs` -> `backend` -> `teste-integracao-api` -> `microfrontend` -> `smoke` -> `teste` -> `documentação` (`documentacao`) -> `governança` (`governanca`).
-- **Validação por evidência:** itens em validação, agrupados por tipo de evidência e bloqueio.
+- `docs/project/index.md` — visão executiva única do backlog e dos bloqueios globais.
+- `docs/project/<responsabilidade>.md` — status detalhado por responsabilidade.
 
 ### Campos obrigatórios
 
@@ -182,10 +179,11 @@ GitHub Projects deve funcionar como painel de execução e auditoria. O Project 
 
 ### Regras de atualização
 
+- Atualizar o arquivo da responsabilidade antes de executar mudança de estado operacional em qualquer outro lugar.
 - Mover para `em ciclo` somente se a etapa anterior estiver verde com evidência.
 - Mover para `validacao` somente com PR, diff ou artefato pronto para revisão.
 - Mover para `concluido` somente com evidência final linkada.
-- Não usar item draft sem issue vinculada para trabalho executável; draft só pode representar nota temporária de triagem.
+- Atualizar `docs/project/index.md` sempre que `Status`, `Owner`, `Prioridade`, `Ciclo ativo` ou bloqueio global mudarem.
 
 ## Fluxo de ciclo
 
@@ -196,31 +194,32 @@ Antes de iniciar um ciclo:
 3. Confirmar responsabilidade e repo destino.
 4. Confirmar owner.
 5. Confirmar evidência esperada.
-6. Abrir ou atualizar issue.
-7. Adicionar issue ao Project.
-8. Marcar `status:pronto`.
+6. Abrir ou atualizar issue somente se ela ainda for necessária como thread histórica.
+7. Atualizar `docs/project/<responsabilidade>.md`.
+8. Marcar `status:pronto` no arquivo correspondente.
 
 Durante o ciclo:
 
-1. Mover para `status:em-ciclo`.
+1. Atualizar para `status:em-ciclo` no arquivo correspondente.
 2. Executar apenas a responsabilidade declarada.
-3. Linkar PRs, commits, checks, screenshots, logs ou documentos.
-4. Registrar bloqueios com causa objetiva.
+3. Linkar PRs, commits, checks, screenshots, logs ou documentos na coluna `Evidência`.
+4. Registrar bloqueios com causa objetiva e próxima ação.
 5. Não expandir E2E se algum gate anterior estiver vermelho ou sem evidência.
 
 Para fechar o ciclo:
 
-1. Mover para `status:validacao`.
+1. Atualizar para `status:validacao` no arquivo correspondente.
 2. Verificar PR, docs, testes e smoke aplicáveis.
 3. Conferir ausência de segredos em diff, log, screenshot e bundle.
 4. Conferir ausência de vazamento técnico em UI final.
 5. Linkar evidência final.
-6. Fechar issue.
-7. Mover Project para `concluido`.
+6. Fechar issue histórica, quando existir.
+7. Atualizar `docs/project/<responsabilidade>.md` para `concluido`.
+8. Refletir a mudança em `docs/project/index.md`.
 
 ## Definition of Done
 
-Uma issue só pode ser concluída quando todos os itens aplicáveis forem verdadeiros:
+Uma entrega só pode ser concluída quando todos os itens aplicáveis forem verdadeiros:
 
 - Requisito rastreado para fonte documental.
 - Arquitetura e processo sincronizados.
@@ -234,11 +233,11 @@ Uma issue só pode ser concluída quando todos os itens aplicáveis forem verdad
 - Sem UI final com vazamento técnico de infraestrutura, banco, runtime, framework, secrets, fornecedor ou ferramenta interna.
 - Custo zero preservado.
 - Dependência externa classificada por função semântica quando aplicável.
-- Project atualizado com status final.
+- `docs/project` atualizado com status final.
 
 ## Regras de bloqueio
 
-Bloquear a issue quando faltar qualquer item essencial:
+Bloquear a responsabilidade quando faltar qualquer item essencial:
 
 - Fonte documental.
 - Owner.
@@ -260,15 +259,15 @@ Bloqueio deve registrar:
 - responsável;
 - data ou condição para reavaliação.
 
-Project `Done` sem evidência não fecha ciclo. Issue fechada sem evidência deve ser reaberta ou substituída por issue de correção de governança.
+`status:concluido` sem evidência não fecha ciclo. Issue histórica fechada sem evidência deve ser reaberta ou substituída por issue de correção de governança.
 
 ## Evolução futura
 
-Fluxo manual base passa a contar com issue form em `.github/ISSUE_TEMPLATE/backlog-operacional.yml` e taxonomia de labels padronizada nos repositórios Aneety atuais. Evolução futura deve focar em:
-- configuração documentada do org-level Project;
-- automação leve para adicionar issue ao Project;
-- validação de campos obrigatórios;
-- relatórios de ciclo, bloqueio e evidência;
-- integração com CI para linkar checks relevantes.
+Fluxo manual base passa a contar com `docs/project/` como painel operacional versionado, issue form em `.github/ISSUE_TEMPLATE/backlog-operacional.yml` e taxonomia de labels padronizada nos repositórios Aneety atuais. Evolução futura deve focar em:
 
-Essa evolução futura deve ser uma issue própria de `ciclo:governanca`, sem criar automações antes de validar o fluxo manual.
+- relatórios derivados de `docs/project`;
+- automação leve para validar campos obrigatórios nos arquivos Markdown;
+- integração com CI para linkar checks relevantes;
+- melhorias de busca, diff e auditoria do painel versionado.
+
+Essa evolução futura deve acontecer sem reintroduzir dependência de painel externo como fonte operacional principal.
