@@ -20,6 +20,8 @@
 - Índices mínimos cobrem `tenant_id`, status, responsáveis e `updated_at`.
 - RLS é obrigatório em tabelas expostas ou sensíveis.
 - Credenciais são armazenadas apenas como hash forte e salgado, nunca em texto puro.
+- Tokens de convite, confirmação, recuperação, sessão e integração são armazenados somente como hash ou referência segura, nunca em texto puro.
+- Configurações de integrações opcionais guardam somente adapter, status e referência segura de credencial; segredo real permanece fora do banco operacional e fora do Git.
 - Sessões têm expiração, revogação, rotação e vínculo explícito com identidade, tenant e perfil efetivo.
 - Frontends e microfrontends Single SPA nunca acessam banco diretamente.
 - Mapas e rastreabilidade em tempo real usam eventos e snapshots com permissão por tenant/perfil; fornecedor de mapa não define regra de domínio.
@@ -72,6 +74,38 @@ Catálogo de permissões. Campos mínimos: `id`, `key`, `description`, `scope`, 
 ### `access_profile_permissions`
 
 Associação entre perfil e permissões. Campos mínimos: `id`, `tenant_id`, `access_profile_id`, `permission_id`, `created_at`, `deleted_at`.
+
+### `access_invitations`
+
+Convites para consumidores, produtores, operadores, entregadores e administradores. Campos mínimos: `id`, `tenant_id`, `invited_identity_id`, `invited_email_hash`, `invited_phone_hash`, `access_profile_id`, `role`, `status`, `token_hash`, `expires_at`, `accepted_at`, `created_by_user_id`, `created_at`, `updated_at`, `deleted_at`.
+
+### `onboarding_progress`
+
+Progresso de primeiro acesso por identidade, papel e tenant. Campos mínimos: `id`, `tenant_id`, `identity_id`, `app_user_id`, `role`, `current_step`, `status`, `terms_accepted_at`, `contact_confirmed_at`, `completed_at`, `created_at`, `updated_at`, `deleted_at`.
+
+### `contact_verification_requests`
+
+Confirmações de e-mail ou telefone para acesso e onboarding. Campos mínimos: `id`, `tenant_id`, `identity_id`, `contact_type`, `contact_hash`, `verification_code_hash`, `status`, `expires_at`, `verified_at`, `attempt_count`, `created_at`, `updated_at`, `deleted_at`.
+
+### `access_recovery_requests`
+
+Solicitações de recuperação de acesso. Campos mínimos: `id`, `tenant_id`, `identity_id`, `recovery_type`, `token_hash`, `status`, `expires_at`, `used_at`, `created_at`, `updated_at`, `deleted_at`.
+
+### `access_lifecycle_events`
+
+Eventos de ativação, bloqueio, reativação e recuperação administrativa de acesso. Campos mínimos: `id`, `tenant_id`, `identity_id`, `app_user_id`, `event_type`, `reason`, `actor_user_id`, `occurred_at`, `created_at`, `deleted_at`.
+
+### `federated_identity_settings`
+
+Configuração opcional de provedor externo de identidade por tenant. Campos mínimos: `id`, `tenant_id`, `provider_adapter`, `status`, `credential_reference`, `allowed_domains`, `created_at`, `updated_at`, `deleted_at`.
+
+### `external_identity_links`
+
+Vínculo entre identidade Aneety e identidade externa autorizada. Campos mínimos: `id`, `tenant_id`, `identity_id`, `provider_adapter`, `external_subject_hash`, `external_email_hash`, `status`, `linked_at`, `revoked_at`, `created_at`, `updated_at`, `deleted_at`.
+
+### `federated_login_attempts`
+
+Tentativas de login federado para auditoria e degradação controlada. Campos mínimos: `id`, `tenant_id`, `identity_id`, `provider_adapter`, `external_subject_hash`, `result`, `failure_reason`, `occurred_at`, `created_at`, `deleted_at`.
 
 ### `orders`
 
@@ -173,6 +207,18 @@ Mensagens internas, avisos ao cliente e comunicação por pedido ou demanda. Cam
 
 Notificações in-app e pendências de leitura. Campos mínimos: `id`, `tenant_id`, `recipient_user_id`, `entity`, `entity_id`, `title`, `body`, `status`, `created_at`, `read_at`, `deleted_at`.
 
+### `email_integration_settings`
+
+Configuração opcional de e-mail por tenant e adapter. Campos mínimos: `id`, `tenant_id`, `provider_adapter`, `status`, `credential_reference`, `sender_label`, `created_at`, `updated_at`, `deleted_at`.
+
+### `email_records`
+
+Registro auxiliar de envio, recebimento ou vínculo de e-mail sem transformar o provedor em fonte de domínio. Campos mínimos: `id`, `tenant_id`, `entity`, `entity_id`, `actor_user_id`, `direction`, `visibility_scope`, `from_label`, `to_label_hash`, `subject`, `status`, `created_at`, `updated_at`, `deleted_at`.
+
+### `email_delivery_attempts`
+
+Tentativas de entrega ou registro de e-mail por adapter. Campos mínimos: `id`, `tenant_id`, `email_record_id`, `provider_adapter`, `provider_reference`, `status`, `error_message`, `attempted_at`, `created_at`, `deleted_at`.
+
 ### `support_cases`
 
 Chamados operacionais vinculados a pedido, usuário, ator ou tenant. Campos mínimos: `id`, `tenant_id`, `order_id`, `opened_by_user_id`, `assigned_to_user_id`, `status`, `category`, `priority`, `summary`, `created_at`, `updated_at`, `closed_at`, `deleted_at`.
@@ -210,11 +256,14 @@ Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scena
 - FKs com índice líder.
 - `auth_sessions` por hash de token e expiração.
 - `app_identities` por `(tenant_id, email)` e `(tenant_id, phone)` quando aplicável.
+- Convites, onboarding, verificação de contato, recuperação e lifecycle de acesso por `(tenant_id, identity_id, status)`, token hash e expiração quando aplicável.
+- Identidade federada por `(tenant_id, provider_adapter, status)`, vínculo externo por hash de subject e tentativas por resultado/data.
 - `marketplace_actors` por `(tenant_id, actor_type, status)`.
 - Catálogo por `(tenant_id, status)`, item por `(tenant_id, catalog_id, status)` e opções por `(tenant_id, catalog_item_id)`.
 - Estados por `(tenant_id, entity, state_key)` e transições por `(tenant_id, entity, from_state_key, to_state_key)`.
 - Agenda e capacidade por `(tenant_id, actor_id, starts_at)` ou `(tenant_id, actor_id, date)`.
 - Mensagens, notificações, suporte, exceções, consentimentos e conflitos offline por tenant, entidade e status.
+- Configurações e registros de e-mail por `(tenant_id, provider_adapter, status)`, entidade, tentativa, expiração e referência externa quando aplicável.
 
 ## RLS e policies
 
@@ -226,3 +275,7 @@ Catálogo de seeds e massas de teste. Campos mínimos: `id`, `tenant_id`, `scena
 - Dados de mapa e localização respeitam escopo de visibilidade por tenant, pedido, perfil e etapa.
 - Policies devem funcionar no schema do BFF e continuar portáveis para banco físico futuro.
 - Mensagens, suporte, exceções, consentimentos, evidências, localização e auditoria devem aplicar visibilidade por tenant, perfil, papel operacional e vínculo com o pedido ou demanda.
+- Convites, onboarding, recuperação e confirmação de contato só podem ser lidos ou alterados pelo próprio usuário, por ator autorizado do tenant ou por admin de plataforma com auditoria.
+- Integrações opcionais de e-mail e identidade federada devem funcionar com modo desligado por tenant e não podem substituir sessão própria, permissões internas, RLS, pedido, evidência, mapa, rastreabilidade ou auditoria.
+- Tabelas de configuração opcional guardam somente status, adapter e referência segura; segredos de Gmail, Google SSO ou provedor equivalente não podem aparecer em banco operacional, frontend, Git, bundle, log, screenshot, fixture pública ou documentação de usuário final.
+- Registros de e-mail e tentativas de login federado devem respeitar visibilidade por tenant, perfil, entidade vinculada e resultado operacional, preservando degradação controlada quando o fornecedor externo estiver indisponível.

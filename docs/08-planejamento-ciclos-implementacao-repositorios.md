@@ -94,6 +94,8 @@ Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Quando o ciclo for t
 | --- | --- | --- | --- | --- | --- |
 | `tenant-white-label` | `tenants`, `tenant_branding` | `tenant-white-label` | `aneety-platform/apps/tenant-white-label/db-tenant-white-label`, `worker-tenant-white-label`, `mfe-tenant-white-label` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Tenant e marca versionados, isolados por tenant, com RLS, contrato BFF e tela administrativa sem vazamento técnico. Evidência: migration, teste DB, contrato API, smoke visual e docs. |
 | `identidade-acesso` | `app_identities`, `auth_credentials`, `auth_sessions`, `app_users`, `access_profiles`, `permissions`, `access_profile_permissions` | `identidade-acesso` | `aneety-platform/apps/identidade-acesso/db-identidade-acesso`, `worker-identidade-acesso`, `mfe-identidade-acesso` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Identidade própria, sessão, perfil e permissões sem acesso direto do frontend ao banco. Evidência: hash de credenciais, expiração/revogação, policies, contrato de sessão e testes negativos. |
+| `onboarding-acesso` | `access_invitations`, `onboarding_progress`, `contact_verification_requests`, `access_recovery_requests`, `access_lifecycle_events` | `onboarding-acesso` | `aneety-platform/apps/onboarding-acesso/db-onboarding-acesso`, `worker-onboarding-acesso`, `mfe-onboarding-acesso` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Convites, primeiro acesso, confirmação, recuperação e lifecycle com tokens em hash, expiração, auditoria e RLS. Evidência: migrations, testes de convite/recuperação, API integrada e smoke de onboarding. |
+| `identidade-federada` | `federated_identity_settings`, `external_identity_links`, `federated_login_attempts` | `identidade-federada` | `aneety-platform/apps/identidade-federada/db-identidade`, `worker-identidade`, `int-google-sso` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | Vínculo externo opcional com modo desligado, sessão final sempre Aneety e degradação controlada. Evidência: settings sem segredo, testes de vínculo, tentativa recusada e smoke sem Google SSO. |
 | `pedidos-customizados` | `orders`, `order_checkpoints` | `pedidos-customizados` | `aneety-platform/apps/pedidos-customizados/db-pedidos-customizados`, `worker-pedidos-customizados`, `mfe-pedidos-customizados` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Pedido customizado e checkpoints com histórico por versão, exclusão lógica e CRUD incremental. Evidência: migration, testes CRUD, contrato HTTP, smoke de criação/listagem/edição e documentação. |
 | `qualidade-evidencias` | `quality_reviews`, `attachments` | `qualidade-evidencias` | `aneety-platform/apps/qualidade-evidencias/db-qualidade-evidencias`, `worker-qualidade-evidencias`, `mfe-qualidade-evidencias` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Revisão de qualidade e metadados de evidências com permissão por tenant, pedido e etapa. Evidência: RLS, validação de metadados, bloqueio de avanço sem evidência e smoke de anexação controlada. |
 | `pagamentos` | `payment_intents` | `pagamentos` | `aneety-platform/apps/pagamentos/db-pagamentos`, `worker-pagamentos`, `mfe-pagamentos`, `int-pagamentos` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Intenção e conciliação de pagamento sem corromper pedido quando adapter externo falhar. Evidência: testes de indisponibilidade, status financeiro e contrato substituível. |
@@ -107,6 +109,7 @@ Labels mínimas: um `tipo:*`, um `ciclo:*` e um `status:*`. Quando o ciclo for t
 | `sla-capacidade` | `sla_policies`, `operational_schedules`, `actor_capacity_slots` | `sla-capacidade` | `aneety-platform/apps/sla-capacidade/db-sla-capacidade`, `worker-sla-capacidade`, `job-sla-capacidade`, `mfe-sla-capacidade` | `repositorio`, `deploy`, `publicacao`, `banco`, `jobs`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | SLA, agenda e capacidade por ator, data e status. Evidência: índices de agenda, job de alerta quando existir, API integrada e smoke de disponibilidade. |
 | `orcamentos-precificacao` | `budget_requests`, `budget_items` | `orcamentos-precificacao` | `aneety-platform/apps/orcamentos-precificacao/db-orcamentos-precificacao`, `worker-orcamentos-precificacao`, `mfe-orcamentos-precificacao` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Orçamentos, linhas de preço, aprovação, rejeição e expiração. Evidência: cálculo registrado, status auditável, contrato API e smoke de aprovação. |
 | `comunicacao-operacional` | `operational_messages`, `notifications` | `comunicacao-operacional` | `aneety-platform/apps/comunicacao-operacional/db-comunicacao-operacional`, `worker-comunicacao-operacional`, `job-comunicacao-operacional`, `mfe-comunicacao-operacional` | `repositorio`, `deploy`, `publicacao`, `banco`, `jobs`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Mensagens, avisos e notificações por tenant, entidade, status e visibilidade. Evidência: fan-out controlado, leitura, status e smoke de notificação in-app. |
+| `comunicacao-email` | `email_integration_settings`, `email_records`, `email_delivery_attempts` | `comunicacao-email` | `aneety-platform/apps/comunicacao-email/db-email`, `worker-email`, `int-gmail` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | E-mail opcional por adapter, com metadados e auditoria fora do Gmail, modo desligado e degradação controlada. Evidência: settings sem segredo, registros/tentativas, falha de provider e smoke sem Gmail. |
 | `suporte-excecoes` | `support_cases`, `exception_cases` | `suporte-excecoes` | `aneety-platform/apps/suporte-excecoes/db-suporte-excecoes`, `worker-suporte-excecoes`, `mfe-suporte-excecoes` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Chamados e exceções operacionais com categoria, prioridade, impacto e resolução. Evidência: CRUD, status, auditoria e smoke de abertura/fechamento. |
 | `privacidade-consentimento` | `consent_records` | `privacidade-consentimento` | `aneety-platform/apps/privacidade-consentimento/db-privacidade-consentimento`, `worker-privacidade-consentimento`, `mfe-privacidade-consentimento` | `repositorio`, `deploy`, `publicacao`, `banco`, `backend`, `teste-integracao-api`, `microfrontend`, `smoke`, `teste`, `documentacao`, `governanca` | Consentimentos concedidos/revogados por identidade, tenant, tipo e origem. Evidência: registro de revogação, bloqueio de uso indevido e consulta por permissão. |
 | `demo-seeds` | `demo_seed_cases` | `demo-seeds` | `aneety-platform/apps/demo-seeds/db-demo-seeds`, `job-demo-seeds`, `worker-demo-seeds` | `repositorio`, `deploy`, `publicacao`, `banco`, `jobs`, `backend`, `teste-integracao-api`, `smoke`, `teste`, `documentacao`, `governanca` | Seeds e massas de teste sem transformar a vertical odontológica em limite de produto. Evidência: payloads sanitizados, job idempotente e testes de carga controlada. |
@@ -138,6 +141,37 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `microfrontend` | `[microfrontend][identidade-acesso] entregar fluxo visual quando houver UI` | Telas de acesso e gestão usam linguagem de usuário e permissões claras. | Smoke visual de entrada, bloqueio e recuperação. | Termos técnicos de provedor ou token em UI. |
 | `documentacao` | `[documentacao][identidade-acesso] sincronizar docs e evidências` | Docs registram sessão própria e integração externa opcional. | PR documental e evidências de segurança. | SSO externo virar requisito obrigatório. |
 | `governanca` | `[governanca][identidade-acesso] fechar ciclo com aceite e Project` | Issue fechada com evidência verificável. | Project atualizado e links finais. | Evidência de segurança ausente. |
+
+### `onboarding-acesso`
+
+| Ciclo | Título | Aceite | Evidência esperada | Riscos |
+| --- | --- | --- | --- | --- |
+| `repositorio` | `[repositorio][onboarding-acesso] preparar contrato, owner, repo e submódulo` | Contrato de convite, primeiro acesso, recuperação, bloqueio e reativação registrado. | PR documental e caminho `aneety-platform/apps/onboarding-acesso/...`. | Dados pessoais, convite indevido, token exposto. |
+| `deploy` | `[deploy][onboarding-acesso] preparar runtime de custo zero` | Runtime de worker e microfrontend sem segredo versionado e com rollback documentado. | Log de deploy ou dry-run e checklist de segredo sem valores. | Secret ausente, custo externo, rollback inexistente. |
+| `publicacao` | `[publicacao][onboarding-acesso] publicar artefato ou URL permitida` | URL ou artefato permitido para fluxo de primeiro acesso, sem GitHub Pages como runtime transacional. | Link publicado ou artefato com origem rastreável. | Publicação em runtime proibido. |
+| `banco` | `[banco][onboarding-acesso] implementar schema, constraints, índices, RLS e seeds` | Convites, onboarding, confirmação, recuperação e lifecycle com hash, expiração, status e RLS. | Migration, rollback e testes de convite/recuperação/lifecycle. | Token em texto, leitura cross-tenant, convite expirado aceito. |
+| `backend` | `[backend][onboarding-acesso] publicar contrato do BFF/worker` | API convida, aceita, confirma contato, recupera acesso, bloqueia e reativa por gateway/contrato público. | Contrato HTTP, 401/403, testes de expiração e permissão. | Bypass de perfil, mutação sem auditoria. |
+| `teste-integracao-api` | `[teste-integracao-api][onboarding-acesso] validar API integrada ao banco real` | Integração valida convite feliz, convite expirado, recuperação e bloqueio. | Run integrado com casos positivos e negativos. | Label de governança ainda pendente. |
+| `microfrontend` | `[microfrontend][onboarding-acesso] entregar fluxo visual quando houver UI` | UI orienta primeiro acesso, confirmação e recuperação sem termos técnicos. | Smoke visual com estados de carregando, vazio, erro e sucesso. | UI expor token, provedor, banco ou runtime. |
+| `smoke` | `[smoke][onboarding-acesso] validar fluxo crítico publicado` | Convite até primeiro acesso executa no ambiente publicado permitido. | Log, screenshot ou vídeo curto com dados controlados. | Dado real ou segredo em evidência. |
+| `teste` | `[teste][onboarding-acesso] consolidar cobertura de onboarding` | Cobertura unitária, contrato, integração e regressão para convites e recuperação. | Saída de testes com falhas zero. | Lacuna em expiração ou bloqueio. |
+| `documentacao` | `[documentacao][onboarding-acesso] sincronizar docs e evidências` | Requisitos, processos, modelagem e evidências atualizados. | PR documental com links de evidência. | Divergência entre fluxo e modelo. |
+| `governanca` | `[governanca][onboarding-acesso] fechar ciclo com aceite e Project` | Issue tem owner, aceite, evidência final e Project atualizado. | Links finais de PR, testes e smoke. | Fechamento sem evidência. |
+
+### `identidade-federada`
+
+| Ciclo | Título | Aceite | Evidência esperada | Riscos |
+| --- | --- | --- | --- | --- |
+| `repositorio` | `[repositorio][identidade-federada] preparar contrato, owner, repo e submódulo` | Responsabilidade opcional de vínculo externo registrada, separada de `identidade-acesso`. | PR documental e caminho `aneety-platform/apps/identidade-federada/...`. | Google SSO virar requisito de login. |
+| `deploy` | `[deploy][identidade-federada] preparar runtime de custo zero` | Worker e adapter opcionais sem segredo versionado e com modo desligado. | Log de deploy ou dry-run e checklist de segredo sem valores. | Custo externo, segredo no ambiente errado. |
+| `publicacao` | `[publicacao][identidade-federada] publicar artefato ou URL permitida` | Publicação permite validar integração opcional sem tornar provedor obrigatório. | Link ou artefato publicado e modo desligado documentado. | Dependência de fornecedor no aceite. |
+| `banco` | `[banco][identidade-federada] implementar schema, constraints, índices, RLS e seeds` | Settings, vínculos e tentativas guardam adapter, subject hash, status e auditoria sem segredo. | Migration, rollback e testes de RLS/vínculo/tentativa. | Subject externo em texto, segredo em banco. |
+| `backend` | `[backend][identidade-federada] publicar contrato do BFF/worker` | API valida vínculo externo permitido e emite somente sessão própria Aneety via gateway/contrato público. | Contrato HTTP, testes de modo desligado, recusa e falha de provider. | Sessão final emitida pelo provedor externo. |
+| `teste-integracao-api` | `[teste-integracao-api][identidade-federada] validar API integrada ao banco real` | Integração valida modo desligado, vínculo válido, vínculo recusado e fornecedor indisponível. | Run integrado com casos positivos e negativos. | Label de governança ainda pendente. |
+| `smoke` | `[smoke][identidade-federada] validar fluxo crítico publicado` | Login próprio segue funcionando sem Google SSO e tentativa federada degrada corretamente. | Evidência de smoke sem imprimir token externo. | Exposição de token ou claim. |
+| `teste` | `[teste][identidade-federada] consolidar cobertura de integração opcional` | Cobertura unitária, contrato, integração e regressão para modo desligado/degradação. | Saída de testes com falhas zero. | Falta de teste de modo desligado. |
+| `documentacao` | `[documentacao][identidade-federada] sincronizar docs e evidências` | Docs deixam claro que Google SSO é adapter opcional e sessão final é Aneety. | PR documental e evidência de degradação. | Linguagem transformar SSO em requisito. |
+| `governanca` | `[governanca][identidade-federada] fechar ciclo com aceite e Project` | Issue tem aceite, evidência final e Project atualizado. | Links finais de PR, testes e smoke. | Fechamento sem teste de modo desligado. |
 
 ### `pedidos-customizados`
 
@@ -299,6 +333,21 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 | `documentacao` | `[documentacao][comunicacao-operacional] sincronizar docs e evidências` | Docs registram escopo de comunicação e retenção. | PR documental. | Integração opcional virar requisito. |
 | `governanca` | `[governanca][comunicacao-operacional] fechar ciclo com aceite e Project` | Evidência de permissão anexada. | Project atualizado. | Fechar sem teste de leitura. |
 
+### `comunicacao-email`
+
+| Ciclo | Título | Aceite | Evidência esperada | Riscos |
+| --- | --- | --- | --- | --- |
+| `repositorio` | `[repositorio][comunicacao-email] preparar contrato, owner, repo e submódulo` | Responsabilidade opcional de e-mail registrada, separada de pedido, evidência, auditoria e autenticação. | PR documental e caminho `aneety-platform/apps/comunicacao-email/...`. | Gmail virar fonte única de domínio. |
+| `deploy` | `[deploy][comunicacao-email] preparar runtime de custo zero` | Worker e adapter opcionais sem segredo versionado e com modo desligado por tenant. | Log de deploy ou dry-run e checklist de segredo sem valores. | Segredo de e-mail em Git, bundle ou log. |
+| `publicacao` | `[publicacao][comunicacao-email] publicar artefato ou URL permitida` | Publicação permite validar e-mail opcional sem bloquear operação sem Gmail. | Link ou artefato publicado e modo desligado documentado. | Dependência do Gmail no aceite. |
+| `banco` | `[banco][comunicacao-email] implementar schema, constraints, índices, RLS e seeds` | Settings, registros e tentativas guardam adapter, referência segura, status, entidade e auditoria fora do Gmail. | Migration, rollback e testes de RLS/registros/tentativas. | Metadado sensível visível, segredo em banco. |
+| `backend` | `[backend][comunicacao-email] publicar contrato do BFF/worker` | API envia ou registra e-mail por adapter, preserva operação sem Gmail e registra falhas controladas via gateway/contrato público. | Contrato HTTP, testes de modo desligado, limite e indisponibilidade. | Falha de provider corromper pedido. |
+| `teste-integracao-api` | `[teste-integracao-api][comunicacao-email] validar API integrada ao banco real` | Integração valida modo desligado, tentativa aceita, falha e limite. | Run integrado com casos positivos e negativos. | Label de governança ainda pendente. |
+| `smoke` | `[smoke][comunicacao-email] validar fluxo crítico publicado` | Operação segue criando e acompanhando pedido sem Gmail habilitado. | Evidência de smoke sem segredo ou conteúdo sensível. | Conteúdo de e-mail real em evidência. |
+| `teste` | `[teste][comunicacao-email] consolidar cobertura de integração opcional` | Cobertura unitária, contrato, integração e regressão para modo desligado/degradação. | Saída de testes com falhas zero. | Falta de teste de falha de provider. |
+| `documentacao` | `[documentacao][comunicacao-email] sincronizar docs e evidências` | Docs deixam claro que Gmail é adapter opcional e metadados/auditoria ficam na Aneety. | PR documental e evidência de degradação. | Linguagem transformar Gmail em requisito. |
+| `governanca` | `[governanca][comunicacao-email] fechar ciclo com aceite e Project` | Issue tem aceite, evidência final e Project atualizado. | Links finais de PR, testes e smoke. | Fechamento sem modo desligado validado. |
+
 ### `suporte-excecoes`
 
 | Ciclo | Título | Aceite | Evidência esperada | Riscos |
@@ -339,7 +388,7 @@ Os blocos abaixo são prontos para abertura como issues GitHub. Cada issue deve 
 
 ### `repositorio`
 
-Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner, repo e submódulo` para todas as responsabilidades da matriz. Nenhum repo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `tenant-white-label`, `identidade-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
+Abrir primeiro as issues `[repositorio][<responsabilidade>] preparar contrato, owner, repo e submódulo` para todas as responsabilidades da matriz. Nenhum repo deve nascer antes de contrato, owner, dados tratados, custo zero, teste e aceite. Prioridade inicial: `tenant-white-label`, `identidade-acesso`, `onboarding-acesso`, `pedidos-customizados`, `workflow-estados`, `catalogo-operacional`.
 
 ### `deploy`
 
@@ -359,7 +408,7 @@ Criar issues de job apenas para responsabilidades com rotina assíncrona previst
 
 ### `backend`
 
-Criar issues `[backend][<responsabilidade>] publicar contrato do BFF/worker` após banco verde para o nível CRUD declarado. Aceite mínimo: contrato HTTP ou evento, validação, autorização, paginação quando aplicável, erros de domínio, auditoria mínima e testes de contrato.
+Criar issues `[backend][<responsabilidade>] publicar contrato do BFF/worker` após banco verde para o nível CRUD declarado. Aceite mínimo: contrato HTTP ou evento, gateway/contrato público quando aplicável, validação, autorização, paginação quando aplicável, erros de domínio, auditoria mínima e testes de contrato; microfrontend nunca acessa banco direto.
 
 ### `teste-integracao-api`
 
@@ -400,6 +449,16 @@ Cada responsabilidade da matriz deve avançar nesta ordem quando implementar CRU
 9. Executar jobs associados à responsabilidade quando houver.
 
 A etapa só fica verde com contrato, implementação, teste e evidência. Tela, endpoint, tabela ou script isolado não fecha cobertura.
+
+## Checklist de integrações opcionais
+
+Antes de ativar `comunicacao-email` ou `identidade-federada` para qualquer tenant:
+
+- validar modo desligado por smoke ou E2E, sem bloquear pedido, evidência, auditoria, mapa, rastreabilidade, administração ou login próprio;
+- validar degradação quando Gmail, Google SSO ou provedor equivalente estiver indisponível, recusando acesso ou excedendo limite;
+- confirmar que a sessão final é sempre Aneety e que perfil, permissão, expiração, revogação e RLS permanecem no modelo próprio;
+- confirmar que metadados, auditoria, tentativas e erros ficam no banco da responsabilidade, não no Gmail ou no provedor externo;
+- revisar frontend, Git, bundle, logs, screenshots, fixtures públicas e documentação de usuário final para ausência de segredo, token, claim externo ou detalhe técnico de fornecedor.
 
 ## Bloqueios normativos registrados
 
