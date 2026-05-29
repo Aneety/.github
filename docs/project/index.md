@@ -39,9 +39,13 @@
 
 - `Aneety/ai` local em `/Users/mal/GitHub/Aneety/ai` está sujo (`?? .playwright-mcp/`), então a automação não pode criar ou revisar raízes de responsabilidade ali com segurança.
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
+- `/Users/mal/GitHub/Aneety/.github` local está sujo na branch `codex/issue-template-path`, então decisões documentais devem ler `origin/main` ou worktree limpo, nunca esse checkout como fonte de verdade.
 
 ## Últimas atualizações
 
+- 2026-05-29 — inspeção local confirmou `Aneety/.github` sujo em `codex/issue-template-path`; esta automação passou a usar `origin/main`/worktree limpo como leitura canônica.
+- 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincroniza o painel Markdown com a evidência atual dos repositórios.
+- 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formaliza que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
 - 2026-05-29 — inspeção local rebaixou todos os ciclos `repositorio` para `bloqueado` até existir raiz real por responsabilidade em `Aneety/ai` e checkout limpo.
 - 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) remove documento paralelo de produto.
 - 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinha caminho canônico dos issue templates.
@@ -59,4 +63,4 @@
 ## Histórico de migração
 
 - Issue histórica de governança do painel anterior: [#3](https://github.com/Aneety/.github/issues/3).
-- Issues abertas de `ciclo:repositorio` foram migradas para arquivos por responsabilidade e podem ser fechadas após apontarem para estes arquivos.
+- Issues históricas de `ciclo:repositorio` já foram migradas para arquivos por responsabilidade e encerradas; o status ativo continua apenas em `docs/project/`.
