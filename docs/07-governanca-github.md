@@ -15,8 +15,10 @@ A precedência documental é:
 1. `01-arquitetura.md` — decisões estruturais, runtime, responsabilidades, submódulos, NFR estruturais, limites de fornecedores e documentação canônica.
 2. `02-requisitos.md` — requisitos de produto, técnicos e critérios verificáveis de aceite.
 3. `03-processos.md` — modo de execução, gates operacionais e sequência de validação.
-4. `06-ciclos-cobertura.md` — ordem incremental dos ciclos, gates de E2E e critérios de conclusão.
-5. `07-descricao-produto.md` — descrição funcional e comercial do produto Aneety Platform.
+4. `04-modelagem-banco.md` — modelagem conceitual, índices mínimos, isolamento e regras de acesso.
+5. `05-estrutura-repositorios.md` — organização dos repositórios, submódulos, clones locais e regras de runtime do MVP.
+6. `06-ciclos-cobertura.md` — ordem incremental dos ciclos, gates de E2E e critérios de conclusão.
+7. `08-planejamento-ciclos-implementacao-repositorios.md` — backlog operacional derivado das normas anteriores; não substitui contrato, mas organiza execução e aceite.
 
 Regras:
 
@@ -64,7 +66,7 @@ Exemplos:
 
 Toda issue deve conter:
 
-- **Fonte documental:** link para `01-arquitetura.md`, `02-requisitos.md`, `03-processos.md`, `06-ciclos-cobertura.md` ou `07-descricao-produto.md`.
+- **Fonte documental:** link para `01-arquitetura.md`, `02-requisitos.md`, `03-processos.md`, `04-modelagem-banco.md`, `05-estrutura-repositorios.md`, `06-ciclos-cobertura.md` ou `08-planejamento-ciclos-implementacao-repositorios.md`.
 - **Ciclo:** um valor da ordem fixa definida em `06-ciclos-cobertura.md`.
 - **Responsabilidade:** domínio ou capacidade em `aneety-platform/apps/<responsabilidade>/...`.
 - **Owner:** pessoa responsável por conduzir a issue até fechamento.

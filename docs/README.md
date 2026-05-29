@@ -13,15 +13,19 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 5. [Modelagem de banco de dados](04-modelagem-banco.md)
 6. [Estrutura de repositórios](05-estrutura-repositorios.md)
 7. [Ciclos de desenvolvimento por cobertura](06-ciclos-cobertura.md)
-8. [Descrição do produto](07-descricao-produto.md)
-9. [Governança GitHub](07-governanca-github.md)
+8. [Governança GitHub](07-governanca-github.md)
+9. [Planejamento de ciclos e issues](08-planejamento-ciclos-implementacao-repositorios.md)
 
 ## Fronteira dos documentos
 
 - `01-arquitetura.md`: decisões estruturais permanentes, runtime, módulos, submódulos, NFR estruturais, serviços externos e limites de fornecedor.
 - `02-requisitos.md`: requisitos de produto, fluxos complementares v1, requisitos técnicos e critérios verificáveis de aceite.
 - `03-processos.md`: modo de execução, fluxos operacionais, ordem de trabalho e gates operacionais; não deve ser fonte exclusiva de regra normativa.
+- `04-modelagem-banco.md`: modelagem conceitual, índices mínimos, isolamento e regras de acesso.
+- `05-estrutura-repositorios.md`: catálogo estrutural de repositórios, submódulos, clones locais e regras de runtime do MVP.
+- `06-ciclos-cobertura.md`: ordem fixa dos ciclos, sequência CRUD e gates de cobertura/E2E.
 - `07-governanca-github.md`: rastreabilidade operacional em GitHub Issues e GitHub Projects; não substitui contrato, arquitetura, requisitos, processos ou evidências.
+- `08-planejamento-ciclos-implementacao-repositorios.md`: backlog operacional derivado dos documentos normativos, com matriz de responsabilidades, ciclos e aceite.
 
 ## Fontes aproveitadas
 
