@@ -54,7 +54,7 @@ Usar o padrão:
 Exemplos:
 
 ```text
-[banco][pedidos] criar schema inicial de pedidos customizados
+[banco][pedidos] criar estrutura de dados inicial de pedidos customizados
 [backend][pedidos] publicar contrato HTTP de criação de pedido
 [governanca][documentacao] formalizar labels e campos do Project
 [bloqueio][deploy] registrar domínio sem resolução pública

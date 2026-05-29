@@ -72,7 +72,7 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 - `gw-<nome>`: categoria reservada para gateway dedicado futuro, fora do MVP.
 - `job-<nome>`: rotina assíncrona compatível com Cloudflare Workers, como Queue consumer, Cron Trigger, Workflow ou Durable Object.
 - `auto-<nome>`: automação de repositório, CI ou operação interna; não runtime do produto.
-- `db-<nome>`: módulo/diretório de banco, migrations, RLS, seeds.
+- `db-<nome>`: módulo/diretório de estrutura de dados, migrations, controles de isolamento e seeds.
 - `pkg-<nome>`: pacote compartilhado.
 - `core-<nome>`: contrato/domínio central compartilhado.
 - `int-<nome>`: integração/adapters externos.
@@ -84,8 +84,8 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 - BFFs do MVP devem ser `worker-<nome>` em Cloudflare Workers/Hono.
 - Gateway do MVP deve ser `worker-gateway` em Cloudflare Workers/Hono.
 - Gateway dedicado futuro fica fora do escopo do MVP atual e exige PR documental aprovado.
-- Banco do MVP deve usar Supabase/Postgres com schema por BFF, versionado em `db-<nome>`.
-- Banco futuro deve usar Postgres com banco de dados por BFF.
+- Persistência do MVP deve usar bindings compatíveis com Cloudflare Workers, versionados e documentados em `db-<nome>`.
+- Qualquer motor extra-Workers só entra com PR documental aprovado, preservando contratos, custo e plano de saída.
 - MVP 100% Workers: `job-*` deve usar apenas mecanismos compatíveis com Workers; não entram Python, containers, VPS, servidor tradicional, cron externo ou runtime persistente fora de Workers.
 - `mc-<nome>` é categoria pós-MVP e não substitui o BFF Worker do MVP.
 - `fe-<nome>` React é permitido para frontend não operacional ou superfície sem integração Single SPA; frontends operacionais usam `mfe-<nome>`.
@@ -96,7 +96,7 @@ A lista acima define categorias possíveis. Não obriga toda responsabilidade a 
 
 - O nome em `<responsabilidade>` representa um domínio, capacidade ou fronteira operacional, não tecnologia.
 - A criação de uma responsabilidade exige contrato, owner, dados tratados, segredos, custo zero sempre, critérios de aceite e plano de teste.
-- Uma responsabilidade pode conter microfrontend, BFF, schema, pacote, contrato, integração, automação e job quando necessário.
+- Uma responsabilidade pode conter microfrontend, BFF, estrutura de dados, pacote, contrato, integração, automação e job quando necessário.
 - Dependência entre responsabilidades deve passar por gateway, BFF ou contrato compartilhado versionado.
 - Nenhuma responsabilidade deve depender de tabela, segredo ou runtime interno de outra sem contrato explícito.
 - Cada responsabilidade implementada em repo próprio deve ser clonada em `/Users/mal/GitHub/Aneety/<repo>`.

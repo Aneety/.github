@@ -30,7 +30,7 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 - `docs/MARKETPLACE_OPERACIONAL.md` — fluxo de marketplace operacional.
 - `docs/COVERAGE_MATRIX.md` — lacunas e critérios de cobertura.
 - Guias mobile, desktop e administração — evidências de fluxos, telas e critérios de aceite.
-- Repositórios Lia anteriores — evidências de Worker/Hono, Postgres/RLS, shadcn/ui, E2E, core, apps e publicação.
+- Repositórios Lia anteriores — evidências de Worker/Hono, persistência compatível com Workers, shadcn/ui, E2E, core, apps e publicação.
 - Fluxos odontológicos de pedidos, moldes, próteses, retirada, entrega e evidências — carga inicial de demonstração, seeds e massas de teste.
 
 ## Decisões travadas
@@ -52,9 +52,9 @@ Este diretório é a documentação canônica da plataforma Aneety e registra a 
 - BFFs MVP: `worker-<nome>` em Cloudflare Workers/Hono.
 - Gateway MVP: `worker-gateway`.
 - Gateway dedicado futuro: somente pós-MVP e com PR documental aprovado.
-- Banco MVP: Supabase/Postgres com schema por BFF.
-- Banco futuro: Postgres com banco de dados por BFF.
-- Autenticação: identidade, credenciais, sessões e permissões próprias no Postgres, via gateway/BFF, sem provedor externo obrigatório.
-- Serviços externos por semântica: Cloudflare, GitHub, Supabase, mapas ou qualquer fornecedor equivalente são meios substituíveis; requisitos devem declarar função, dados, segredos, custo, contrato local, testes e plano de saída.
+- Persistência MVP: bindings compatíveis com Cloudflare Workers, definidos por responsabilidade (`D1`, `KV`, `R2`, `Durable Objects`, `Queues`, `Workflows`) sem banco gerenciado externo obrigatório.
+- Persistência futura: qualquer motor extra-Workers exige PR documental aprovado, preservando contratos, isolamento e plano de saída.
+- Autenticação: identidade, credenciais, sessões e permissões próprias no modelo de dados da plataforma, via gateway/BFF, sem provedor externo obrigatório.
+- Serviços externos por semântica: Cloudflare, GitHub, persistência, mapas ou qualquer fornecedor equivalente são meios substituíveis; requisitos devem declarar função, dados, segredos, custo, contrato local, testes e plano de saída.
 - Custo: custo zero sempre; dependência paga bloqueia ou exige redesenho.
 - Este repositório é a fonte oficial de documentação; a nova implementação nasce limpa no orquestrador `Aneety/ai`.

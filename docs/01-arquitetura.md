@@ -22,7 +22,7 @@ Aneety/ai -> /Users/mal/GitHub/Aneety/ai
         fe-<nome>        Frontend não operacional ou superfície fora do Single SPA.
         job-<nome>       Rotina assíncrona compatível com Cloudflare Workers.
         auto-<nome>      Automação de repositório, CI ou operação interna.
-        db-<nome>        Migrations, RLS, seeds e schema do BFF.
+        db-<nome>        Estrutura de dados, migrations, controles de isolamento e seeds do BFF.
         pkg-<nome>       Pacote compartilhado local da responsabilidade.
         core-<nome>      Contrato/domínio central compartilhado.
         int-<nome>       Integração ou adapter externo.
@@ -44,7 +44,7 @@ Regra mandatória do MVP atual: execução 100% Cloudflare Workers. Enquanto o M
 - A documentação canônica de projeto/repositório vive em `Aneety/.github`, com objetivo, owner, status, runtime, dados, contratos, critérios de aceite e links operacionais.
 - Assets reutilizáveis vivem em `Aneety/assets`, com SVG canônico e histórico versionado antes de uso por microfrontends, documentação, apresentação, marketing ou operação.
 - Dependências entre responsabilidades passam por gateway, BFF ou contrato compartilhado versionado; microfrontend não chama banco nem serviço externo privilegiado diretamente.
-- Para responsabilidades com dados e UI, a dependência arquitetural é schema/migrations/RLS -> BFF/worker -> gateway/contrato público -> microfrontend.
+- Para responsabilidades com dados e UI, a dependência arquitetural é estrutura de dados/migrations/controles de isolamento -> BFF/worker -> gateway/contrato público -> microfrontend.
 
 ## Runtime alvo do MVP
 
@@ -52,9 +52,9 @@ Regra mandatória do MVP atual: execução 100% Cloudflare Workers. Enquanto o M
 - BFFs do MVP serão `worker-<nome>` em Cloudflare Workers/Hono.
 - Gateway inicial será `worker-gateway`, também em Cloudflare Workers/Hono.
 - Gateway dedicado futuro fica fora do escopo do MVP atual e exige PR documental aprovado.
-- Banco do MVP será Supabase/Postgres com schema por BFF.
-- Banco futuro será Postgres com banco de dados por BFF, preservando contratos e migrations.
-- Storage atua como adapter para bytes; metadados, autorização e lifecycle pertencem ao schema do BFF responsável.
+- Persistência do MVP usa apenas bindings compatíveis com Cloudflare Workers, definidos por responsabilidade conforme contrato local.
+- Quando uma responsabilidade exigir modelo relacional, `D1` é caminho preferencial no MVP; `KV`, `R2`, `Durable Objects`, `Queues` e `Workflows` complementam conforme a natureza do dado e do fluxo.
+- Storage atua como adapter para bytes; metadados, autorização e lifecycle pertencem à estrutura de dados da responsabilidade.
 - Pagamentos atuam como adapter; pedido e conciliação permanecem no domínio Aneety.
 - Mapas, localização, mensagens, IA, observabilidade e integrações futuras entram por interfaces substituíveis.
 - Documentação oficial fica em `Aneety/.github` (`/Users/mal/GitHub/Aneety/.github`): guias de usuário, documentação de desenvolvedor, especificações, ADRs, arquitetura e catálogo de repositórios.
@@ -66,8 +66,8 @@ Regra mandatória do MVP atual: execução 100% Cloudflare Workers. Enquanto o M
 2. O microfrontend chama `worker-gateway` para login, sessão e roteamento de operações.
 3. `worker-gateway` valida borda, CORS, versão de contrato e encaminha para o BFF `worker-*` da responsabilidade.
 4. O BFF valida sessão própria, resolve tenant, usuário, perfil e permissões.
-5. O BFF executa regra de domínio e persiste no schema Supabase/Postgres da sua responsabilidade.
-6. RLS e policies reforçam isolamento por tenant dentro de cada schema.
+5. O BFF executa regra de domínio e persiste usando bindings compatíveis com Workers da sua responsabilidade.
+6. Controles de isolamento e autorização reforçam tenant, perfil e permissões dentro da estrutura de dados local.
 7. Eventos de status, localização e evidência alimentam mapas e rastreabilidade em tempo real por contrato local.
 8. Apps nunca recebem segredo privilegiado nem acessam banco diretamente.
 
@@ -79,7 +79,7 @@ Gmail e Google SSO são responsabilidades opcionais separadas no MVP. Elas devem
 
 - `comunicacao-email` cobre a função semântica de e-mail; Gmail é adapter opcional em `int-gmail`.
 - BFFs da plataforma chamam `worker-email` ou contrato equivalente; o worker aciona `int-gmail` somente quando a integração estiver habilitada para o tenant.
-- Metadados, vínculo com pedido, trilha de auditoria, status de tentativa e regra de permissão ficam em `db-email` ou no schema da responsabilidade, não no Gmail.
+- Metadados, vínculo com pedido, trilha de auditoria, status de tentativa e regra de permissão ficam em `db-email` ou na estrutura de dados da responsabilidade, não no Gmail.
 - Falha, limite ou indisponibilidade do Gmail gera degradação controlada: registrar pendência ou erro operacional sem corromper pedido, evidência, auditoria ou estado de domínio.
 - Gmail não pode ser fonte única de pedido, evidência, auditoria, status operacional ou histórico obrigatório.
 
@@ -89,25 +89,25 @@ Gmail e Google SSO são responsabilidades opcionais separadas no MVP. Elas devem
 - O token externo serve somente para confirmar vínculo de identidade externa permitido pelo tenant.
 - `worker-gateway` e BFF de identidade emitem sessão própria Aneety depois de validar identidade interna, tenant, perfil, status e permissões.
 - Sessão final, revogação, expiração, auditoria e autorização continuam no modelo próprio Aneety.
-- Google SSO não pode substituir cadastro interno, permissões internas, sessão própria, RLS ou regra de tenant.
+- Google SSO não pode substituir cadastro interno, permissões internas, sessão própria, controles internos de isolamento ou regra de tenant.
 
 ## Evolução planejada
 
 - `worker-gateway` é escolha de MVP para custo zero sempre e simplicidade operacional.
 - Quando tráfego, governança ou roteamento exigirem após o MVP, gateway pode migrar para categoria dedicada `gw-*`, sem gasto obrigatório e somente com PR documental aprovado.
-- Schemas Supabase/Postgres por BFF são escolha de MVP para isolamento lógico e velocidade.
-- Quando operação exigir isolamento físico, cada BFF migra para Postgres com banco de dados por BFF sem quebrar contratos.
+- Persistência por responsabilidade via bindings Workers é escolha de MVP para custo zero, simplicidade operacional e aderência ao runtime único.
+- Quando operação exigir outro motor de dados, cada responsabilidade só pode evoluir com PR documental aprovado, sem quebrar contratos.
 - A migração futura não pode alterar contratos de microfrontend, sessão, permissão, erro, auditoria, mapa ou rastreabilidade sem ADR explícita.
 
 ## Limites semânticos de serviços externos
 
-Cloudflare, GitHub, Supabase, provedores de storage, pagamento, e-mail, mapas, IA, observabilidade ou qualquer serviço equivalente são **meios substituíveis**, não requisitos de produto por marca. A decisão arquitetural deve sempre registrar a função semântica exercida:
+Cloudflare, GitHub, provedores de persistência, storage, pagamento, e-mail, mapas, IA, observabilidade ou qualquer serviço equivalente são **meios substituíveis**, não requisitos de produto por marca. A decisão arquitetural deve sempre registrar a função semântica exercida:
 
 - hospedagem estática de microfrontends;
 - runtime stateless de gateway e BFF;
-- banco transacional relacional;
-- autenticação e autorização modeladas no banco da plataforma;
-- armazenamento de bytes com metadados e permissão no schema do BFF responsável;
+- persistência transacional e histórico do domínio;
+- autenticação e autorização modeladas na camada de persistência da plataforma;
+- armazenamento de bytes com metadados e permissão na estrutura de dados do BFF responsável;
 - versionamento, PR, CI e submódulos Git;
 - documentação centralizada em `Aneety/.github`;
 - acervo de assets reutilizáveis em SVG centralizado em `Aneety/assets`;
@@ -129,7 +129,7 @@ Limites obrigatórios:
 - Segredos ficam somente em gateway, BFF, CI seguro ou ambiente local ignorado pelo Git; segredo privilegiado não aparece em frontend, Git, bundle, log, screenshot, fixture pública ou documentação de usuário final.
 - Verificação de secrets confirma presença e escopo sem imprimir valores.
 - Frontends não acessam banco diretamente para autenticação ou autorização.
-- RLS, policies, migrations e índices obrigatórios são pré-condição arquitetural para concluir responsabilidade com dados.
+- Controles de isolamento, autorização, migrations e índices/keys necessários são pré-condição arquitetural para concluir responsabilidade com dados.
 - Monitoramento recorrente segue contrato Aneety vigente, não histórico de implementação.
 - Serviço externo deve degradar sem corromper pedido, sessão, permissão, evidência, mapa, rastreabilidade ou auditoria.
 - UI de usuário final não expõe nomes de infraestrutura, banco, runtime, framework, secrets ou fornecedores.
