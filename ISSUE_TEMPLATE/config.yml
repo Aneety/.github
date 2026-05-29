@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Planejamento canônico
+    url: https://github.com/Aneety/.github/blob/main/docs/08-planejamento-ciclos-implementacao-repositorios.md
+    about: Use este planejamento para derivar título, ciclo, responsabilidade e aceite.
