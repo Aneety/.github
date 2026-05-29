@@ -41,12 +41,14 @@
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
 - `Aneety/ai` local também está 4 commits atrás de `origin/main`, então leitura de implementação deste ciclo precisou usar worktree limpo em `origin/main`.
 - `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` segue sujo na branch `codex/issue-template-path`; mesmo com `git fetch --all --prune` concluído, decisões canônicas deste ciclo precisaram usar worktree limpo em `origin/main`, nunca esse checkout como fonte de verdade.
+- GitHub Project externo continua bloqueado por permissão `organization.projectV2`; token ativo não expõe `read:project`, então backlog ativo segue somente em `docs/project`.
 - PRs [#65](https://github.com/Aneety/.github/pull/65), [#66](https://github.com/Aneety/.github/pull/66) e [#67](https://github.com/Aneety/.github/pull/67) seguem em draft e `gh pr checks` não reportou checks neste repo; sincronização documental continua sem gate remoto objetivo em `Aneety/.github`.
 
 ## Últimas atualizações
 
 - 2026-05-29 — worktrees limpos de `origin/main` passaram a ser leitura canônica deste ciclo para `Aneety/.github` e `Aneety/ai` por causa de checkout local sujo e checkout local defasado.
-- 2026-05-29 — PR [#6](https://github.com/Aneety/ai/pull/6) (`ci: expand actions-first governance gates`) segue em draft, mas o head `0bfdcd0` já ficou verde em `Remote CI gate`, `Governance policy gate`, `Security gate` e `Governance audit`.
+- 2026-05-29 — `gh project view 1 --owner Aneety` seguiu bloqueado por `organization.projectV2`; este ciclo continuou sem auditoria do painel externo antigo e registrou backlog ativo apenas em `docs/project`.
+- 2026-05-29 — PR [#6](https://github.com/Aneety/ai/pull/6) (`ci: expand actions-first governance gates`) segue em draft; `gh pr checks` confirmou `pass` em `Scaffold-only repository gate`, `Actions-first governance audit`, `Dependency review`, `Detect security inputs`, `Discover app modules`, `Repository policy checks` e `Secret text scan`, com `Compile, lint and test modules` e `CodeQL analysis` ainda em `skipping` porque o monorepo continua sem módulos concretos.
 - 2026-05-29 — PR [#65](https://github.com/Aneety/.github/pull/65) (`docs: require actions-first validation gates`) segue em draft para alinhar `docs/03`, `docs/07` e `docs/08`; até merge, `main` ainda carrega redação anterior sobre a ordem explícita PR -> Actions -> Cloudflare.
 - 2026-05-29 — `gh pr checks` confirmou ausência de checks reportados nos drafts [#65](https://github.com/Aneety/.github/pull/65), [#66](https://github.com/Aneety/.github/pull/66) e [#67](https://github.com/Aneety/.github/pull/67), então o gate remoto de documentação permanece bloqueado neste repo.
 - 2026-05-29 — consulta em `Aneety/.github`, `Aneety/ai` e `Aneety/assets` confirmou zero issues abertas neste ciclo.
