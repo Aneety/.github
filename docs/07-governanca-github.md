@@ -39,6 +39,14 @@ Referências operacionais do próprio GitHub:
 - [Issue forms/templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository) podem padronizar entradas futuras em `.github/ISSUE_TEMPLATE` quando uma issue realmente for necessária.
 - PRs, comentários e checks continuam como evidência rastreável para atualizar `docs/project`.
 
+## Papel do Codex local e da Cloudflare
+
+Codex nesta máquina local é ambiente de controle, monitoramento, definição de Markdown, geração de código fonte e preparação de artefatos. Ele não deve executar o produto MVP como runtime de aceite.
+
+Para código fonte do MVP, evidência de build, execução, teste, smoke, publicação ou validação manual só fecha ciclo quando vier de Cloudflare Workers Builds, preview remoto, runtime remoto, `wrangler deploy --dry-run`, `wrangler dev --remote` ou mecanismo Cloudflare equivalente aprovado em documentação canônica.
+
+Se Codex encontrar lacuna de implementação mas não houver ambiente Cloudflare permitido, segredo seguro, contrato ou gate anterior verde, deve atualizar `docs/project` com bloqueio objetivo e próxima ação. Não deve compensar a lacuna com servidor local, container, Python, VPS, banco externo obrigatório ou runtime fora de Cloudflare Workers.
+
 ## Modelo de Issues
 
 Criar issue apenas para incremento, lacuna, decisão, bloqueio ou evidência que realmente precise de thread própria.
@@ -71,7 +79,7 @@ Toda issue deve conter:
 - **Responsabilidade:** domínio ou capacidade em `aneety-platform/apps/<responsabilidade>/...`.
 - **Owner:** pessoa responsável por conduzir a issue até fechamento.
 - **Critério de aceite:** condição objetiva de conclusão.
-- **Evidência esperada:** teste, smoke, build, log, screenshot, PR, diff, URL pública ou documento atualizado.
+- **Evidência esperada:** teste, smoke, build, log, screenshot, PR, diff, URL pública Cloudflare permitida ou documento atualizado.
 - **Repo destino:** repositório onde o trabalho será implementado ou documentado.
 - **Riscos:** segredo, custo, lock-in, dado real, permissão, arquitetura ou dependência externa.
 - **Links:** PRs, documentos, issues relacionadas, runs de CI, evidências e decisões.
@@ -228,7 +236,7 @@ Uma entrega só pode ser concluída quando todos os itens aplicáveis forem verd
 - Repo destino correto.
 - Critério de aceite cumprido.
 - Evidência objetiva anexada ou linkada.
-- Testes, smoke ou validação manual aplicável registrados.
+- Testes, smoke ou validação manual aplicável registrados com evidência Cloudflare-backed quando envolver código fonte do MVP.
 - Sem segredo em diff, log, screenshot, bundle, fixture pública ou documentação de usuário final.
 - Sem UI final com vazamento técnico de infraestrutura, banco, runtime, framework, secrets, fornecedor ou ferramenta interna.
 - Custo zero preservado.
@@ -250,6 +258,7 @@ Bloquear a responsabilidade quando faltar qualquer item essencial:
 - Plano de saída para fornecedor externo.
 - Garantia de custo zero.
 - Confirmação de que GitHub não virou runtime operacional.
+- Confirmação de que build, execução, teste, smoke e evidência operacional de código fonte do MVP não foram substituídos por validação local fora de Cloudflare Workers.
 
 Bloqueio deve registrar:
 

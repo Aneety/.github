@@ -27,6 +27,7 @@ Regras obrigatórias:
 - Implementação própria exige módulo interno em `Aneety/ai`, no caminho `aneety-platform/apps/<responsabilidade>/...`, com documentação canônica correspondente em `Aneety/.github`.
 - Documentação canônica vive em `Aneety/.github/docs`; este diretório mantém o contrato vigente da transição.
 - Custo zero sempre: qualquer dependência paga bloqueia o ciclo até redesenho.
+- Codex pode gerar e editar código fonte localmente, mas build, execução, teste, smoke e evidência operacional do MVP devem ser Cloudflare-backed por Cloudflare Workers Builds, preview remoto, runtime remoto, `wrangler deploy --dry-run`, `wrangler dev --remote` ou mecanismo Cloudflare equivalente aprovado. Validação local não fecha ciclo.
 
 ## Sequência CRUD obrigatória
 
@@ -50,10 +51,10 @@ Para responsabilidades com dado, regra e interface, a ordem interna é: DB compl
 
 Critérios por camada:
 
-- **DB completo:** migrations, constraints, índices, controles de isolamento quando aplicável, seeds/fixtures, rollback seguro, auditoria mínima e testes de leitura/escrita para todas as operações CRUD previstas.
-- **Backend completo:** contratos HTTP ou eventos, validação, autorização, erros de domínio, paginação, idempotência quando necessária, auditoria e testes de contrato para todas as operações CRUD já verdes no DB.
-- **Job completo:** execução idempotente, retries, logs operacionais, critérios de reprocessamento, isolamento por tenant/responsabilidade e testes com massa controlada.
-- **Testes de integração de API:** validação da API integrada ao banco e aos serviços reais previstos para o ciclo, sem substituir smoke, E2E ou critérios de negócio.
+- **DB completo:** migrations, constraints, índices, controles de isolamento quando aplicável, seeds/fixtures, rollback seguro, auditoria mínima e testes de leitura/escrita para todas as operações CRUD previstas, validados por mecanismo Cloudflare permitido quando virarem evidência de aceite.
+- **Backend completo:** contratos HTTP ou eventos, validação, autorização, erros de domínio, paginação, idempotência quando necessária, auditoria e testes de contrato para todas as operações CRUD já verdes no DB, com execução em Cloudflare Workers.
+- **Job completo:** execução idempotente, retries, logs operacionais, critérios de reprocessamento, isolamento por tenant/responsabilidade e testes com massa controlada, usando Queue, Cron Trigger, Workflow, Durable Object ou mecanismo compatível com Workers.
+- **Testes de integração de API:** validação da API integrada ao banco e aos serviços reais previstos para o ciclo, em preview remoto ou runtime Cloudflare permitido, sem substituir smoke, E2E ou critérios de negócio.
 - **Microfrontend completo:** fluxo visual com shadcn/ui e tokens semânticos, estados de carregamento/vazio/erro/sucesso, permissões, acessibilidade básica e integração somente via gateway/BFF, nunca por acesso direto ao banco.
 
 ## Gate de cobertura E2E
@@ -85,7 +86,7 @@ Para iniciar um ciclo:
 4. Criar ou atualizar o módulo interno no monorepo apenas se houver implementação própria.
 5. Implementar a sequência CRUD obrigatória sem pular etapas.
 6. Respeitar a ordem DB completo -> backend completo -> job completo -> Testes de integração de API -> microfrontend completo quando a responsabilidade envolver dado, regra e interface.
-7. Rodar smoke e testes do escopo tocado.
+7. Rodar smoke e testes do escopo tocado em ambiente Cloudflare permitido para o ciclo.
 8. Avaliar se os gates permitem adicionar exatamente a próxima cobertura E2E.
 9. Atualizar documentação canônica e evidências antes de fechar o ciclo.
 
@@ -97,7 +98,7 @@ Um ciclo só fecha quando entrega evidência verificável de:
 - ordem incremental preservada;
 - sequência CRUD coberta até o ponto declarado;
 - contratos e docs sincronizados;
-- testes e smoke verdes;
+- testes e smoke verdes com evidência Cloudflare-backed;
 - nenhuma exposição de detalhe técnico em UI final;
 - nenhuma dependência paga obrigatória;
 - decisão explícita sobre adicionar ou não nova cobertura E2E.
