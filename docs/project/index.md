@@ -39,13 +39,14 @@
 
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
 - GitHub Project externo continua bloqueado por permissão `organization.projectV2`; token ativo não expõe `read:project`, então backlog ativo segue somente em `docs/project`.
+- `Aneety/.github` segue sem workflows/checks publicados; mudanças documentais ainda não têm gate remoto objetivo neste repositório.
 
 ## Últimas atualizações
 
 - 2026-05-30 — `git fetch --all --prune` confirmou `/Users/mal/GitHub/Aneety/.github`, `/Users/mal/GitHub/Aneety/ai` e `/Users/mal/GitHub/Aneety/assets` limpos e sincronizados com `origin/main`.
 - 2026-05-30 — `gh project view 1 --owner Aneety` segue bloqueado por `organization.projectV2`; backlog ativo continua somente em `docs/project`.
-- 2026-05-30 — PRs [#65](https://github.com/Aneety/.github/pull/65), [#66](https://github.com/Aneety/.github/pull/66) e [#67](https://github.com/Aneety/.github/pull/67) já estão mergeadas em `Aneety/.github`; este painel ainda precisava remover referências antigas a drafts e checkout sujo.
-- 2026-05-30 — PR [#6](https://github.com/Aneety/ai/pull/6) já está mergeada em `Aneety/ai`; `gh pr checks` registrou `SUCCESS` em `Actions-first governance audit`, `Repository policy checks`, `Discover app modules`, `Detect security inputs`, `Dependency review`, `Scaffold-only repository gate` e `Secret text scan`, com `Compile, lint and test modules` e `CodeQL analysis` em `SKIPPED` porque o monorepo segue sem módulos concretos.
+- 2026-05-30 — PRs [#65](https://github.com/Aneety/.github/pull/65), [#66](https://github.com/Aneety/.github/pull/66) e [#67](https://github.com/Aneety/.github/pull/67) já estão mergeadas em `Aneety/.github`; `gh run list -R Aneety/.github` segue vazio, então mudanças documentais continuam sem gate remoto objetivo.
+- 2026-05-30 — PR [#6](https://github.com/Aneety/ai/pull/6) já está mergeada em `Aneety/ai`; `gh run list -R Aneety/ai` confirmou `Governance audit`, `Security gate`, `Remote CI gate`, `Governance policy gate` e `Cloudflare deploy gate` verdes em `main` no SHA `46449a37ff52`.
 - 2026-05-30 — `aneety-platform/apps/.gitkeep` continua sendo a única entrada em `Aneety/ai`, então todas as responsabilidades permanecem `bloqueado` em `repositorio` por falta de raiz canônica, não mais por sujeira local.
 - 2026-05-30 — `gh issue list --repo Aneety/.github --state open` confirmou zero issues abertas em `Aneety/.github`; `gh pr list --repo Aneety/.github --state open` e `gh pr list --repo Aneety/ai --state open` confirmaram zero PRs abertas nos dois repositórios.
 
