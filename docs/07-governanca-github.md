@@ -92,7 +92,7 @@ Toda issue deve conter:
 - **Responsabilidade:** domínio ou capacidade em `aneety-platform/apps/<responsabilidade>/...`.
 - **Owner:** pessoa responsável por conduzir a issue até fechamento.
 - **Critério de aceite:** condição objetiva de conclusão.
-- **Evidência esperada:** teste, smoke, build, log, screenshot, PR, diff, URL pública Cloudflare permitida ou documento atualizado.
+- **Evidência esperada:** PR, diff, GitHub Actions verde, build/lint/teste remoto, log Cloudflare, smoke, screenshot, URL pública Cloudflare permitida ou documento atualizado.
 - **Repo destino:** repositório onde o trabalho será implementado ou documentado.
 - **Riscos:** segredo, custo, lock-in, dado real, permissão, arquitetura ou dependência externa.
 - **Links:** PRs, documentos, issues relacionadas, runs de CI, evidências e decisões.
@@ -232,7 +232,7 @@ Durante o ciclo:
 Para fechar o ciclo:
 
 1. Atualizar para `status:validacao` no arquivo correspondente.
-2. Verificar PR, docs, testes e smoke aplicáveis.
+2. Verificar PR, docs, checks do GitHub Actions, testes remotos e smoke aplicáveis.
 3. Conferir ausência de segredos em diff, log, screenshot e bundle.
 4. Conferir ausência de vazamento técnico em UI final.
 5. Linkar evidência final.
