@@ -294,9 +294,11 @@ flowchart TD
 
 ## Limite de execução do Codex
 
-Codex nesta máquina local pode gerar, editar, revisar e versionar código fonte, contratos, documentação e artefatos Markdown de controle. Para código fonte do MVP, compilar, executar, testar, validar smoke, publicar preview ou produzir evidência operacional deve acontecer exclusivamente no ecossistema Cloudflare Workers: Cloudflare Workers Builds, preview remoto, runtime remoto, `wrangler deploy --dry-run`, `wrangler dev --remote` ou mecanismo Cloudflare equivalente aprovado em documentação canônica.
+Codex nesta máquina local pode gerar, editar, revisar e versionar código fonte, contratos, documentação e artefatos Markdown de controle. Para código fonte do MVP, compilação, lint, typecheck, build e testes de módulo devem passar primeiro em GitHub Actions na PR. O MacBook não é runtime de aceite do MVP.
 
-Execução local serve apenas para edição, análise estática ou preparação de comandos que acionem Cloudflare. Simulação local, servidor persistente, container, Python, VPS, banco externo obrigatório ou runtime fora de Cloudflare Workers não fecha aceite, não substitui smoke e não vira evidência de produção do MVP.
+A ordem mandatória é: PR -> GitHub Actions verdes -> Cloudflare -> smoke/API/e2e publicado. Deploy, preview, dry-run Cloudflare, smoke, teste integrado de API ou e2e só entram depois do gate remoto da PR, salvo investigação manual explícita registrada como bloqueio ou exceção.
+
+Execução local serve apenas para inspeção, edição, análise estática leve, Git, leitura de logs/checks e preparação de comandos remotos. Simulação local, servidor persistente, container, Python de runtime MVP, Playwright/Cypress local, Wrangler local para aceite, VPS, banco externo obrigatório ou runtime fora de Cloudflare Workers não fecha aceite, não substitui smoke e não vira evidência de produção do MVP.
 
 ## Operação
 

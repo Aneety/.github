@@ -55,6 +55,15 @@
 - 2026-05-29 — consulta em `Aneety/.github`, `Aneety/ai` e `Aneety/assets` confirmou zero issues abertas neste ciclo.
 - 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincronizou o painel Markdown com a evidência atual dos repositórios.
 - 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formalizou que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
+- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` está sujo na branch `codex/issue-template-path`; decisões canônicas deste ciclo seguem em `origin/main` ou worktree limpo, e edição direta nesse checkout permanece bloqueada.
+
+## Últimas atualizações
+
+- 2026-05-29 — inspeção local confirmou `git fetch --all --prune` bem-sucedido em `Aneety/.github`, mas checkout local segue sujo em `codex/issue-template-path`; leitura canônica continua por `origin/main` ou worktree limpo.
+- 2026-05-29 — `gh pr view` confirmou PR [#65](https://github.com/Aneety/.github/pull/65) aberto em `Aneety/.github`, ainda draft e sem checks configurados até este ciclo.
+- 2026-05-29 — `gh pr checks` e `gh run view` confirmaram PR [#6](https://github.com/Aneety/ai/pull/6) com gates remotos verdes em `Aneety/ai`, mas o monorepo ainda só expõe `aneety-platform/apps/.gitkeep`, então backlog por responsabilidade permanece bloqueado em `repositorio`.
+- 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincroniza o painel Markdown com a evidência atual dos repositórios.
+- 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formaliza que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
 - 2026-05-29 — inspeção local rebaixou todos os ciclos `repositorio` para `bloqueado` até existir raiz real por responsabilidade em `Aneety/ai` e checkout limpo.
 - 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) removeu documento paralelo de produto.
 - 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinhou caminho canônico dos issue templates.

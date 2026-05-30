@@ -58,9 +58,11 @@ Antes de comparar backlog, documentação, issue histórica ou implementação e
 
 `Aneety/ai` é o monorepo de geração, edição e versionamento de código fonte. Codex nesta máquina local pode preparar fonte, contratos, Markdown, PRs e comandos, mas não deve usar execução local como evidência de aceite do MVP.
 
-Para código fonte do MVP, compilar, executar, testar, publicar, validar smoke ou produzir evidência operacional deve acontecer exclusivamente por Cloudflare Workers Builds, preview remoto, runtime remoto, `wrangler deploy --dry-run`, `wrangler dev --remote` ou mecanismo Cloudflare equivalente aprovado. Se esse caminho não estiver disponível, o ciclo deve ficar bloqueado em `docs/project` com causa, impacto e próxima ação.
+Para código fonte do MVP, compilação, lint, typecheck, build e testes de módulo devem passar primeiro em GitHub Actions na PR. Codex deve ler feedback de checks/logs da PR, corrigir e fazer novo push até o gate remoto ficar verde. Só depois disso entram Cloudflare dry-run, deploy, smoke, testes integrados de API ou e2e contra URL publicada.
 
-Servidor local persistente, container, Python, VPS, banco externo obrigatório, simulação local ou runtime fora de Cloudflare Workers não fecham `deploy`, `publicacao`, `banco`, `jobs`, `backend`, `teste-integracao-api`, `smoke` ou `teste` do MVP.
+A ordem mandatória é: PR -> GitHub Actions verdes -> Cloudflare -> smoke/API/e2e publicado. Se o caminho remoto não estiver disponível, o ciclo deve ficar bloqueado em `docs/project` com causa, impacto e próxima ação.
+
+Servidor local persistente, container, Python de runtime MVP, Playwright/Cypress local, Wrangler local para aceite, VPS, banco externo obrigatório, simulação local ou runtime fora de Cloudflare Workers não fecham `deploy`, `publicacao`, `banco`, `jobs`, `backend`, `teste-integracao-api`, `smoke` ou `teste` do MVP.
 
 ## Ordem de ciclos usada neste planejamento
 
