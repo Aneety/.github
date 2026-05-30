@@ -13,7 +13,7 @@
 
 | Ciclo | Status | Prioridade | Gate | Evidência | Bloqueio | Próxima ação |
 | --- | --- | --- | --- | --- | --- | --- |
-| `repositorio` | `bloqueado` | media | `arquitetura` | [Issue histórica #26](https://github.com/Aneety/.github/issues/26); inspeção local 2026-05-29 confirmou apenas `aneety-platform/apps/.gitkeep` em `Aneety/ai`. | Falta raiz `aneety-platform/apps/demo-seeds/...` em `Aneety/ai`; checkout local também está sujo com `.playwright-mcp/`. | Limpar checkout local de `Aneety/ai` e criar raiz canônica da responsabilidade antes de avançar para `deploy`. |
+| `repositorio` | `bloqueado` | media | `arquitetura` | [Issue histórica #26](https://github.com/Aneety/.github/issues/26); inspeção local 2026-05-30 confirmou que `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`. | Falta raiz `aneety-platform/apps/demo-seeds/...` em `Aneety/ai`; monorepo segue sem raiz concreta da responsabilidade além de `aneety-platform/apps/.gitkeep`. | Criar raiz canônica da responsabilidade em `Aneety/ai` antes de avançar para `deploy`. |
 | `deploy` | `triagem` | media | `processo` | — | Aguardando ciclo `repositorio` ficar verde neste arquivo. | Executar `deploy` depois de concluir `repositorio` com evidência objetiva. |
 | `publicacao` | `triagem` | media | `processo` | — | Aguardando ciclo `deploy` ficar verde neste arquivo. | Executar `publicacao` depois de concluir `deploy` com evidência objetiva. |
 | `banco` | `triagem` | media | `DB` | — | Aguardando ciclo `publicacao` ficar verde neste arquivo. | Executar `banco` depois de concluir `publicacao` com evidência objetiva. |
@@ -35,4 +35,4 @@
 ## Histórico curto
 
 - 2026-05-29 — backlog migrado do painel operacional anterior para `docs/project`.
-- 2026-05-29 — ciclo `repositorio` rebaixado para `bloqueado` após inspeção local de `Aneety/ai` revelar só `aneety-platform/apps/.gitkeep` e checkout sujo com `.playwright-mcp/`.
+- 2026-05-30 — ciclo `repositorio` segue `bloqueado` após inspeção local confirmar que `Aneety/ai` ainda expõe apenas `aneety-platform/apps/.gitkeep`, sem raiz canônica da responsabilidade.
