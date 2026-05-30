@@ -39,16 +39,13 @@
 
 - `Aneety/ai` local em `/Users/mal/GitHub/Aneety/ai` está sujo (`?? .playwright-mcp/`), então a automação não pode criar ou revisar raízes de responsabilidade ali com segurança.
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
-- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` está sujo na branch `codex/issue-template-path`, e o `git fetch --all --prune` local falhou ao atualizar `refs/remotes/origin/main`; decisões canônicas deste ciclo precisaram usar clone limpo de `origin/main`.
+- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` está sujo na branch `codex/issue-template-path`; decisões canônicas deste ciclo seguem em `origin/main` ou worktree limpo, e edição direta nesse checkout permanece bloqueada.
 
 ## Últimas atualizações
 
-- 2026-05-29 — governança passou a exigir `origin/main` ou clone/worktree limpo quando `Aneety/.github` local estiver sujo ou sem fetch confiável.
-- `/Users/mal/GitHub/Aneety/.github` local está sujo na branch `codex/issue-template-path`, então decisões documentais devem ler `origin/main` ou worktree limpo, nunca esse checkout como fonte de verdade.
-
-## Últimas atualizações
-
-- 2026-05-29 — inspeção local confirmou `Aneety/.github` sujo em `codex/issue-template-path`; esta automação passou a usar `origin/main`/worktree limpo como leitura canônica.
+- 2026-05-29 — inspeção local confirmou `git fetch --all --prune` bem-sucedido em `Aneety/.github`, mas checkout local segue sujo em `codex/issue-template-path`; leitura canônica continua por `origin/main` ou worktree limpo.
+- 2026-05-29 — `gh pr view` confirmou PR [#65](https://github.com/Aneety/.github/pull/65) aberto em `Aneety/.github`, ainda draft e sem checks configurados até este ciclo.
+- 2026-05-29 — `gh pr checks` e `gh run view` confirmaram PR [#6](https://github.com/Aneety/ai/pull/6) com gates remotos verdes em `Aneety/ai`, mas o monorepo ainda só expõe `aneety-platform/apps/.gitkeep`, então backlog por responsabilidade permanece bloqueado em `repositorio`.
 - 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincroniza o painel Markdown com a evidência atual dos repositórios.
 - 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formaliza que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
 - 2026-05-29 — inspeção local rebaixou todos os ciclos `repositorio` para `bloqueado` até existir raiz real por responsabilidade em `Aneety/ai` e checkout limpo.
