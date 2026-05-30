@@ -39,6 +39,22 @@
 
 - `Aneety/ai` local em `/Users/mal/GitHub/Aneety/ai` está sujo (`?? .playwright-mcp/`), então a automação não pode criar ou revisar raízes de responsabilidade ali com segurança.
 - `Aneety/ai` ainda contém apenas `aneety-platform/apps/.gitkeep`; nenhuma responsabilidade tem raiz concreta em `aneety-platform/apps/<responsabilidade>/...`, então nenhum ciclo `repositorio` pode permanecer verde por evidência de implementação.
+- `Aneety/ai` local também está 4 commits atrás de `origin/main`, então leitura de implementação deste ciclo precisou usar worktree limpo em `origin/main`.
+- `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` segue sujo na branch `codex/issue-template-path`; mesmo com `git fetch --all --prune` concluído, decisões canônicas deste ciclo precisaram usar worktree limpo em `origin/main`, nunca esse checkout como fonte de verdade.
+- GitHub Project externo continua bloqueado por permissão `organization.projectV2`; token ativo não expõe `read:project`, então backlog ativo segue somente em `docs/project`.
+- PRs [#65](https://github.com/Aneety/.github/pull/65), [#66](https://github.com/Aneety/.github/pull/66) e [#67](https://github.com/Aneety/.github/pull/67) seguem em draft e `gh pr checks` não reportou checks neste repo; sincronização documental continua sem gate remoto objetivo em `Aneety/.github`.
+
+## Últimas atualizações
+
+- 2026-05-29 — worktrees limpos de `origin/main` passaram a ser leitura canônica deste ciclo para `Aneety/.github` e `Aneety/ai` por causa de checkout local sujo e checkout local defasado.
+- 2026-05-29 — `gh project view 1 --owner Aneety` seguiu bloqueado por `organization.projectV2`; este ciclo continuou sem auditoria do painel externo antigo e registrou backlog ativo apenas em `docs/project`.
+- 2026-05-29 — PR [#6](https://github.com/Aneety/ai/pull/6) (`ci: expand actions-first governance gates`) segue em draft; `gh pr checks` confirmou `pass` em `Scaffold-only repository gate`, `Actions-first governance audit`, `Dependency review`, `Detect security inputs`, `Discover app modules`, `Repository policy checks` e `Secret text scan`, com `Compile, lint and test modules` e `CodeQL analysis` ainda em `skipping` porque o monorepo continua sem módulos concretos.
+- 2026-05-29 — PR [#65](https://github.com/Aneety/.github/pull/65) (`docs: require actions-first validation gates`) segue em draft para alinhar `docs/03`, `docs/07` e `docs/08`; até merge, `main` ainda carrega redação anterior sobre a ordem explícita PR -> Actions -> Cloudflare.
+- 2026-05-29 — `gh pr checks` confirmou ausência de checks reportados nos drafts [#65](https://github.com/Aneety/.github/pull/65), [#66](https://github.com/Aneety/.github/pull/66) e [#67](https://github.com/Aneety/.github/pull/67), então o gate remoto de documentação permanece bloqueado neste repo.
+- 2026-05-29 — `gh run view 26659569125` e `26659569119` em [Aneety/ai#6](https://github.com/Aneety/ai/pull/6) registraram anotação de depreciação de Node.js 20 em `actions/checkout@v4`; checks seguem verdes hoje, mas o fluxo precisa validar runtime Node.js 24 antes de 2026-06-16 e tratar remoção definitiva em 2026-09-16.
+- 2026-05-29 — consulta em `Aneety/.github`, `Aneety/ai` e `Aneety/assets` confirmou zero issues abertas neste ciclo.
+- 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincronizou o painel Markdown com a evidência atual dos repositórios.
+- 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formalizou que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
 - `Aneety/.github` local em `/Users/mal/GitHub/Aneety/.github` está sujo na branch `codex/issue-template-path`; decisões canônicas deste ciclo seguem em `origin/main` ou worktree limpo, e edição direta nesse checkout permanece bloqueada.
 
 ## Últimas atualizações
@@ -49,10 +65,10 @@
 - 2026-05-29 — PR [#61](https://github.com/Aneety/.github/pull/61) resincroniza o painel Markdown com a evidência atual dos repositórios.
 - 2026-05-29 — PR [#60](https://github.com/Aneety/.github/pull/60) formaliza que validação de código fonte do MVP só fecha com evidência Cloudflare-backed.
 - 2026-05-29 — inspeção local rebaixou todos os ciclos `repositorio` para `bloqueado` até existir raiz real por responsabilidade em `Aneety/ai` e checkout limpo.
-- 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) remove documento paralelo de produto.
-- 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinha caminho canônico dos issue templates.
-- 2026-05-29 — PR [#55](https://github.com/Aneety/.github/pull/55) consolida contrato monorepo em `Aneety/ai`.
-- 2026-05-29 — este diretório substitui o painel operacional anterior por arquivos Markdown versionados.
+- 2026-05-29 — PR [#53](https://github.com/Aneety/.github/pull/53) removeu documento paralelo de produto.
+- 2026-05-29 — PR [#54](https://github.com/Aneety/.github/pull/54) alinhou caminho canônico dos issue templates.
+- 2026-05-29 — PR [#55](https://github.com/Aneety/.github/pull/55) consolidou contrato monorepo em `Aneety/ai`.
+- 2026-05-29 — este diretório substituiu o painel operacional anterior por arquivos Markdown versionados.
 
 ## Governança mínima de atualização
 
